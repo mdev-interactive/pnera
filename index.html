@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PNERA — Painel da Educação na Reforma Agrária</title>
+  <meta name="description" content="Painel analítico da Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III): cursos, estudantes, territórios e instituições do Pronera.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232E7D32'/%3E%3Cpath d='M16 27V12M16 18c-5 0-8-3-8-8 5 0 8 3 8 8zm0 0c5 0 8-3 8-8-5 0-8 3-8 8z' stroke='%23FBFAF6' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#painel">Ir para o conteúdo</a>
+
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21V9"/>
+          <path d="M12 13c-3.5 0-5.5-2-5.5-5.5C10 7.5 12 9.5 12 13z"/>
+          <path d="M12 13c3.5 0 5.5-2 5.5-5.5C14 7.5 12 9.5 12 13z"/>
+          <path d="M4 21h16"/>
+        </svg>
+      </span>
+      <span>
+        <span class="brand__title">PNERA</span>
+        <span class="brand__sub d-block">Educação na Reforma Agrária · Pronera</span>
+      </span>
+    </a>
+
+    <div class="topbar__search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/>
+      </svg>
+      <label class="visually-hidden" for="busca">Buscar curso, instituição, município ou coordenação</label>
+      <input type="search" id="busca" placeholder="Buscar curso, instituição, município…" autocomplete="off">
+      <button type="button" class="clear-search" aria-label="Limpar busca" hidden>&times;</button>
+    </div>
+
+    <button class="icon-btn d-lg-none ms-auto" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 6h16M7 12h10M10 18h4"/>
+      </svg>
+      Filtros
+    </button>
+
+    <p class="topbar__meta d-none d-lg-block mb-0 ms-auto" id="meta-fonte"></p>
+  </header>
+
+  <div class="shell">
+    <!-- Um único painel de filtros governa todos os visuais. -->
+    <aside class="filters-desktop" aria-label="Filtros do painel">
+      <div class="filters-panel" id="filtros-desktop"></div>
+    </aside>
+
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasFiltros"
+         aria-labelledby="offcanvasFiltrosTitulo">
+      <div class="offcanvas-header">
+        <h2 class="offcanvas-title h6 mb-0" id="offcanvasFiltrosTitulo">Filtros</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="filters-panel" id="filtros-mobile"></div>
+      </div>
+    </div>
+
+    <main>
+      <h1 class="visually-hidden">Painel da Pesquisa Nacional de Educação na Reforma Agrária</h1>
+
+      <div class="chips" id="chips" aria-live="polite" aria-label="Filtros ativos"></div>
+      <div class="kpi-row" id="kpis"></div>
+      <nav class="viewnav" id="viewnav" role="tablist" aria-label="Visões do painel"></nav>
+      <div id="painel" role="tabpanel" tabindex="-1"></div>
+
+      <footer class="mt-4 pt-3 text-center" style="border-top:1px solid var(--border)">
+        <p class="mb-1" style="font-size:var(--step--1);color:var(--ink-muted)">
+          Dados da Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
+          INCRA e Universidade de Brasília. Valores ausentes na fonte aparecem como
+          <em>não informado</em> e ficam fora dos cálculos; cada visual mostra sua base.
+        </p>
+        <p class="mb-0 d-lg-none" style="font-size:var(--step--1);color:var(--ink-muted)" id="meta-fonte-mobile"></p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Detalhe de um curso -->
+  <div class="modal fade" id="modalCurso" tabindex="-1" aria-labelledby="modalCursoTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content" style="background:var(--surface);border-color:var(--border)">
+        <div class="modal-header">
+          <h2 class="modal-title h6 mb-0" id="modalCursoTitulo"></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/vendor/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="assets/js/uf-paths.js"></script>
+  <script src="assets/js/dataset.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/filters.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/map.js"></script>
+  <script src="assets/js/views.js"></script>
+  <script src="assets/js/table.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

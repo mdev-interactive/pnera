@@ -1,0 +1,111 @@
+/* =============================================================================
+   PNERA — design tokens
+   Paleta "agro" light. Todos os valores foram validados (nao escolhidos a olho):
+   - Categoricas: 7 slots, ordem fixa, pior par adjacente CVD ΔE 16.6 e visao
+     normal ΔE 20.6 (OKLab x100; alvo 8 / piso 15). Os tres primeiros slots
+     tambem passam em "all-pairs", exigencia de mapa e dispersao.
+   - Slots 2 (milho) e 6 (broto) ficam abaixo de 3:1 na superficie: por isso todo
+     grafico traz rotulo direto e uma visao em tabela.
+   - Rampa sequencial: verde, 5 passos, lightness monotona e degraus >= 0.06.
+     O passo mais claro recua ate a superficie de proposito ("perto de zero" no
+     mapa) — as UFs levam contorno hairline para nao desaparecer.
+   - Tinta: primaria 16.1:1, secundaria 7.0:1, muted 4.6:1 sobre a superficie.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* --- superficies --------------------------------------------------------- */
+  --surface: #FBFAF6;          /* superficie dos cartoes e dos graficos */
+  --surface-2: #F5F3EA;        /* faixas internas, cabecalho de tabela */
+  --plane: #ECE9DC;            /* plano da pagina, tom trigo */
+  --plane-deep: #E3DFCD;
+
+  /* --- tinta --------------------------------------------------------------- */
+  --ink: #1A1F16;
+  --ink-2: #4F5A48;
+  --ink-muted: #6B7664;
+  --ink-on-dark: #FBFAF6;
+
+  /* --- linhas -------------------------------------------------------------- */
+  --grid: #E7E4D8;
+  --baseline: #CFCBBB;
+  --border: #DEDACB;
+  --border-strong: #C8C3AE;
+  --ring: rgba(46, 125, 50, 0.28);
+
+  /* --- categoricas (ordem fixa — nunca reciclar, nunca gerar um 8o) -------- */
+  --series-1: #2E7D32;   /* folha    */
+  --series-2: #D9A81C;   /* milho    */
+  --series-3: #0F6E9E;   /* agua     */
+  --series-4: #B4552F;   /* terracota*/
+  --series-5: #6A4C93;   /* uva      */
+  --series-6: #79B347;   /* broto    */
+  --series-7: #96551F;   /* terra    */
+  --series-other: #9AA394; /* "Outros" — cinza, nunca um 8o slot inventado */
+
+  /* --- rampa sequencial (magnitude) --------------------------------------- */
+  --seq-1: #CFE5C6;
+  --seq-2: #9FCE93;
+  --seq-3: #6DAF60;
+  --seq-4: #46893C;
+  --seq-5: #23662A;
+  --seq-empty: #E8E5D8;  /* sem dados */
+
+  /* --- divergente (realizado vs meta): terracota <-> folha, meio neutro --- */
+  --div-neg: #B4552F;
+  --div-mid: #E7E4D8;
+  --div-pos: #2E7D32;
+
+  /* --- marca --------------------------------------------------------------- */
+  --brand: #2E7D32;
+  --brand-deep: #1B5E20;
+  --brand-wash: #EDF4E9;
+
+  /* --- forma e profundidade ----------------------------------------------- */
+  --radius: 14px;
+  --radius-sm: 9px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(26, 31, 22, 0.05);
+  --shadow: 0 2px 10px rgba(26, 31, 22, 0.06), 0 1px 2px rgba(26, 31, 22, 0.04);
+  --shadow-lg: 0 12px 32px rgba(26, 31, 22, 0.12);
+
+  /* --- tipografia --------------------------------------------------------- */
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --step--1: 0.75rem;
+  --step-0: 0.875rem;
+  --step-1: 1rem;
+  --step-2: 1.25rem;
+  --step-3: 1.75rem;
+  --step-4: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);
+
+  /* --- ritmo -------------------------------------------------------------- */
+  --gap: 1rem;
+  --gap-lg: 1.5rem;
+  --sidebar-w: 288px;
+  --topbar-h: 64px;
+
+  /* --- Bootstrap: reescreve as variaveis nativas em vez de brigar com elas - */
+  --bs-body-bg: var(--plane);
+  --bs-body-color: var(--ink);
+  --bs-body-font-family: var(--font);
+  --bs-body-font-size: var(--step-0);
+  --bs-border-color: var(--border);
+  --bs-border-radius: var(--radius-sm);
+  --bs-primary: var(--brand);
+  --bs-primary-rgb: 46, 125, 50;
+  --bs-link-color: var(--brand-deep);
+  --bs-link-hover-color: var(--brand);
+  --bs-emphasis-color: var(--ink);
+  --bs-secondary-color: var(--ink-2);
+  --bs-tertiary-bg: var(--surface-2);
+  --bs-focus-ring-color: var(--ring);
+  --bs-focus-ring-width: 3px;
+}
+
+/* A pagina e deliberadamente light (pedido do projeto). Ainda assim pintamos
+   fundo e tinta explicitamente para nao herdar o tema escuro do sistema. */
+html {
+  background: var(--plane);
+  color-scheme: light;
+}
