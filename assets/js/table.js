@@ -10,7 +10,7 @@ window.Tabela = (function () {
 
   const P = window.PNERA;
   const F = window.Filters;
-  const { int, pct } = P;
+  const { int } = P;
 
   const COLUNAS = [
     { key: 'nomeProcessual', label: 'Curso', cls: 'cell-name', get: (c) => c.nomeProcessual },
@@ -24,8 +24,6 @@ window.Tabela = (function () {
     { key: 'anoFim', label: 'Fim', num: true, get: (c) => c.anoFim },
     { key: 'turmas', label: 'Turmas', num: true, get: (c) => c.turmas },
     { key: 'matriculados', label: 'Matriculados', num: true, get: (c) => c.matriculados },
-    { key: 'concluintes', label: 'Concluintes', num: true, get: (c) => c.concluintes },
-    { key: 'taxaConclusao', label: 'Conclusão', num: true, get: (c) => c.taxaConclusao, render: (c) => (c.taxaConclusao == null ? '<span class="muted">—</span>' : pct(c.taxaConclusao)) },
   ];
 
   const TAMANHOS = [25, 50, 100, 250];
@@ -211,9 +209,6 @@ window.Tabela = (function () {
     ['Meta inicial', curso.metaInicial == null ? null : int(curso.metaInicial)],
     ['Meta final', curso.metaFinal == null ? null : int(curso.metaFinal)],
     ['Matriculados', curso.matriculados == null ? null : int(curso.matriculados)],
-    ['Concluintes', curso.concluintes == null ? null : int(curso.concluintes)],
-    ['Taxa de conclusão', curso.taxaConclusao == null ? null : pct(curso.taxaConclusao)],
-    ['Bolsistas', curso.bolsistas == null ? null : int(curso.bolsistas)],
   ])}
       ${bloco('Instituição realizadora', [
     ['Nome', curso.ies?.nome],
@@ -243,8 +238,7 @@ window.Tabela = (function () {
     ['superintendencia', (c) => c.superintendencia], ['instrumento', (c) => c.instrumento],
     ['ano_inicio', (c) => c.anoInicio], ['ano_fim', (c) => c.anoFim],
     ['turmas', (c) => c.turmas], ['meta_inicial', (c) => c.metaInicial], ['meta_final', (c) => c.metaFinal],
-    ['matriculados', (c) => c.matriculados], ['concluintes', (c) => c.concluintes],
-    ['taxa_conclusao', (c) => c.taxaConclusao], ['bolsistas', (c) => c.bolsistas],
+    ['matriculados', (c) => c.matriculados],
     ['instituicao', (c) => c.ies?.nome], ['instituicao_natureza', (c) => (c.ies?.natureza || []).join('; ')],
     ['instituicao_uf', (c) => c.ies?.uf], ['demandante', (c) => c.demandante?.nome],
     ['parceiras', (c) => (c.parceiras?.nomes || []).join('; ')],

@@ -36,12 +36,37 @@ O script imprime um relatório de sanidade. Os valores conferidos contra a aba
 
 Se algum número divergir, a conversão quebrou — não publique.
 
+As medidas **Concluintes** (e a taxa de conclusão derivada dela) e **Bolsistas**
+seguem sendo extraídas e conferidas aqui, mas **não são exibidas no painel** nem
+no CSV exportado — permanecem apenas como checagem de sanidade da conversão.
+
 A geometria do mapa (`assets/js/uf-paths.js`) já está gerada e versionada.
 Só precisa ser refeita se a malha do IBGE mudar:
 
 ```bash
 node tools/build-uf-map.mjs
 ```
+
+### Ao publicar: incremente a versão dos assets
+
+O painel é estático e sem build, então o navegador cacheia CSS e JS pelo
+caminho do arquivo. Para que uma correção chegue a quem já abriu o painel, cada
+asset próprio é carregado com um selo de versão em `index.html`:
+
+```html
+<link rel="stylesheet" href="assets/css/app.css?v=2">
+<script src="assets/js/app.js?v=2"></script>
+```
+
+**Sempre que alterar qualquer arquivo em `assets/css/` ou `assets/js/`,
+incremente esse número em todas as linhas com `?v=` no `index.html`.** URL nova,
+download novo. O `assets/vendor/` fica de fora: Bootstrap e Chart.js só mudam
+quando o arquivo é substituído por outra versão.
+
+O selo só resolve se o próprio `index.html` não vier do cache. Ele carrega um
+`<meta http-equiv="Cache-Control" content="no-cache">` como reforço, mas o
+correto é o servidor mandar esse cabeçalho para o HTML — e, aí sim, cache longo
+para `assets/` (as URLs versionadas tornam isso seguro).
 
 ---
 
@@ -84,7 +109,7 @@ Cinco visões, todas governadas pelo **mesmo painel de filtros** (nunca filtro
 por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
-  temática, nível de ensino, matriculados × concluintes por região.
+  temática, nível de ensino e macrorregião.
 - **Territórios** — mapa coroplético por UF (clique filtra), ranking das 27 UFs,
   municípios e superintendências do INCRA.
 - **Cursos e áreas** — matriz área temática × nível, composição das modalidades,
@@ -147,8 +172,8 @@ o valor; colorir cada barra de um jeito gastaria o canal de identidade
 duplicando o que o eixo diz. Já nível, titulação e duração **têm ordem natural**,
 então recebem a rampa clara→escura.
 
-**Um eixo, sempre.** Matriculados e concluintes são a mesma unidade — pessoas —
-e dividem um eixo. Não existe gráfico de eixo duplo no painel.
+**Um eixo, sempre.** Medidas comparadas no mesmo gráfico têm de compartilhar a
+unidade e o eixo. Não existe gráfico de eixo duplo no painel.
 
 **Rankings não têm barra “Outros”.** Uma barra somando 400 cursos achataria as 12
 primeiras e esconderia a comparação que o ranking existe para mostrar. A cauda

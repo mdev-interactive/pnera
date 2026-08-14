@@ -120,7 +120,7 @@
     hint: 'As 11 áreas temáticas do Pronera, ordenadas pelo total de estudantes.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
-      const grupos = P.groupBy(rows, (c) => c.areaTematica, ['matriculados', 'concluintes'])
+      const grupos = P.groupBy(rows, (c) => c.areaTematica, ['matriculados'])
         .sort(P.desc('matriculados'));
       const cob = P.total(rows, 'matriculados');
       return {
@@ -133,7 +133,6 @@
         coverage: { preenchidos: cob.base, total: cob.total, rotulo: 'nº de matriculados' },
         table: tabelaRanking(grupos, [
           { key: 'matriculados', label: 'Matriculados' },
-          { key: 'concluintes', label: 'Concluintes' },
           { key: 'cursos', label: 'Cursos' },
         ]),
       };
@@ -144,39 +143,31 @@
   });
 
   registrar({
-    id: 'matVsCon',
+    id: 'matPorRegiao',
     aba: 'geral',
     span: 6,
     height: 360,
-    title: 'Matriculados e concluintes por macrorregião',
-    hint: 'Duas medidas da mesma unidade — pessoas — portanto num eixo só.',
+    title: 'Matriculados por macrorregião',
+    hint: 'Total de estudantes matriculados em cada macrorregião do país.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
-      const grupos = P.groupBy(rows, (c) => c.macrorregiao, ['matriculados', 'concluintes'])
+      const grupos = P.groupBy(rows, (c) => c.macrorregiao, ['matriculados'])
         .sort(P.desc('matriculados'));
       const cobM = P.total(rows, 'matriculados');
-      const cobC = P.total(rows, 'concluintes');
       return {
         config: V.colunasAgrupadas({
           labels: grupos.map((g) => g.chave),
           series: [
             { nome: 'Matriculados', valores: grupos.map((g) => g.matriculados), cor: V.slot(0) },
-            { nome: 'Concluintes', valores: grupos.map((g) => g.concluintes), cor: V.slot(5) },
           ],
         }),
         legend: [
           { nome: 'Matriculados', cor: V.slot(0) },
-          { nome: 'Concluintes', cor: V.slot(5) },
         ],
-        coverage: { preenchidos: Math.min(cobM.base, cobC.base), total: cobM.total, rotulo: 'as duas medidas' },
+        coverage: { preenchidos: cobM.base, total: cobM.total, rotulo: 'nº de matriculados' },
         table: tabelaRanking(grupos, [
           { key: 'matriculados', label: 'Matriculados' },
-          { key: 'concluintes', label: 'Concluintes' },
-          {
-            key: 'taxa',
-            label: 'Conclusão',
-            fmt: (l) => (l.matriculados ? pct((l.concluintes / l.matriculados) * 100) : '—'),
-          },
+          { key: 'cursos', label: 'Cursos' },
         ]),
       };
     },
@@ -190,7 +181,6 @@
   const MEDIDAS_MAPA = {
     cursos: { rotulo: 'cursos', campo: null },
     matriculados: { rotulo: 'matriculados', campo: 'matriculados' },
-    concluintes: { rotulo: 'concluintes', campo: 'concluintes' },
   };
   let medidaMapa = 'cursos';
 
@@ -203,19 +193,18 @@
     build(rows) {
       if (semDados(rows)) return { vazio: true };
       const cfg = MEDIDAS_MAPA[medidaMapa];
-      const grupos = P.groupBy(rows, (c) => c.ufSigla, ['matriculados', 'concluintes']);
+      const grupos = P.groupBy(rows, (c) => c.ufSigla, ['matriculados']);
       const valores = new Map(grupos.map((g) => [g.chave, {
         valor: cfg.campo ? g[cfg.campo] : g.cursos,
         cursos: g.cursos,
       }]));
-      const nomes = P.groupBy(rows, (c) => c.uf, ['matriculados', 'concluintes']).sort(P.desc('cursos'));
+      const nomes = P.groupBy(rows, (c) => c.uf, ['matriculados']).sort(P.desc('cursos'));
       return {
         valores,
         cfg,
         table: tabelaRanking(nomes, [
           { key: 'cursos', label: 'Cursos' },
           { key: 'matriculados', label: 'Matriculados' },
-          { key: 'concluintes', label: 'Concluintes' },
         ]),
         note: `${valores.size} de 27 UFs com cursos no recorte.`,
       };
@@ -249,7 +238,7 @@
     hint: 'Ranking completo das UFs presentes no recorte.',
     build(rows) {
       if (semDados(rows)) return { vazio: true, linhas: [] };
-      const grupos = P.groupBy(rows, (c) => c.uf, ['matriculados', 'concluintes']);
+      const grupos = P.groupBy(rows, (c) => c.uf, ['matriculados']);
       // Sao no maximo 27 UFs e o cartao acompanha a altura do mapa ao lado:
       // cabe o ranking inteiro, sem cauda escondida.
       const { linhas, dobradas } = P.topN(grupos, 27, 'cursos', { semOutros: true });
@@ -566,7 +555,7 @@
     hint: 'Quem executou os cursos. Clique para filtrar o painel pela instituição.',
     build(rows) {
       if (semDados(rows)) return { vazio: true, linhas: [] };
-      const grupos = P.groupBy(rows, (c) => c.ies?.nome, ['matriculados', 'concluintes']);
+      const grupos = P.groupBy(rows, (c) => c.ies?.nome, ['matriculados']);
       const { linhas, dobradas } = P.topN(grupos, 14, 'cursos', { semOutros: true });
       return {
         linhas,
@@ -580,7 +569,6 @@
         table: tabelaRanking(grupos.sort(P.desc('cursos')), [
           { key: 'cursos', label: 'Cursos' },
           { key: 'matriculados', label: 'Matriculados' },
-          { key: 'concluintes', label: 'Concluintes' },
         ]),
       };
     },

@@ -9,7 +9,7 @@
   const P = window.PNERA;
   const V = window.Viz;
   const F = window.Filters;
-  const { int, compact, pct } = P;
+  const { int, compact } = P;
 
   const $ = (sel, raiz = document) => raiz.querySelector(sel);
 
@@ -192,10 +192,7 @@
   /** O cartão herói é único na página: o número que o painel lidera. */
   function pintarKpis(rows) {
     const mat = P.total(rows, 'matriculados');
-    const con = P.total(rows, 'concluintes');
     const turmas = P.total(rows, 'turmas');
-    const bolsas = P.total(rows, 'bolsistas');
-    const taxa = mat.soma ? (con.soma / mat.soma) * 100 : null;
 
     const cartoes = [
       {
@@ -205,10 +202,7 @@
         sub: F.temFiltro() ? `de ${int(P.data.length)} no total` : `PNERA II e III · ${P.meta.periodo?.anoMin}–${P.meta.periodo?.anoInicioMax}`,
       },
       { label: 'Estudantes matriculados', valor: compact(mat.soma), sub: `${int(mat.base)} de ${int(mat.total)} cursos informam` },
-      { label: 'Estudantes concluintes', valor: compact(con.soma), sub: `${int(con.base)} de ${int(con.total)} cursos informam` },
-      { label: 'Taxa de conclusão', valor: pct(taxa), sub: 'concluintes ÷ matriculados' },
       { label: 'Turmas', valor: int(turmas.soma), sub: `${int(turmas.base)} cursos informam` },
-      { label: 'Bolsistas', valor: int(bolsas.soma), sub: `${int(bolsas.base)} cursos informam` },
       { label: 'Estados alcançados', valor: `${P.distintos(rows, (c) => c.uf)}`, sub: 'de 27 UFs' },
       { label: 'Municípios', valor: int(P.distintos(rows, (c) => c.municipio)), sub: 'onde houve turma' },
       { label: 'Instituições de ensino', valor: int(P.distintos(rows, (c) => c.ies?.nome)), sub: 'realizadoras' },
