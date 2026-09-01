@@ -3,31 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!--
-    O selo ?v= nos assets so funciona se o proprio index.html nao vier do cache.
-    O ideal e o servidor mandar "Cache-Control: no-cache" para este arquivo; a
-    diretiva abaixo e o reforco possivel quando nao ha controle de cabecalhos.
-  -->
   <meta http-equiv="Cache-Control" content="no-cache">
-  <title>PNERA — Painel da Educação na Reforma Agrária</title>
-  <meta name="description" content="Painel analítico da Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III): cursos, estudantes, territórios e instituições do Pronera.">
+  <title>PNERA — Mapa interativo dos cursos do Pronera</title>
+  <meta name="description" content="Mapa interativo de círculos proporcionais: matriculados e cursos do Pronera por município, sobre base OpenStreetMap.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232E7D32'/%3E%3Cpath d='M16 27V12M16 18c-5 0-8-3-8-8 5 0 8 3 8 8zm0 0c5 0 8-3 8-8-5 0-8 3-8 8z' stroke='%23FBFAF6' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E">
   <!--
-    Versao dos assets proprios (?v=). Como o projeto e estatico e sem build, o
-    navegador cacheia CSS/JS por caminho: sem esse selo, uma correcao publicada
-    pode nao chegar a quem ja abriu o painel. Ao publicar qualquer mudanca em
-    assets/, incremente o numero em TODAS as linhas abaixo (o vendor fica fora:
-    bootstrap e chart.js so mudam quando o arquivo e trocado por outra versao).
+    Selo ?v= nos assets proprios, como no index.html: o projeto e estatico e sem
+    build, entao o navegador cacheia CSS/JS por caminho. Ao publicar qualquer
+    mudanca em assets/, incremente o numero em TODAS as linhas com ?v= aqui e no
+    index.html. O vendor (bootstrap, chart.js, leaflet) fica de fora.
   -->
   <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/leaflet.css">
   <link rel="stylesheet" href="assets/css/theme.css?v=2">
   <link rel="stylesheet" href="assets/css/app.css?v=2">
+  <link rel="stylesheet" href="assets/css/maps-interativo.css?v=1">
 </head>
 <body>
-  <a class="skip-link" href="#painel">Ir para o conteúdo</a>
+  <a class="skip-link" href="#mapa">Ir para o mapa</a>
 
   <header class="topbar">
-    <a class="brand" href="#">
+    <a class="brand" href="index.html">
       <span class="brand__mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 21V9"/>
@@ -38,7 +34,7 @@
       </span>
       <span>
         <span class="brand__title">PNERA</span>
-        <span class="brand__sub d-block">Educação na Reforma Agrária · Pronera</span>
+        <span class="brand__sub d-block">Mapa interativo · círculos proporcionais</span>
       </span>
     </a>
 
@@ -46,18 +42,10 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/>
       </svg>
-      <label class="visually-hidden" for="busca">Buscar curso, instituição, município ou coordenação</label>
+      <label class="visually-hidden" for="busca">Buscar curso, instituição ou município</label>
       <input type="search" id="busca" placeholder="Buscar curso, instituição, município…" autocomplete="off">
       <button type="button" class="clear-search" aria-label="Limpar busca" hidden>&times;</button>
     </div>
-
-    <!-- Unica pagina do projeto que exige internet (tiles do OpenStreetMap). -->
-    <a class="icon-btn" href="maps-interativo.html" style="text-decoration:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M9 4L3 7v13l6-3 6 3 6-3V4l-6 3-6-3zM9 4v13M15 7v13"/>
-      </svg>
-      Mapa interativo
-    </a>
 
     <button class="icon-btn d-lg-none ms-auto" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasFiltros" aria-controls="offcanvasFiltros">
@@ -67,12 +55,16 @@
       Filtros
     </button>
 
-    <p class="topbar__meta d-none d-lg-block mb-0 ms-auto" id="meta-fonte"></p>
+    <a class="topbar__back d-none d-lg-inline-flex ms-auto" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      Voltar ao painel
+    </a>
   </header>
 
   <div class="shell">
-    <!-- Um único painel de filtros governa todos os visuais. -->
-    <aside class="filters-desktop" aria-label="Filtros do painel">
+    <aside class="filters-desktop" aria-label="Filtros do mapa">
       <div class="filters-panel" id="filtros-desktop"></div>
     </aside>
 
@@ -88,30 +80,59 @@
     </div>
 
     <main>
-      <h1 class="visually-hidden">Painel da Pesquisa Nacional de Educação na Reforma Agrária</h1>
+      <h1 class="visually-hidden">Mapa interativo dos cursos do Pronera por município</h1>
 
       <div class="chips" id="chips" aria-live="polite" aria-label="Filtros ativos"></div>
       <div class="kpi-row" id="kpis"></div>
-      <nav class="viewnav" id="viewnav" role="tablist" aria-label="Visões do painel"></nav>
-      <div id="painel" role="tabpanel" tabindex="-1"></div>
+
+      <section class="card" aria-labelledby="tituloMapa">
+        <div class="card__head">
+          <div>
+            <h2 class="card__title" id="tituloMapa">Matriculados e cursos por município</h2>
+            <p class="card__hint">
+              Cada círculo tem <strong>área</strong> proporcional ao valor — não raio.
+              Passe o mouse para ver os números; clique para abrir a lista de cursos do município.
+            </p>
+          </div>
+          <div class="card__tools">
+            <button type="button" class="icon-btn" id="btnTabela" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M3 5h18M3 12h18M3 19h18M9 5v14"/>
+              </svg>
+              Tabela
+            </button>
+          </div>
+        </div>
+
+        <div id="mapa" class="mapa" tabindex="-1"></div>
+        <div class="table-view" id="tabelaMun" hidden></div>
+
+        <div class="card__foot" id="rodapeMapa"></div>
+      </section>
+
+      <p class="aviso-rede" id="avisoRede" hidden>
+        Os quadrados do mapa de fundo não carregaram. Esta página usa tiles do
+        <strong>OpenStreetMap</strong> e, ao contrário do restante do painel, precisa de
+        internet para desenhar o fundo. Os círculos, os filtros e a interação continuam
+        funcionando.
+      </p>
 
       <footer class="mt-4 pt-3 text-center" style="border-top:1px solid var(--border)">
         <p class="mb-1" style="font-size:var(--step--1);color:var(--ink-muted)">
           Dados da Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
-          INCRA e Universidade de Brasília. Valores ausentes na fonte aparecem como
-          <em>não informado</em> e ficam fora dos cálculos; cada visual mostra sua base.
+          INCRA e Universidade de Brasília. Coordenadas dos municípios: centroide da malha
+          territorial do IBGE. Valores ausentes na fonte ficam fora dos cálculos.
         </p>
-        <p class="mb-0 d-lg-none" style="font-size:var(--step--1);color:var(--ink-muted)" id="meta-fonte-mobile"></p>
       </footer>
     </main>
   </div>
 
-  <!-- Detalhe de um curso -->
-  <div class="modal fade" id="modalCurso" tabindex="-1" aria-labelledby="modalCursoTitulo" aria-hidden="true">
+  <!-- Detalhe dos cursos de um municipio -->
+  <div class="modal fade" id="modalMunicipio" tabindex="-1" aria-labelledby="modalMunicipioTitulo" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
       <div class="modal-content" style="background:var(--surface);border-color:var(--border)">
         <div class="modal-header">
-          <h2 class="modal-title h6 mb-0" id="modalCursoTitulo"></h2>
+          <h2 class="modal-title h6 mb-0" id="modalMunicipioTitulo"></h2>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body"></div>
@@ -120,15 +141,10 @@
   </div>
 
   <script src="assets/vendor/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.umd.min.js"></script>
-  <script src="assets/js/uf-paths.js?v=2"></script>
+  <script src="assets/vendor/leaflet.js"></script>
   <script src="assets/js/dataset.js?v=2"></script>
   <script src="assets/js/data.js?v=2"></script>
-  <script src="assets/js/filters.js?v=2"></script>
-  <script src="assets/js/charts.js?v=2"></script>
-  <script src="assets/js/map.js?v=2"></script>
-  <script src="assets/js/views.js?v=2"></script>
-  <script src="assets/js/table.js?v=2"></script>
-  <script src="assets/js/app.js?v=2"></script>
+  <script src="assets/js/municipio-coords.js?v=1"></script>
+  <script src="assets/js/maps-interativo.js?v=1"></script>
 </body>
 </html>

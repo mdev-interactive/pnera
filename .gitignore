@@ -1,0 +1,5 @@
+# Cache das malhas municipais do IBGE (6 MB, 27 UFs). Existe so para reexecutar
+# tools/build-municipio-coords.mjs sem rede; o artefato que o painel consome e o
+# assets/js/municipio-coords.js, esse sim versionado. A malha das UFs
+# (data/ibge-uf.geojson, 98 KB) continua versionada — cabe no repositorio.
+data/ibge-municipios/

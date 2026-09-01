@@ -13,6 +13,9 @@ internet** — basta abrir `index.html`.
 
 Abra `index.html` no navegador (duplo clique já funciona).
 
+Há uma segunda página, `maps-interativo.html` — o mapa de círculos proporcionais
+por município. **Ela é a única que precisa de internet** (ver abaixo).
+
 Para regerar os dados depois de atualizar a planilha:
 
 ```bash
@@ -47,6 +50,18 @@ Só precisa ser refeita se a malha do IBGE mudar:
 node tools/build-uf-map.mjs
 ```
 
+As coordenadas dos municípios (`assets/js/municipio-coords.js`), usadas só pelo
+mapa interativo, também já estão geradas. Refaça só se a planilha passar a citar
+municípios novos:
+
+```bash
+node tools/build-municipio-coords.mjs
+```
+
+O relatório tem de fechar em **246 de 246 municípios resolvidos, 0 faltando**. O
+script quebra se algum código ficar sem coordenada, sem nome ou com coordenada
+fora do Brasil — um círculo no lugar errado é pior que nenhum círculo.
+
 ### Ao publicar: incremente a versão dos assets
 
 O painel é estático e sem build, então o navegador cacheia CSS e JS pelo
@@ -75,19 +90,24 @@ para `assets/` (as URLs versionadas tornam isso seguro).
 ```
 OFICIAL PNERA_22-06-2026.xlsx   planilha original (nunca é modificada)
 index.html                      o painel
+maps-interativo.html            o mapa de círculos proporcionais (exige internet)
 tools/
   xlsx-to-json.mjs              conversor, sem dependências
   build-uf-map.mjs              gera o SVG das 27 UFs a partir da malha do IBGE
+  build-municipio-coords.mjs    gera os centroides dos 246 municípios (IBGE)
 data/
   pnera.json                    581 cursos normalizados
   pnera.meta.json               dicionários, coberturas e totais
   ibge-uf.geojson               malha das UFs em cache
+  ibge-municipios/              malhas municipais em cache (6 MB, fora do git)
 assets/
-  vendor/                       Bootstrap 5.3.3 e Chart.js 4.4.4 locais
+  vendor/                       Bootstrap 5.3.3, Chart.js 4.4.4 e Leaflet 1.9.4 locais
   css/theme.css                 tokens (paleta, tipografia, superfícies)
   css/app.css                   layout e componentes
+  css/maps-interativo.css       estilos do mapa interativo (só dessa página)
   js/dataset.js                 os dados embutidos (para funcionar em file://)
   js/uf-paths.js                paths SVG das UFs
+  js/municipio-coords.js        lat/lon e nome acentuado dos 246 municípios
   js/data.js                    formatação e agregação
   js/filters.js                 estado dos filtros, cruzamento e URL
   js/charts.js                  padrões de marca e ciclo de vida dos cartões
@@ -95,6 +115,7 @@ assets/
   js/views.js                   definição de cada visual
   js/table.js                   base de dados, detalhe e exportação CSV
   js/app.js                     montagem do painel
+  js/maps-interativo.js         lógica do mapa interativo (só dessa página)
 ```
 
 `data/pnera.json` e `assets/js/dataset.js` têm o mesmo conteúdo. O `.json` é o
@@ -133,6 +154,60 @@ O estado inteiro vive no hash da URL — dá para compartilhar um recorte:
 ```
 index.html#aba=territorios&areaTematica=Agroecologia&uf=Bahia~Paraná&de=2010&ate=2020
 ```
+
+---
+
+## Mapa interativo (`maps-interativo.html`)
+
+Página à parte, com CSS e JS próprios, para a pergunta que o coroplético não
+responde: **onde exatamente**. O coroplético pinta o Pará inteiro do mesmo verde;
+aqui o símbolo é o município — 246 pontos.
+
+Duas séries de círculos sobrepostas, no desenho do Atlas da Questão Agrária:
+
+| Série | Cor | Medida |
+|---|---|---|
+| Matriculados | folha (`--series-1`) | soma de matriculados no município |
+| Cursos | terracota (`--series-4`) | nº de cursos realizados no município |
+
+Terracota e não vermelho puro porque é o slot 4 da paleta já validada — cor nova
+não se inventa nem no mapa.
+
+**Área proporcional, nunca raio.** `r = 3 + 27·√(v/máx)`. Escalar o raio pelo
+valor bruto infla os grandes ao quadrado; é o erro clássico deste tipo de mapa.
+A escala é recalculada a cada filtro, e a legenda de círculos concêntricos diz
+isso. Dentro de cada série os círculos entram do maior para o menor, para que os
+pequenos fiquem por cima e continuem clicáveis.
+
+**Cobertura declarada, como no resto do painel.** 552 dos 581 cursos têm
+município na fonte; os 29 restantes ficam fora do mapa e o rodapé diz quantos
+são. Ausência de matriculados nunca vira zero.
+
+**Coordenadas.** A planilha traz o código IBGE de 7 dígitos, não a coordenada.
+`tools/build-municipio-coords.mjs` resolve os 246 códigos no centroide do maior
+anel da malha do IBGE (mesmo critério que ancora as siglas das UFs) e traz de
+quebra o **nome acentuado** do município — que na planilha vem sem acento.
+
+**Filtros próprios e enxutos:** fase, área temática, nível, macrorregião, UF,
+período de início e busca livre, com chips e estado no hash da URL. Sem contagem
+cruzada por opção — essa complexidade fica no painel principal (`js/filters.js`).
+
+```
+maps-interativo.html#macrorregiao=Sul&areaTematica=Agroecologia&de=2010&ate=2015
+```
+
+### Esta página precisa de internet
+
+O fundo vem dos tiles do **OpenStreetMap** — é a única dependência de rede do
+projeto inteiro. Sem conexão a página abre, os 246 círculos aparecem sobre o
+plano trigo, filtros e tabela funcionam; só o mapa de fundo fica vazio, e um
+aviso abaixo do mapa explica por quê. A atribuição do OpenStreetMap é exigência
+da licença e não pode ser removida.
+
+O Leaflet fica vendorizado em `assets/vendor/`, como Bootstrap e Chart.js — CDN
+continua fora do projeto. Os tiles do OSM passam por
+`filter: saturate(.32)` para o fundo recuar e os círculos, que são o dado,
+ficarem em primeiro plano.
 
 ---
 
@@ -197,7 +272,9 @@ inteira da categoria como alvo de clique (o vão entre barras não é zona morta
 ## Limitações conhecidas
 
 - Nomes de municípios, pessoas e entidades vêm sem acento na planilha e assim
-  permanecem — restaurá-los exigiria uma base externa de topônimos.
+  permanecem no painel — restaurá-los exigiria uma base externa de topônimos.
+  A exceção é o mapa interativo: lá o nome do município vem acentuado da API de
+  localidades do IBGE, junto com a coordenada.
 - `meta inicial` (46% de cobertura) e `meta final` (35%) são esparsos; a
   dispersão meta × matrícula cobre 178 dos 581 cursos e diz isso no rodapé.
 - Alguns anos de fim são previsões (cursos de graduação iniciados em 2025 com
