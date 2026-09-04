@@ -8572,10 +8572,10 @@
   "nivel": "EJA Fundamental",
   "modalidade": "EJA Anos Iniciais",
   "macrorregiao": "Sul",
-  "uf": "Rio Grande do Sul",
-  "ufSigla": "RS",
-  "municipio": "Veranopolis",
-  "codMunicipio": "4322806",
+  "uf": "Santa Catarina",
+  "ufSigla": "SC",
+  "municipio": "Abelardo Luz",
+  "codMunicipio": "4200101",
   "superintendencia": "SR 10 - Santa Catarina",
   "instrumento": null,
   "numeroInstrumento": null,
@@ -9680,7 +9680,7 @@
   "codigoSei": "11179",
   "nomeProcessual": "Capacitacao Tecnica em Administracao de Assentamentos",
   "curso": null,
-  "areaTematica": "Ciências Agrárias",
+  "areaTematica": "Agroindústria e Cooperativismo",
   "areaConhecimento": "Ciências Agrárias",
   "nivel": "Médio",
   "modalidade": "Ensino Médio/Técnico (Integrado)",
@@ -12440,7 +12440,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Maranhão (IFMA)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Maranhão (IFMA)",
    "macrorregiao": "Nordeste",
    "uf": "Maranhão",
    "ufSigla": "MA",
@@ -13283,7 +13283,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Maranhão (IFMA)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Maranhão (IFMA)",
    "macrorregiao": "Nordeste",
    "uf": "Maranhão",
    "ufSigla": "MA",
@@ -13496,10 +13496,10 @@
   "nivel": "Residência Agrária",
   "modalidade": "Residência Agrária",
   "macrorregiao": "Centro-Oeste",
-  "uf": "Goiás",
-  "ufSigla": "GO",
-  "municipio": "Goiania",
-  "codMunicipio": "5208707",
+  "uf": "Mato Grosso",
+  "ufSigla": "MT",
+  "municipio": "Caceres",
+  "codMunicipio": "5102504",
   "superintendencia": "SR 13 - Mato Grosso",
   "instrumento": null,
   "numeroInstrumento": null,
@@ -13662,12 +13662,12 @@
   "nup": null,
   "previstoInicio": null,
   "previstoFim": null,
-  "inicio": "02/2002",
-  "fim": "03/2003",
-  "anoInicio": 2002,
-  "mesInicio": 2,
-  "anoFim": 2003,
-  "mesFim": 3,
+  "inicio": "01/12/2001",
+  "fim": "01/12/2002",
+  "anoInicio": 2001,
+  "mesInicio": 12,
+  "anoFim": 2002,
+  "mesFim": 12,
   "duracaoAnos": 1,
   "turmas": null,
   "metaInicial": null,
@@ -16046,7 +16046,7 @@
    }
   ],
   "ies": {
-   "nome": "Universidade Federal de Mato Grosso do Sul (UFMS)",
+   "nome": "Universidade Federal do Mato Grosso do Sul (UFMS)",
    "macrorregiao": "Centro-Oeste",
    "uf": "Mato Grosso do Sul",
    "ufSigla": "MS",
@@ -19177,7 +19177,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao; Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
    "macrorregiao": "Nordeste",
    "uf": "Rio Grande do Norte",
    "ufSigla": "RN",
@@ -27626,10 +27626,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Auxiliar",
-    "Organizar",
-    "Execultar",
-    "Financiar"
+    "Apoio Logistico",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -27735,8 +27733,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoiar Execucao",
-    "Auxiliar"
+    "Apoio Logistico"
    ]
   }
  },
@@ -27829,9 +27826,9 @@
     "Nacional"
    ],
    "atuacao": [
-    "Infraestrutura",
-    "Financiar",
-    "Acompanhar"
+    "Apoio Logistico",
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -27931,10 +27928,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Execucao",
-    "Infraestrutura",
-    "Financiar",
-    "Acompanhar"
+    "Apoio Logistico",
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -28218,7 +28214,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Disponibilizar Estagios"
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -28409,8 +28405,9 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Gestao do Curso",
-    "Comunicacao e Divulgacao"
+    "Participacao na Gestao do Curso",
+    "Comunicacao",
+    "Divulgacao"
    ]
   }
  },
@@ -28513,9 +28510,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Infraestrutura",
-    "Financiar",
-    "Acompanhar"
+    "Apoio Logistico",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -28686,8 +28682,8 @@
     "Municipal"
    ],
    "atuacao": [
-    "Gestao do Curso",
-    "Apoio Logistico"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -28779,9 +28775,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Implementar",
-    "Articular",
-    "Executar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -28880,9 +28875,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Organizar",
-    "Sediar",
-    "Mediar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -29070,7 +29064,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoiar"
+    "Apoio Logistico"
    ]
   }
  },
@@ -29177,9 +29171,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Financiar",
-    "Auxiliar Execucao",
-    "Gestar"
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -29481,7 +29474,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Gestao do Curso",
+    "Participacao na Gestao do Curso",
     "Apoio Logistico"
    ]
   }
@@ -29583,9 +29576,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Financiar",
-    "Execultar",
-    "Infraestrurura"
+    "Apoio Financeiro",
+    "Apoio Logistico"
    ]
   }
  },
@@ -29683,8 +29675,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Financiar",
-    "Executar"
+    "Apoio Financeiro",
+    "Apoio Logistico"
    ]
   }
  },
@@ -29784,7 +29776,7 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Coordenacao Pedagogica"
+    "Gestao Pedagogica"
    ]
   }
  },
@@ -29958,9 +29950,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Articular",
-    "Acompanhar",
-    "Divulgar"
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico",
+    "Divulgacao"
    ]
   }
  },
@@ -30147,8 +30139,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliar Execucao",
-    "Acompanhar"
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -30244,11 +30236,10 @@
     "Nacional"
    ],
    "atuacao": [
-    "Divulgacar",
-    "Implementar",
-    "Acompanhar",
-    "Financiar",
-    "Articular"
+    "Divulgacao",
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -30345,9 +30336,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Apoiar",
-    "Executar",
-    "Fornecedor"
+    "Apoio Logistico",
+    "Execucao Pedagogica"
    ]
   }
  },
@@ -30543,10 +30533,9 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliar Execucao",
-    "Gestar",
-    "Financiar",
-    "Infraestrutura"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -30641,11 +30630,9 @@
     "Municipal"
    ],
    "atuacao": [
-    "Formador",
-    "Auxiliar",
-    "Gerir",
-    "Articular",
-    "Conceder"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico"
    ]
   }
  },
@@ -30664,7 +30651,7 @@
   "ufSigla": "MS",
   "municipio": "Campo Grande",
   "codMunicipio": "5002704",
-  "superintendencia": "SR 13 - Mato Grosso",
+  "superintendencia": "SR 16 - Mato Grosso do Sul",
   "instrumento": "Termo de Execução Descentralizada (TED)",
   "numeroInstrumento": "CHAMADA CNPQ/MDA-INCRA Nº 26/2012",
   "vigenciaInicio": "10/2012",
@@ -30689,12 +30676,12 @@
   "coordenadores": [
    {
     "papel": "Coordenação do projeto",
-    "nome": "Olivier Vilpoux",
+    "nome": "Olivier Francois Vilpoux",
     "titulacao": "Doutorado"
    },
    {
     "papel": "Coordenação geral",
-    "nome": "Olivier Vilpoux",
+    "nome": "Olivier Francois Vilpoux",
     "titulacao": "Doutorado"
    }
   ],
@@ -30731,7 +30718,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -30905,7 +30893,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Parceria Pedagogica"
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -31006,8 +30994,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Financiar",
-    "Auxiliar Execucao"
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -31098,7 +31086,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Financiar"
+    "Apoio Financeiro"
    ]
   }
  },
@@ -31193,7 +31181,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Gestar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -31297,8 +31285,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Executar",
-    "Apoiar"
+    "Apoio Logistic0",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -31399,9 +31387,9 @@
     "Nacional"
    ],
    "atuacao": [
-    "Articular",
-    "Acompanhar",
-    "Divulgar"
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico",
+    "Divulgacao"
    ]
   }
  },
@@ -31495,10 +31483,10 @@
     "Municipal"
    ],
    "atuacao": [
-    "Executar",
-    "Infraestrutura",
-    "Financianciar",
-    "Acompanhar"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -31679,8 +31667,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Apoiar Execucao",
-    "Financiar"
+    "Apoio Logistico",
+    "Apoio Financeiro"
    ]
   }
  },
@@ -31774,7 +31762,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Apoiar"
+    "Apoio Logistico"
    ]
   }
  },
@@ -31898,8 +31886,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Implementacao Pedagogica",
-    "Comunicacao e Divulgacao"
+    "Execucao Pedagogica",
+    "Comunicacao",
+    "Divulgacao"
    ]
   }
  },
@@ -32145,9 +32134,10 @@
     "Nacional"
    ],
    "atuacao": [
-    "Gestao do Curso",
-    "Comunicacao e Divulgacao",
-    "Coordenacao Pedagogica"
+    "Participacao na Gestao do Curso",
+    "Comunicacao",
+    "Divulgacao",
+    "Gestao Pedagogica"
    ]
   }
  },
@@ -32502,7 +32492,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Apoiar"
+    "Apoio Logistico"
    ]
   }
  },
@@ -32588,8 +32578,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Apoio Financeiro",
-    "Corpo Docente"
+    "Participacao na Gestao do Curso",
+    "Gestao Pedagogica"
    ]
   }
  },
@@ -32688,7 +32678,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Financiar"
+    "Apoio Financeiro"
    ]
   }
  },
@@ -32779,7 +32769,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Financiador, Articulador"
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -33226,10 +33217,9 @@
     "Nacional"
    ],
    "atuacao": [
-    "Integrador",
-    "Gerenciar",
-    "Sediar",
-    "Pesquisar"
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -33514,10 +33504,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Indicar",
-    "Implementar",
-    "Articular",
-    "Divulgar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso",
+    "Divulgacao"
    ]
   }
  },
@@ -33615,7 +33604,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoiar Execução"
+    "Apoio Logistico"
    ]
   }
  },
@@ -33707,8 +33696,8 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoiar",
-    "Integrar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -33839,7 +33828,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
    "macrorregiao": "Nordeste",
    "uf": "Rio Grande do Norte",
    "ufSigla": "RN",
@@ -33878,7 +33867,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliar Execucao"
+    "Apoio Logistico"
    ]
   }
  },
@@ -33969,9 +33958,9 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar",
-    "Articular",
-    "Avaliar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -34163,9 +34152,10 @@
     "Municipal"
    ],
    "atuacao": [
-    "Comunicacao e Divulgacao",
+    "Comunicacao",
+    "Divulgacao",
     "Coordenacao Pedagogica",
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -34255,11 +34245,9 @@
     "Estadual"
    ],
    "atuacao": [
-    "Realizador",
-    "Apoiar",
-    "Acompanhar",
-    "Analisar",
-    "Descentralizar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -34434,9 +34422,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Executar",
-    "Acompanhamento",
-    "Infraestrutura, Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -34796,7 +34784,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -34887,8 +34875,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular",
-    "Apoiar Execucao"
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico"
    ]
   }
  },
@@ -35057,7 +35045,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -35147,7 +35135,8 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Comunicacao e Divulgacao",
+    "Comunicacao",
+    "Divulgacao",
     "Gestao do Curso"
    ]
   }
@@ -35325,8 +35314,9 @@
     "Municipal"
    ],
    "atuacao": [
-    "Comunicacao e Divulgacao",
-    "Gestao do Curso"
+    "Comunicacao",
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -35562,7 +35552,7 @@
     "Regional"
    ],
    "atuacao": [
-    "Infraestrutura"
+    "Apoio Logistico"
    ]
   }
  },
@@ -35651,11 +35641,10 @@
     "Estadual"
    ],
    "atuacao": [
-    "Financiar",
-    "Elaborar",
-    "Coordenar",
-    "Divulgar",
-    "Apoiar"
+    "Apoio Financiro",
+    "Participacao na Gestao do Curso",
+    "Divulgacao",
+    "Apoio Logistico"
    ]
   }
  },
@@ -35833,8 +35822,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Gestor",
-    "Articular"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -35924,7 +35912,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica",
+    "Gestao Pedagogica",
     "Apoio Logistico"
    ]
   }
@@ -36096,8 +36084,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articulacao",
-    "Apoio"
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico"
    ]
   }
  },
@@ -36151,7 +36139,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Maranhão (IFMA)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Maranhão (IFMA)",
    "macrorregiao": "Nordeste",
    "uf": "Maranhão",
    "ufSigla": "MA",
@@ -36186,9 +36174,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular",
-    "Acompanhar",
-    "Contribuir"
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -36374,8 +36361,9 @@
     "Municipal"
    ],
    "atuacao": [
-    "Comunicacao e Divulgacao",
-    "Gestao do Curso"
+    "Comunicacao",
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -36467,8 +36455,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Responsavel Pelo Projeto",
-    "Articulador"
+    "Gestao Pedagogica",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -36708,7 +36696,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
    "macrorregiao": "Nordeste",
    "uf": "Rio Grande do Norte",
    "ufSigla": "RN",
@@ -36826,7 +36814,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articulacao",
+    "Participacao na Gestao do Curso",
     "Apoio Pedagogico"
    ]
   }
@@ -37196,8 +37184,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Integrar",
-    "Executar"
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico"
    ]
   }
  },
@@ -37281,7 +37269,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Apoio"
+    "Apoio Logistico"
    ]
   }
  },
@@ -37382,7 +37370,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Financiar"
+    "Apoio Financiero"
    ]
   }
  },
@@ -37562,8 +37550,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxilio Tecnico",
-    "Cooperacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -37736,7 +37724,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Apoio"
+    "Apoio Logistico"
    ]
   }
  },
@@ -37837,10 +37825,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar",
-    "Fornecer",
-    "Planejar",
-    "Apoiar"
+    "Participacao na Gestao do Curso",
+    "Apoio Logistico"
    ]
   }
  },
@@ -37928,11 +37914,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Realizacao do Processo Pedagogico",
-    "Elaboracao do Processo Seletivo",
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Gestao Pedagogica"
    ]
   }
  },
@@ -38039,9 +38021,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Gestar",
-    "Mobilizar",
-    "Acompanhar"
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -38077,8 +38058,8 @@
   "duracaoAnos": 2,
   "turmas": 1545,
   "metaInicial": 33000,
-  "metaFinal": 15566,
-  "matriculados": null,
+  "metaFinal": null,
+  "matriculados": 15566,
   "concluintes": null,
   "bolsistas": 1564,
   "taxaConclusao": null,
@@ -38224,10 +38205,9 @@
     "Estadual"
    ],
    "atuacao": [
-    "Financiar",
-    "Divulgar",
-    "Supervisionar",
-    "Selecionar"
+    "Apoio Financeiro",
+    "Divulgacao",
+    "Elaboracao do Processo Seletivo"
    ]
   }
  },
@@ -38580,10 +38560,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar",
-    "Coordenar",
-    "Supervisionar",
-    "Articular"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -38671,7 +38648,7 @@
     "Comunicacao",
     "Divulgacao",
     "Apoio Logistico",
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -38765,7 +38742,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliar Execucao"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -38933,7 +38910,7 @@
    "atuacao": [
     "Comunicacao",
     "Divulgacao",
-    "Gestao do Curso"
+    "Participacao Gestao do Curso"
    ]
   }
  },
@@ -39032,8 +39009,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Orientar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39140,7 +39116,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Gestao do Curso",
+    "Participacao na Gestao do Curso",
     "Apoio Logislitico",
     "Comunicacao",
     "Divulgacao"
@@ -39229,10 +39205,8 @@
     "Regional"
    ],
    "atuacao": [
-    "Executar",
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39326,9 +39300,7 @@
     "Nacional"
    ],
    "atuacao": [
-    "Participar",
-    "Gerir",
-    "Integrar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39416,9 +39388,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Fiscalizador",
-    "Gerir",
-    "Avaliar"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39511,7 +39482,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39605,7 +39576,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Gestao do Curso",
+    "Participacao na Gestao do Curso",
     "Comunicacao",
     "Divulgacao"
    ]
@@ -39789,9 +39760,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Apoio Administrativo",
-    "Realizacao de Estagio Curricular",
-    "Apoio"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -39967,8 +39937,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliador",
-    "Avaliador"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -40071,9 +40041,9 @@
     "Estadual"
    ],
    "atuacao": [
-    "Divulgar",
-    "Gestar",
-    "Apoiar"
+    "Divulgacao",
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -40165,8 +40135,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Divulgar",
-    "Recrutar"
+    "Divulgacao",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -40341,7 +40311,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articulador"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -40425,8 +40395,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica",
-    "Gestao do Curso"
+    "Gestao Pedagogica",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -40514,11 +40484,9 @@
     "Nacional"
    ],
    "atuacao": [
-    "Realizacao do Processo Pedagogico",
-    "Elaboracao do Processo Seletivo",
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Gestao Pedagogica",
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -40775,7 +40743,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoio Infraestrutura"
+    "Apoio Logistico"
    ]
   }
  },
@@ -40858,8 +40826,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoio",
-    "Infraestrutura de Alojamento"
+    "Apoio Logistico"
    ]
   }
  },
@@ -40918,7 +40885,7 @@
    }
   ],
   "ies": {
-   "nome": "Instituto Federal de Educacao, Ciencia e Tecnologia do Maranhão (IFMA)",
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Maranhão (IFMA)",
    "macrorregiao": "Nordeste",
    "uf": "Maranhão",
    "ufSigla": "MA",
@@ -40966,9 +40933,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular",
-    "Mobilizar",
-    "Acompanhar"
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -41062,8 +41028,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Apoiar Execucao"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -41146,10 +41111,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica",
-    "Certificacao",
-    "Organizacao do Corpo Docente",
-    "Infraestrutura Pedagogica"
+    "Gestao Pedagogica",
+    "Apoio Logistico"
    ]
   }
  },
@@ -41605,7 +41568,7 @@
    }
   ],
   "ies": {
-   "nome": "Universidade Federal da Fronteira Sul (UFFS); Instituto de Tecnico de Capacitacao e Pesquisa da Reforma Agraria (ITERRA)",
+   "nome": "Universidade Federal da Fronteira Sul (UFFS); Instituto Tecnico de Capacitacao e Pesquisa da Reforma Agraria (ITERRA)",
    "macrorregiao": "Sul",
    "uf": "Rio Grande do Sul",
    "ufSigla": "RS",
@@ -41637,9 +41600,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -41727,12 +41689,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Realizacao do Processo Pedagogico",
-    "Organzacao do Corpo Docente",
-    "Elaboracao do Processo Seletivo",
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Gestao Pedagogico",
+    "Apoio Logistico"
    ]
   }
  },
@@ -41828,11 +41786,9 @@
     "Regional"
    ],
    "atuacao": [
-    "Gestar",
-    "Apoiar",
-    "Logistica",
-    "Divulgar",
-    "Acompanhar"
+    "Divulgacao",
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -41921,9 +41877,8 @@
     "Nacional"
    ],
    "atuacao": [
-    "Acompanhamento",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -42018,10 +41973,8 @@
     "Estadual"
    ],
    "atuacao": [
-    "Formador",
-    "Organizador",
-    "Orientar",
-    "Reforcar"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
@@ -42134,7 +42087,7 @@
     "Municipal"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica"
+    "Gestao Pedagogica"
    ]
   }
  },
@@ -42323,7 +42276,7 @@
     "Estadual"
    ],
    "atuacao": [
-    "Certificacao"
+    "Apoio Pedagogico"
    ]
   }
  },
@@ -42423,19 +42376,95 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar",
-    "Coordenar",
-    "Infraestrutura",
-    "Logistica",
-    "Certificar",
-    "Apoiar",
-    "Parceria Pedagogica",
-    "Articular"
+    "Apoio Logistico",
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
   "id": 483,
+  "fase": "PNERA III",
+  "codigoSei": "54130.001609/2009-96",
+  "nomeProcessual": "Bacharelado em Jornalismo Programa de Formacao de Jornalistas do Campo",
+  "curso": "Jornalismo da Terra",
+  "areaTematica": "Linguagem, Comunicação e Arte",
+  "areaConhecimento": "Ciências Sociais Aplicadas",
+  "nivel": "Superior",
+  "modalidade": "Graduação",
+  "macrorregiao": "Nordeste",
+  "uf": "Ceará",
+  "ufSigla": "CE",
+  "municipio": "Fortaleza",
+  "codMunicipio": "2304400",
+  "superintendencia": "SR 02 - Ceará",
+  "instrumento": "Termo de Cooperação",
+  "numeroInstrumento": null,
+  "vigenciaInicio": "04/07/2010",
+  "vigenciaFim": "04/07/2014",
+  "nup": null,
+  "previstoInicio": "01/06/2010",
+  "previstoFim": "01/05/2014",
+  "inicio": null,
+  "fim": null,
+  "anoInicio": 2010,
+  "mesInicio": null,
+  "anoFim": 2014,
+  "mesFim": null,
+  "duracaoAnos": 4,
+  "turmas": 1,
+  "metaInicial": 60,
+  "metaFinal": 60,
+  "matriculados": 60,
+  "concluintes": null,
+  "bolsistas": null,
+  "taxaConclusao": null,
+  "coordenadores": [
+   {
+    "papel": "Coordenação geral",
+    "nome": "Jose Ronaldo Aguiar Salgado",
+    "titulacao": "Mestrado"
+   },
+   {
+    "papel": "Vice-coordenação",
+    "nome": "Marcia Vidal Nunes",
+    "titulacao": "Doutorado"
+   }
+  ],
+  "ies": {
+   "nome": "Universidade Federal do Ceará (UFC)",
+   "macrorregiao": "Nordeste",
+   "uf": "Ceará",
+   "ufSigla": "CE",
+   "municipio": "Fortaleza",
+   "codMunicipio": "2304400",
+   "natureza": [
+    "Pública Federal"
+   ]
+  },
+  "demandante": {
+   "nome": "Movimento dos Trabalhadores sem Terra (MST)",
+   "nomes": [
+    "Movimento dos Trabalhadores sem Terra (MST)"
+   ],
+   "natureza": [
+    "Movimento Social"
+   ],
+   "abrangencia": [
+    "Nacional"
+   ]
+  },
+  "parceiras": {
+   "nomes": [],
+   "natureza": [],
+   "macrorregiao": null,
+   "uf": null,
+   "abrangencia": [],
+   "atuacao": []
+  }
+ },
+ {
+  "id": 484,
   "fase": "PNERA III",
   "codigoSei": "54130.001678/2013-86",
   "nomeProcessual": "Licenciatura em Historia e Geografia",
@@ -42528,12 +42557,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 484,
+  "id": 485,
   "fase": "PNERA III",
   "codigoSei": "54140.000239/2016-80",
   "nomeProcessual": "Tecnico em Agropecuaria com Enfase em Agroecologia para Jovens e Adultos em Areas de Reforma Agraria na Regiao do Sertao do Pajeu PE",
@@ -42635,14 +42664,15 @@
     "Municipal"
    ],
    "atuacao": [
-    "Comunicacao e Divulgacao",
-    "Gestao do Curso",
-    "Coordenacao Pedagogica"
+    "Comunicacao",
+    "Divulgacao",
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 485,
+  "id": 486,
   "fase": "PNERA III",
   "codigoSei": "54141.000680/2014-90",
   "nomeProcessual": "Especializacao em Educacao do Campo",
@@ -42717,7 +42747,7 @@
   }
  },
  {
-  "id": 486,
+  "id": 487,
   "fase": "PNERA III",
   "codigoSei": "54141.000681/2014-34",
   "nomeProcessual": "Licenciatura em Ciencias Sociais",
@@ -42798,7 +42828,7 @@
   }
  },
  {
-  "id": 487,
+  "id": 488,
   "fase": "PNERA III",
   "codigoSei": "54141.000682/2014-89",
   "nomeProcessual": "Licenciatura em Historia",
@@ -42878,7 +42908,7 @@
   }
  },
  {
-  "id": 488,
+  "id": 489,
   "fase": "PNERA III",
   "codigoSei": "54150.000254/2016-17",
   "nomeProcessual": "Bacharelado em Agronomia",
@@ -42969,12 +42999,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Apoiar Execucao"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 489,
+  "id": 490,
   "fase": "PNERA III",
   "codigoSei": "54150.001871/2015-41",
   "nomeProcessual": "Bacharelado em Direito",
@@ -43061,12 +43091,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Apoiar Execucao"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 490,
+  "id": 491,
   "fase": "PNERA III",
   "codigoSei": "54150.002965/2011-11",
   "nomeProcessual": "Educacao e Cidadania: Primeiro Segmento de EJA e Formacao de Professores em Goiás Numa Proposta de Educacao do Campo",
@@ -43156,13 +43186,14 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Comunicacao e Divulgacao",
-    "Gestao do Curso"
+    "Comunicacao",
+    "Divulgacao",
+    "Apoio na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 491,
+  "id": 492,
   "fase": "PNERA III",
   "codigoSei": "54160.001509/2015-51; 54000.014073/2020-60",
   "nomeProcessual": "Tecnico Integrado em Agroecologia",
@@ -43268,7 +43299,7 @@
   }
  },
  {
-  "id": 492,
+  "id": 493,
   "fase": "PNERA III",
   "codigoSei": "54160.002339/2012-89",
   "nomeProcessual": "Bacharelado em Direito",
@@ -43306,7 +43337,7 @@
   "taxaConclusao": 86,
   "coordenadores": [],
   "ies": {
-   "nome": "Universidade Estadual da Bahia (UNEB)",
+   "nome": "Universidade do Estado da Bahia (UNEB)",
    "macrorregiao": "Nordeste",
    "uf": "Bahia",
    "ufSigla": "BA",
@@ -43332,7 +43363,7 @@
   }
  },
  {
-  "id": 493,
+  "id": 494,
   "fase": "PNERA III",
   "codigoSei": "54160.002393/2015-77",
   "nomeProcessual": "Tecnologia em Agropecuaria",
@@ -43439,17 +43470,14 @@
     "Regional"
    ],
    "atuacao": [
-    "Financiar",
-    "Acompanhar",
-    "Realizar",
-    "Certificar",
-    "Coordenar",
-    "Mobilizar"
+    "Divulgacao",
+    "Apoio Financeiro",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 494,
+  "id": 495,
   "fase": "PNERA III",
   "codigoSei": "54160.003835/2011-79",
   "nomeProcessual": "Bacharelado em Direito",
@@ -43519,7 +43547,7 @@
   }
  },
  {
-  "id": 495,
+  "id": 496,
   "fase": "PNERA III",
   "codigoSei": "54170.005881/2009-79 (PROCESSO FISICO NAO DIGITALIZADO)",
   "nomeProcessual": "Bacharelado em Administracao",
@@ -43583,7 +43611,7 @@
   }
  },
  {
-  "id": 496,
+  "id": 497,
   "fase": "PNERA III",
   "codigoSei": "54170.008343/2016-65",
   "nomeProcessual": "Curso Tecnico em Agropecuaria Subsequente Pedagogia da Alternancia",
@@ -43673,14 +43701,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Disponibilizar Estagios",
-    "Certificar",
-    "Executar"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 497,
+  "id": 498,
   "fase": "PNERA III",
   "codigoSei": "54180.000594/2010-97",
   "nomeProcessual": "Graduacao em Servico Social",
@@ -43750,8 +43776,8 @@
   }
  },
  {
-  "id": 498,
-  "fase": "PNERA II",
+  "id": 499,
+  "fase": "PNERA III",
   "codigoSei": "54190.002784/2007-24 (PROCESSO FISICO)",
   "nomeProcessual": "Agronomia com Enfase em Agroecologia e Sistemas Sustentaveis",
   "curso": null,
@@ -43829,7 +43855,7 @@
   }
  },
  {
-  "id": 499,
+  "id": 500,
   "fase": "PNERA III",
   "codigoSei": "54200.001128/2013-96",
   "nomeProcessual": "Tecnico em Agroecologia",
@@ -43914,12 +43940,12 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Coordenacao Pedagogica"
+    "Gestao Pedagogica"
    ]
   }
  },
  {
-  "id": 500,
+  "id": 501,
   "fase": "PNERA III",
   "codigoSei": "54200.001653/2016-54",
   "nomeProcessual": "Especializacao em Questao Agraria Latino Americana",
@@ -44003,12 +44029,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Infraestrutura"
+    "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 501,
+  "id": 502,
   "fase": "PNERA III",
   "codigoSei": "54200.001666/2016-23",
   "nomeProcessual": "Especializacao em Lingua Espanhola e Cultura Latino Americana",
@@ -44098,13 +44124,89 @@
     "Nacional"
    ],
    "atuacao": [
-    "Apoiar",
-    "Infraestrutura"
+    "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 502,
+  "id": 503,
+  "fase": "PNERA III",
+  "codigoSei": "54200.001816/2009-70",
+  "nomeProcessual": "Tecnico em Agroecologia",
+  "curso": "Tecnico em Agroecologia",
+  "areaTematica": "Agroecologia",
+  "areaConhecimento": "Ciências Agrárias",
+  "nivel": "Médio",
+  "modalidade": "Ensino Médio/Técnico (Integrado)",
+  "macrorregiao": "Sul",
+  "uf": "Paraná",
+  "ufSigla": "PR",
+  "municipio": "Maringa",
+  "codMunicipio": "4115200",
+  "superintendencia": "SR 09 - Paraná",
+  "instrumento": "Termo de Cooperação",
+  "numeroInstrumento": null,
+  "vigenciaInicio": "29/12/2009",
+  "vigenciaFim": "29/06/2012",
+  "nup": null,
+  "previstoInicio": "01/11/2009",
+  "previstoFim": "01/09/2011",
+  "inicio": "01/05/2010",
+  "fim": "01/06/2012",
+  "anoInicio": 2010,
+  "mesInicio": 5,
+  "anoFim": 2012,
+  "mesFim": 6,
+  "duracaoAnos": 2,
+  "turmas": 1,
+  "metaInicial": 50,
+  "metaFinal": 50,
+  "matriculados": 50,
+  "concluintes": 21,
+  "bolsistas": null,
+  "taxaConclusao": 42,
+  "coordenadores": [
+   {
+    "papel": "Coordenação do projeto",
+    "nome": "Valter Roberto Schaffrath",
+    "titulacao": "Doutorado"
+   },
+   {
+    "papel": "Coordenação geral",
+    "nome": "Valter Roberto Schaffrath",
+    "titulacao": "Doutorado"
+   }
+  ],
+  "ies": {
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Paraná (IFPR)",
+   "macrorregiao": "Sul",
+   "uf": "Paraná",
+   "ufSigla": "PR",
+   "municipio": "Curitiba",
+   "codMunicipio": "4106902",
+   "natureza": [
+    "Pública Federal"
+   ]
+  },
+  "demandante": {
+   "nome": "Movimento dos Trabalhadores Rurais sem Terra (MST)",
+   "nomes": [
+    "Movimento dos Trabalhadores Rurais sem Terra (MST)"
+   ],
+   "natureza": [],
+   "abrangencia": []
+  },
+  "parceiras": {
+   "nomes": [],
+   "natureza": [],
+   "macrorregiao": null,
+   "uf": null,
+   "abrangencia": [],
+   "atuacao": []
+  }
+ },
+ {
+  "id": 504,
   "fase": "PNERA III",
   "codigoSei": "54200.001880/2012-56",
   "nomeProcessual": "Bacharelado em Direito",
@@ -44199,12 +44301,13 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Comunicacao e Divulgacao"
+    "Comunicacao",
+    "Divulgacao"
    ]
   }
  },
  {
-  "id": 503,
+  "id": 505,
   "fase": "PNERA III",
   "codigoSei": "54200.002045/2014-03",
   "nomeProcessual": "Tecnologia em Agroecologia",
@@ -44298,12 +44401,96 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Coordenacao Pedagogica"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 504,
+  "id": 506,
+  "fase": "PNERA III",
+  "codigoSei": "54200.002134/2009-84",
+  "nomeProcessual": "Tecnologia em Agroecologia",
+  "curso": "Tecnologia em Agroecologia",
+  "areaTematica": "Agroecologia",
+  "areaConhecimento": "Ciências Agrárias",
+  "nivel": "Superior",
+  "modalidade": "Tecnólogo",
+  "macrorregiao": "Sul",
+  "uf": "Paraná",
+  "ufSigla": "PR",
+  "municipio": "Lapa",
+  "codMunicipio": "4113205",
+  "superintendencia": "SR 09 - Paraná",
+  "instrumento": "Termo de Cooperação",
+  "numeroInstrumento": null,
+  "vigenciaInicio": "29/12/2009",
+  "vigenciaFim": "29/01/2014",
+  "nup": null,
+  "previstoInicio": "01/12/2009",
+  "previstoFim": "01/03/2013",
+  "inicio": "01/09/2010",
+  "fim": "01/11/2013",
+  "anoInicio": 2010,
+  "mesInicio": 9,
+  "anoFim": 2013,
+  "mesFim": 11,
+  "duracaoAnos": 3,
+  "turmas": 1,
+  "metaInicial": 40,
+  "metaFinal": 40,
+  "matriculados": 25,
+  "concluintes": null,
+  "bolsistas": null,
+  "taxaConclusao": null,
+  "coordenadores": [
+   {
+    "papel": "Coordenação do projeto",
+    "nome": "Valter Roberto Schaffrath",
+    "titulacao": "Doutorado"
+   },
+   {
+    "papel": "Coordenação geral",
+    "nome": "Valter Roberto Schaffrath",
+    "titulacao": "Doutorado"
+   }
+  ],
+  "ies": {
+   "nome": "Instituto Federal de Educacao Ciencia e Tecnologia do Paraná (IFPR)",
+   "macrorregiao": "Sul",
+   "uf": "Paraná",
+   "ufSigla": "PR",
+   "municipio": "Curitiba",
+   "codMunicipio": "4106902",
+   "natureza": [
+    "Pública Federal"
+   ]
+  },
+  "demandante": {
+   "nome": "Movimento dos Trabalhadores Rurais sem Terra (MST)",
+   "nomes": [
+    "Movimento dos Trabalhadores Rurais sem Terra (MST)"
+   ],
+   "natureza": [
+    "Movimento Social"
+   ],
+   "abrangencia": [
+    "Nacional"
+   ]
+  },
+  "parceiras": {
+   "nomes": [
+    "Instituto Latino Americano de Educacao, Capacitacao e Pesquisa da Agricultura Camponesa Contestado (ICA)",
+    "Escola Latino Americana de Agroecologia (ELAA)"
+   ],
+   "natureza": [],
+   "macrorregiao": null,
+   "uf": null,
+   "abrangencia": [],
+   "atuacao": []
+  }
+ },
+ {
+  "id": 507,
   "fase": "PNERA III",
   "codigoSei": "54200.002190/2012-14",
   "nomeProcessual": "Graduacao em Pedagogia Turma Especial para Educadores do Campo",
@@ -44397,7 +44584,7 @@
   }
  },
  {
-  "id": 505,
+  "id": 508,
   "fase": "PNERA III",
   "codigoSei": "54200.002852/2013-37",
   "nomeProcessual": "Especializacao em Educacao do Campo",
@@ -44480,7 +44667,7 @@
   }
  },
  {
-  "id": 506,
+  "id": 509,
   "fase": "PNERA III",
   "codigoSei": "54200.002863/2008-50",
   "nomeProcessual": "Curso de Pedagogia para Educadores do Campo",
@@ -44566,12 +44753,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 507,
+  "id": 510,
   "fase": "PNERA III",
   "codigoSei": "54200.003300/2012-65",
   "nomeProcessual": "Graduacao em Pedagogia Turma Especial para Educadores do Campo",
@@ -44657,12 +44844,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 508,
+  "id": 511,
   "fase": "PNERA III",
   "codigoSei": "54200.003332/2012-61",
   "nomeProcessual": "Escolarizacao de Jovens e Adultos Anos Finais FASE II em Areas de Reforma Agraria do Estado do Paraná",
@@ -44744,12 +44931,12 @@
    ],
    "atuacao": [
     "Apoio Logistico",
-    "Gestao do Curso"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 509,
+  "id": 512,
   "fase": "PNERA III",
   "codigoSei": "54200.003516/2013-10",
   "nomeProcessual": "Escolarizacao de Anos Iniciais",
@@ -44828,12 +45015,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Certificacao"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 510,
+  "id": 513,
   "fase": "PNERA III",
   "codigoSei": "54210.000210/2016-27",
   "nomeProcessual": "Mestrado Profissional em Agrossistemas",
@@ -44927,14 +45114,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Estruturar",
-    "Acompanhar",
-    "Produzir"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 511,
+  "id": 514,
   "fase": "PNERA III",
   "codigoSei": "54210.000640/2013-04",
   "nomeProcessual": "Mestrado Profissional em Agroescossistemas",
@@ -45027,15 +45212,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Elaborador",
-    "Mobilizar",
-    "Relatar"
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 512,
+  "id": 515,
   "fase": "PNERA III",
   "codigoSei": "54210.000641/2013-41",
   "nomeProcessual": "Curso de Especializacao em Arte no Campo",
@@ -45127,14 +45310,12 @@
     "Municipal"
    ],
    "atuacao": [
-    "Educar",
-    "Fiscalizar",
-    "Repassar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 513,
+  "id": 516,
   "fase": "PNERA III",
   "codigoSei": "54210.000925/2009-51",
   "nomeProcessual": "Educacao de Jovens e Adultos do Campo - Ensino Medio",
@@ -45226,13 +45407,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Executar",
-    "Acompanhar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 514,
+  "id": 517,
   "fase": "PNERA III",
   "codigoSei": "54210.001443/2008-37",
   "nomeProcessual": "Tecnico em Agropecuaria Agroecologica",
@@ -45320,14 +45500,14 @@
     "Estadual"
    ],
    "atuacao": [
-    "Estruturar",
-    "Sustentar"
+    "Apoio Financeiro",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 515,
-  "fase": "PNERA II",
+  "id": 518,
+  "fase": "PNERA III",
   "codigoSei": "54210.001696/2009-67",
   "nomeProcessual": "Especializacao em Ensino de Ciencias Humanas e Sociais em Escolas do Campo",
   "curso": null,
@@ -45396,7 +45576,7 @@
   }
  },
  {
-  "id": 516,
+  "id": 519,
   "fase": "PNERA III",
   "codigoSei": "54220.000695/2015-59",
   "nomeProcessual": "Curso de Ensino Medio com Formacao Tecnica em Cooperativismo – Tac – Turma Xvi",
@@ -45479,16 +45659,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Processo Pedagogico",
-    "Alinhamento Pedagogico",
-    "Integracao no Tempo Comunidade",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 517,
+  "id": 520,
   "fase": "PNERA III",
   "codigoSei": "54220.000834/2017-14",
   "nomeProcessual": "Curso de Graduacao em Medicina Veterinaria em Regime Dealternancia (Turma 4)",
@@ -45574,7 +45750,7 @@
   }
  },
  {
-  "id": 518,
+  "id": 521,
   "fase": "PNERA III",
   "codigoSei": "54220.000950/2016-44",
   "nomeProcessual": "Curso de Graduacao em Medicina Veterinaria Turma III",
@@ -45657,7 +45833,7 @@
   }
  },
  {
-  "id": 519,
+  "id": 522,
   "fase": "PNERA III",
   "codigoSei": "54220.001155/2007-82",
   "nomeProcessual": "Medicina Veterinaria Turma I",
@@ -45739,7 +45915,7 @@
   }
  },
  {
-  "id": 520,
+  "id": 523,
   "fase": "PNERA III",
   "codigoSei": "54220.001539/2011-81",
   "nomeProcessual": "Curso Proeja Tecnico em Contabilidade",
@@ -45823,14 +45999,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Integrar",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 521,
+  "id": 524,
   "fase": "PNERA III",
   "codigoSei": "54220.001602/2011-80",
   "nomeProcessual": "Tecnico Integrado em Administracao de Cooperativas Xiii",
@@ -45915,17 +46090,13 @@
     "Nacional"
    ],
    "atuacao": [
-    "Processo Pedagogico",
-    "Alinhamento Pedagogico",
-    "Integracao no Tempo Comunidade",
-    "Formacao Profissional",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 522,
+  "id": 525,
   "fase": "PNERA III",
   "codigoSei": "54220.001662/2011-0174",
   "nomeProcessual": "Curso Tecnico Agropecuaria com Enfase em Agroecologia - Turma IV",
@@ -46011,7 +46182,7 @@
   }
  },
  {
-  "id": 523,
+  "id": 526,
   "fase": "PNERA III",
   "codigoSei": "54220.001684/2013-24",
   "nomeProcessual": "Curso Tecnico em Cooperativismo - Tac - Turma Xiv",
@@ -46093,15 +46264,12 @@
    "uf": "Rio Grande do Sul",
    "abrangencia": [],
    "atuacao": [
-    "Processo Pedagogico",
-    "Integracao no Tempo Comunidade",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 524,
+  "id": 527,
   "fase": "PNERA III",
   "codigoSei": "54220.001782/2014-42",
   "nomeProcessual": "Curso de Nivel Medio Integrado com Tecnico em Agropecuaria com Habilitacao em Agroecologia - T6",
@@ -46193,14 +46361,14 @@
     "Nacional"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 525,
+  "id": 528,
   "fase": "PNERA III",
   "codigoSei": "54220.001835/2014-25",
   "nomeProcessual": "Curso de Ensino Medio com Formacao Tecnica em Cooperativismo – Tac – Turma Xv",
@@ -46289,15 +46457,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Identificar Demandas Educacionais",
-    "Acompanhamento e Avaliacao do Processo Pedagogico",
-    "Alinhamento Pedagogico",
-    "Integracao no Tempo Comunidade"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 526,
+  "id": 529,
   "fase": "PNERA III",
   "codigoSei": "54220.001836/2014-70",
   "nomeProcessual": "Curso de Nivel Superior em Agronomia",
@@ -46346,7 +46511,7 @@
    }
   ],
   "ies": {
-   "nome": "Universidade Federal da Fronteira Sul (UFFS); Instituto Educar",
+   "nome": "Instituto Educar; Universidade Federal da Fronteira Sul (UFFS)",
    "macrorregiao": "Sul",
    "uf": "Santa Catarina",
    "ufSigla": "SC",
@@ -46380,14 +46545,13 @@
     "Nacional"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Certificacao",
-    "Apoio Tecnico"
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 527,
+  "id": 530,
   "fase": "PNERA III",
   "codigoSei": "54220.001837/2014-14",
   "nomeProcessual": "Curso Superior de Tecnologia em Agropecuaria",
@@ -46470,13 +46634,11 @@
    "abrangencia": [
     "Regional"
    ],
-   "atuacao": [
-    "Reforma Agraria"
-   ]
+   "atuacao": []
   }
  },
  {
-  "id": 528,
+  "id": 531,
   "fase": "PNERA III",
   "codigoSei": "54220.002497/2008-09",
   "nomeProcessual": "Tecnico em Agente de Saude Comunitaria - Turma IV",
@@ -46557,17 +46719,12 @@
    "uf": "Rio Grande do Sul",
    "abrangencia": [],
    "atuacao": [
-    "Processo Pedagogico",
-    "Alinhamento Pedagogico",
-    "Integracao no Tempo Comunidade",
-    "Formação Profissional",
-    "Infraestrutura",
-    "Certificação"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 529,
+  "id": 532,
   "fase": "PNERA III",
   "codigoSei": "54220.002512/2012-97 / 54000.122517/2023-82 / 54220.001541/2017-46 / 54000.012405/2017-76",
   "nomeProcessual": "Curso de Medicina Veterinaria - Turma II",
@@ -46650,7 +46807,7 @@
   }
  },
  {
-  "id": 530,
+  "id": 533,
   "fase": "PNERA III",
   "codigoSei": "54220.002513/2012-31",
   "nomeProcessual": "Curso de Tecnico em Agropecuaria Integrado ao Ensino Medio",
@@ -46740,12 +46897,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 531,
+  "id": 534,
   "fase": "PNERA III",
   "codigoSei": "54220.002514/2008-08",
   "nomeProcessual": "Curso de Educacao de Jovens e Adultos em Nivel Medio com Qualificacao em Agentes de Desenvolvimento Cultural e Radios Comunitarias Turma I",
@@ -46815,7 +46972,7 @@
   }
  },
  {
-  "id": 532,
+  "id": 535,
   "fase": "PNERA III",
   "codigoSei": "54220.002514/2012-86",
   "nomeProcessual": "Curso de Graduacao em Historia Licenciatura",
@@ -46902,12 +47059,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Infraestrutura"
+    "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 533,
+  "id": 536,
   "fase": "PNERA III",
   "codigoSei": "54220.002516/2012-75",
   "nomeProcessual": "Curso Ensino Medio na Modalidade EJA com Capacitacao Tecnica em Administracao de Agroindustria",
@@ -46987,7 +47144,7 @@
   }
  },
  {
-  "id": 534,
+  "id": 537,
   "fase": "PNERA III",
   "codigoSei": "54220.002776/2013-21",
   "nomeProcessual": "Curso Superior - Tecnologo em Agropecuaria",
@@ -47078,7 +47235,7 @@
   }
  },
  {
-  "id": 535,
+  "id": 538,
   "fase": "PNERA III",
   "codigoSei": "54220.002973/2013-41",
   "nomeProcessual": "Curso de Graduacao em Agronomia",
@@ -47173,14 +47330,13 @@
     "Nacional"
    ],
    "atuacao": [
-    "Gestar Financas",
-    "Administrar",
-    "Acompanhar Infraestrutura"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 536,
+  "id": 539,
   "fase": "PNERA III",
   "codigoSei": "54220.003020/2010-57",
   "nomeProcessual": "Curso Tecnico em Cooperativismo – Tac – Turma Xii",
@@ -47251,17 +47407,13 @@
    "uf": "Rio Grande do Sul",
    "abrangencia": [],
    "atuacao": [
-    "Processo Pedagogico",
-    "Alinhamento Pedagogico",
-    "Integracao no Tempo Comunidade",
-    "Formacao Profissional",
-    "Infraestrutura",
-    "Certificacao"
+    "Apoio Logistico",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 537,
+  "id": 540,
   "fase": "PNERA III",
   "codigoSei": "54220.003030/2008-78",
   "nomeProcessual": "Curso de Nivel Medio Tecnico em Agropecuaria com Habilitacao em Agroecologia - Turma I",
@@ -47337,7 +47489,7 @@
   }
  },
  {
-  "id": 538,
+  "id": 541,
   "fase": "PNERA III",
   "codigoSei": "54220.003031/2008-12",
   "nomeProcessual": "Curso Medio Tecnico Agropecuaria com Habilitacao em Agroecologia Turma II",
@@ -47421,12 +47573,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Auxiliar Gestao"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 539,
+  "id": 542,
   "fase": "PNERA III",
   "codigoSei": "54230.000006/2017-59",
   "nomeProcessual": "Curso Tecnico em Agropecuaria Integrado ao Ensino Medio",
@@ -47523,13 +47675,89 @@
     "Municipal"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Infraestrutura"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 540,
+  "id": 543,
+  "fase": "PNERA III",
+  "codigoSei": "54230.000446/2013-82",
+  "nomeProcessual": "Educacao de Base para a Construcao da Cidadania Plena e Participativa Territorios da Reforma Agraria Livres do Analfabetismo",
+  "curso": "Educacao de Jovens e Adultos",
+  "areaTematica": "EJA",
+  "areaConhecimento": "Multidisciplinar",
+  "nivel": "Fundamental",
+  "modalidade": "EJA Anos Iniciais",
+  "macrorregiao": "Nordeste",
+  "uf": "Maranhão",
+  "ufSigla": "MA",
+  "municipio": "Lagoa Grande do Maranhão",
+  "codMunicipio": "2105963",
+  "superintendencia": "SR 12 - Maranhão",
+  "instrumento": "Convênio",
+  "numeroInstrumento": "793326/2013",
+  "vigenciaInicio": "31/12/2013",
+  "vigenciaFim": "12/12/2016",
+  "nup": null,
+  "previstoInicio": "01/12/2013",
+  "previstoFim": "12/2016",
+  "inicio": null,
+  "fim": null,
+  "anoInicio": 2013,
+  "mesInicio": null,
+  "anoFim": 2016,
+  "mesFim": null,
+  "duracaoAnos": 3,
+  "turmas": 60,
+  "metaInicial": 1200,
+  "metaFinal": 1200,
+  "matriculados": 1932,
+  "concluintes": 1594,
+  "bolsistas": null,
+  "taxaConclusao": 82.5,
+  "coordenadores": [
+   {
+    "papel": "Coordenação geral",
+    "nome": "Maristela Ferrari Neves",
+    "titulacao": null
+   }
+  ],
+  "ies": {
+   "nome": "Movimento de Educacao de Base (MEB)",
+   "macrorregiao": "Centro-Oeste",
+   "uf": "Distrito Federal",
+   "ufSigla": "DF",
+   "municipio": "Brasilia",
+   "codMunicipio": "5300108",
+   "natureza": [
+    "Privada sem fins lucrativos"
+   ]
+  },
+  "demandante": {
+   "nome": "Movimento dos Trabalhadores Rurais sem Terra (MST)",
+   "nomes": [
+    "Movimento dos Trabalhadores Rurais sem Terra (MST)"
+   ],
+   "natureza": [
+    "Movimento Social"
+   ],
+   "abrangencia": [
+    "Nacional"
+   ]
+  },
+  "parceiras": {
+   "nomes": [],
+   "natureza": [],
+   "macrorregiao": null,
+   "uf": null,
+   "abrangencia": [],
+   "atuacao": []
+  }
+ },
+ {
+  "id": 544,
   "fase": "PNERA III",
   "codigoSei": "54230.001199/2016-84",
   "nomeProcessual": "Tecnico em Agropecuaria",
@@ -47621,13 +47849,12 @@
     "Municipal"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Infraestrutura"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 541,
+  "id": 545,
   "fase": "PNERA III",
   "codigoSei": "54230.001941/2008-41",
   "nomeProcessual": "Licenciatura em Pedagogia da Terra",
@@ -47728,13 +47955,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular",
-    "Apoiar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 542,
+  "id": 546,
   "fase": "PNERA III",
   "codigoSei": "54230.002756/2011-70",
   "nomeProcessual": "Curso de Educacao Profissional Tecnica de Nivel Medio em Agroecologia",
@@ -47819,13 +48045,12 @@
     "Municipal"
    ],
    "atuacao": [
-    "Articular",
-    "Apoiar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 543,
+  "id": 547,
   "fase": "PNERA III",
   "codigoSei": "54230.003282/2014-26",
   "nomeProcessual": "Bacharelado em Agronomia",
@@ -47924,13 +48149,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Orientar"
+    "Participacao na Gestao do Curso",
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 544,
+  "id": 548,
   "fase": "PNERA III",
   "codigoSei": "54230.004578/2016-26",
   "nomeProcessual": "Bacharelado em Zootecnia",
@@ -48023,14 +48248,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Articular",
-    "Apoiar",
-    "Acompanhar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 545,
+  "id": 549,
   "fase": "PNERA III",
   "codigoSei": "54240.001297/2014-31",
   "nomeProcessual": "Especializacao em Educacao Ambiental e Campesina",
@@ -48136,14 +48359,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Auxiliar Execucao",
-    "Apoio",
-    "Infraestrutura"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 546,
+  "id": 550,
   "fase": "PNERA III",
   "codigoSei": "54260.001157/2011-81",
   "nomeProcessual": "Curso Tecnico em Agropecuaria Integrado ao Nivel Medio - Eixo Tecnologico Recursos Naturais",
@@ -48232,14 +48454,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Execução",
-    "Fiscalizacao",
-    "Acompanhamento"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 547,
+  "id": 551,
   "fase": "PNERA III",
   "codigoSei": "54260.001168/2011-61",
   "nomeProcessual": "Tecnico em Agroecologia Florestal e Agroindustria (Subsequente)",
@@ -48331,17 +48551,14 @@
     "Estadual"
    ],
    "atuacao": [
-    "Mobilizar",
-    "Articular",
-    "Colaborar",
-    "Acompanhar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 548,
-  "fase": "PNERA II",
-  "codigoSei": "54290.000806/2011-70 (PROCESSO FISICO NAO DIGITALIZADO)",
+  "id": 552,
+  "fase": "PNERA III",
+  "codigoSei": "54290.000806/2011-70 (PROCESSO FISICO)",
   "nomeProcessual": "Especializacao Lato Sensu em Estudos de Genero e Interculturalidade",
   "curso": null,
   "areaTematica": "Formação de Educadores",
@@ -48409,9 +48626,9 @@
   }
  },
  {
-  "id": 549,
-  "fase": "PNERA II",
-  "codigoSei": "54290.004229/2007-17 (PROCESSO FISICO NAO DIGITALIZADO)",
+  "id": 553,
+  "fase": "PNERA III",
+  "codigoSei": "54290.004229/2007-17 (PROCESSO FISICO)",
   "nomeProcessual": "Licenciatura em Ciencias Sociais",
   "curso": null,
   "areaTematica": "Saúde e Serviço Social",
@@ -48489,7 +48706,7 @@
   }
  },
  {
-  "id": 550,
+  "id": 554,
   "fase": "PNERA III",
   "codigoSei": "54300.001183/2015-10",
   "nomeProcessual": "Formacao de Ensino Medio e Educacao Profissional Tecnico em Agropecuaria para os Assentados da Reforma Agraria dos Municipios de Espigao D'oeste Parecis Alta Floresta do Estado de Rondônia",
@@ -48587,17 +48804,14 @@
     "Municipal"
    ],
    "atuacao": [
-    "Auxiliar",
-    "Certificar",
-    "Infraestrutura",
-    "Gestar",
-    "Execultar",
-    "Acompanhar"
+    "Apoio Logistico",
+    "Apoio Pedagogico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 551,
+  "id": 555,
   "fase": "PNERA III",
   "codigoSei": "54300.002130/2012-73",
   "nomeProcessual": "Tecnico em Agropecuaria Integrado ao Ensino Medio",
@@ -48695,14 +48909,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Logistica",
-    "Executar",
-    "Gestar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 552,
+  "id": 556,
   "fase": "PNERA III",
   "codigoSei": "54300.002131/2012-18",
   "nomeProcessual": "Ensino Medio Integrado ao Curso Tecnico em Agropecuaria",
@@ -48798,13 +49011,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Auxiliar",
-    "Acompanhar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 553,
+  "id": 557,
   "fase": "PNERA III",
   "codigoSei": "54320.000068/2013-28",
   "nomeProcessual": "Licenciatura em Pedagogia com Area de Aprofundamento em Educacao de Jovens e Adultos",
@@ -48898,12 +49110,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Implementacao Pedagogica"
+    "Gestao Pedagogica"
    ]
   }
  },
  {
-  "id": 554,
+  "id": 558,
   "fase": "PNERA III",
   "codigoSei": "54320.000869/2012-11",
   "nomeProcessual": "Licenciatura Plena em Historia Turma III",
@@ -48987,12 +49199,13 @@
     "Estadual"
    ],
    "atuacao": [
-    "Comunicacao e Divulgacao"
+    "Comunicacao",
+    "Divulgacao"
    ]
   }
  },
  {
-  "id": 555,
+  "id": 559,
   "fase": "PNERA III",
   "codigoSei": "54330.000455/2015-15",
   "nomeProcessual": "Graduacao Tecnologica em Gestao de Cooperativas",
@@ -49080,7 +49293,7 @@
   }
  },
  {
-  "id": 556,
+  "id": 560,
   "fase": "PNERA III",
   "codigoSei": "54330.001035/2012-03",
   "nomeProcessual": "Graaduacao Tecnologica em Gestao de Cooperativas",
@@ -49160,7 +49373,7 @@
   }
  },
  {
-  "id": 557,
+  "id": 561,
   "fase": "PNERA III",
   "codigoSei": "54330.001194/2013-81",
   "nomeProcessual": "Alfabetizacao e Escolarizacao de Anos Iniciais",
@@ -49241,7 +49454,7 @@
   }
  },
  {
-  "id": 558,
+  "id": 562,
   "fase": "PNERA III",
   "codigoSei": "54330.001313/2013-03",
   "nomeProcessual": "Licenciatura em Ciencias Sociais",
@@ -49326,7 +49539,7 @@
   }
  },
  {
-  "id": 559,
+  "id": 563,
   "fase": "PNERA III",
   "codigoSei": "54350.000759/2013-74",
   "nomeProcessual": "Tecnico em Meio Ambiente",
@@ -49409,13 +49622,12 @@
     "Municipal"
    ],
    "atuacao": [
-    "Infraestrutura",
-    "Apoiar Execucao"
+    "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 560,
+  "id": 564,
   "fase": "PNERA III",
   "codigoSei": "54360.000640/2013-82",
   "nomeProcessual": "Alfabetizacao e Escolarizacao Nivel Fundamental Anos Iniciais",
@@ -49508,13 +49720,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhamento",
-    "Certificacao"
+    "Apoio Pedagogico"
    ]
   }
  },
  {
-  "id": 561,
+  "id": 565,
   "fase": "PNERA III",
   "codigoSei": "54370.000571/2013-98",
   "nomeProcessual": "Curso Superior de Tecnologia em Agroecologia",
@@ -49603,13 +49814,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Auxiliar Execucao"
+    "Gestao Pedagogica"
    ]
   }
  },
  {
-  "id": 562,
+  "id": 566,
   "fase": "PNERA III",
   "codigoSei": "54380.000125/2014-45",
   "nomeProcessual": "Licenciatura Plena em Pedagogia da Terra",
@@ -49688,15 +49898,14 @@
     "Estadual"
    ],
    "atuacao": [
-    "Comunicar",
-    "Divulgar",
-    "Coordenar",
-    "Gestao do Curso"
+    "Comunicacao",
+    "Divulgacao",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 563,
+  "id": 567,
   "fase": "PNERA III",
   "codigoSei": "54380.000126/2014-90",
   "nomeProcessual": "Bacharelado em Agronomia",
@@ -49788,13 +49997,83 @@
    "atuacao": [
     "Comunicacao",
     "Divulgacao",
-    "Gestao do Curso",
+    "Participacao na Gestao do Curso",
     "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 564,
+  "id": 568,
+  "fase": "PNERA III",
+  "codigoSei": "54380.001687/2007-87",
+  "nomeProcessual": "Licenciatura em Artes para Assentados e Assentadas da Reforma Agraria no Piauí",
+  "curso": "Licenciatura em Arte Educacao",
+  "areaTematica": "Linguagem, Comunicação e Arte",
+  "areaConhecimento": "Ciências Humanas",
+  "nivel": "Superior",
+  "modalidade": "Graduação",
+  "macrorregiao": "Nordeste",
+  "uf": "Piauí",
+  "ufSigla": "PI",
+  "municipio": "Teresina",
+  "codMunicipio": "2211001",
+  "superintendencia": "SR 24 - Piauí",
+  "instrumento": "Portaria Conjunta / Termo de Cooperacao",
+  "numeroInstrumento": null,
+  "vigenciaInicio": "19/10/2007",
+  "vigenciaFim": "31/07/2013",
+  "nup": null,
+  "previstoInicio": "01/02/2008",
+  "previstoFim": "01/04/2012",
+  "inicio": null,
+  "fim": "01/12/2012",
+  "anoInicio": 2008,
+  "mesInicio": null,
+  "anoFim": 2012,
+  "mesFim": 12,
+  "duracaoAnos": 4,
+  "turmas": 1,
+  "metaInicial": 60,
+  "metaFinal": 60,
+  "matriculados": 60,
+  "concluintes": 37,
+  "bolsistas": null,
+  "taxaConclusao": 61.7,
+  "coordenadores": [
+   {
+    "papel": "Coordenação geral",
+    "nome": "Joao Berchmans de Carvalho Sobrinho",
+    "titulacao": null
+   }
+  ],
+  "ies": {
+   "nome": "Universidade Federal do Piauí (UFPI)",
+   "macrorregiao": "Nordeste",
+   "uf": "Piauí",
+   "ufSigla": "PI",
+   "municipio": "Teresina",
+   "codMunicipio": "2211001",
+   "natureza": [
+    "Pública Federal"
+   ]
+  },
+  "demandante": {
+   "nome": null,
+   "nomes": [],
+   "natureza": [],
+   "abrangencia": []
+  },
+  "parceiras": {
+   "nomes": [],
+   "natureza": [],
+   "macrorregiao": null,
+   "uf": null,
+   "abrangencia": [],
+   "atuacao": []
+  }
+ },
+ {
+  "id": 569,
   "fase": "PNERA III",
   "codigoSei": "54380.002101/2013-40",
   "nomeProcessual": "Educacao de Base para a Construcao da Cidadania Plena e Participativa Territorios da Reforma Agraria Livres do Analfabetismo",
@@ -49875,7 +50154,7 @@
   }
  },
  {
-  "id": 565,
+  "id": 570,
   "fase": "PNERA III",
   "codigoSei": "54380.002153/2013-16",
   "nomeProcessual": "Licenciatura em Geografia",
@@ -49964,13 +50243,13 @@
     "Municipal"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica",
+    "Gestao Pedagogica",
     "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 566,
+  "id": 571,
   "fase": "PNERA III",
   "codigoSei": "54390.000132/2011-85",
   "nomeProcessual": "EJA Ensino Medio/TECNICO (Integrado)",
@@ -50056,7 +50335,7 @@
   }
  },
  {
-  "id": 567,
+  "id": 572,
   "fase": "PNERA III",
   "codigoSei": "54390.000159/2011-78",
   "nomeProcessual": "Pedaladas do Saber II Projeto de Alfabetizacao Intinerante",
@@ -50126,7 +50405,7 @@
   }
  },
  {
-  "id": 568,
+  "id": 573,
   "fase": "PNERA III",
   "codigoSei": "54390.000161/2011-47",
   "nomeProcessual": "Tecnologo em Agroecologia",
@@ -50206,7 +50485,7 @@
   }
  },
  {
-  "id": 569,
+  "id": 574,
   "fase": "PNERA III",
   "codigoSei": "54400.000238/2016-27",
   "nomeProcessual": "Curso de Bacharelado em Servico Social/TURMA Especial para Beneficiarios da Reforma Agraria",
@@ -50297,15 +50576,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Apoiar",
-    "Gerenciar",
-    "Acompanhar",
-    "Coordenar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 570,
+  "id": 575,
   "fase": "PNERA III",
   "codigoSei": "54400.001194/2013-18",
   "nomeProcessual": "Ensino Medio - Normal (Antigo Magisterio)",
@@ -50391,7 +50667,7 @@
   }
  },
  {
-  "id": 571,
+  "id": 576,
   "fase": "PNERA III",
   "codigoSei": "54400.001195/2013-54",
   "nomeProcessual": "Tecnico em Agroecologia Integrado ao Ensino Medio",
@@ -50481,14 +50757,12 @@
     "Estadual"
    ],
    "atuacao": [
-    "Apoiar",
-    "Ajudar",
-    "Integrar"
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 572,
+  "id": 577,
   "fase": "PNERA III",
   "codigoSei": "54400.002064/2013-94",
   "nomeProcessual": "Plantando Letras Colhendo Conhecimento e Dignidade no Campo",
@@ -50597,7 +50871,7 @@
   }
  },
  {
-  "id": 573,
+  "id": 578,
   "fase": "PNERA III",
   "codigoSei": "54501.000522/2017-46",
   "nomeProcessual": "Especializacao em Saude da Familia e Comunidade",
@@ -50692,7 +50966,7 @@
   }
  },
  {
-  "id": 574,
+  "id": 579,
   "fase": "PNERA III",
   "codigoSei": "54600.000122/2016-31",
   "nomeProcessual": "Tecnico em Agroindustria",
@@ -50778,7 +51052,7 @@
   }
  },
  {
-  "id": 575,
+  "id": 580,
   "fase": "PNERA III",
   "codigoSei": "54600.000224/2015-76",
   "nomeProcessual": "Bacharelado em Direito",
@@ -50871,13 +51145,13 @@
     "Nacional"
    ],
    "atuacao": [
-    "Coordenacao Pedagogica"
+    "Gestao Pedagogica"
    ]
   }
  },
  {
-  "id": 576,
-  "fase": "PNERA II",
+  "id": 581,
+  "fase": "PNERA III",
   "codigoSei": "54600.000944/2009-93 / 54600.000662/2010-20",
   "nomeProcessual": "Tecnico em Agropecuaria Integrado com o Ensino Medio com Enfase em Agroecologia",
   "curso": null,
@@ -50890,7 +51164,7 @@
   "ufSigla": "PA",
   "municipio": "Maraba",
   "codMunicipio": "1504208",
-  "superintendencia": "SR 27 - Maraba",
+  "superintendencia": "SR 27 - Pará / Maraba",
   "instrumento": "Termo de Cooperação",
   "numeroInstrumento": null,
   "vigenciaInicio": null,
@@ -50946,7 +51220,7 @@
   }
  },
  {
-  "id": 577,
+  "id": 582,
   "fase": "PNERA III",
   "codigoSei": "54600.001331/2016-01",
   "nomeProcessual": "Licenciatura em Lingua Portuguesa e Respectivas Literaturas",
@@ -51029,12 +51303,12 @@
     "Nacional"
    ],
    "atuacao": [
-    "Fomento"
+    "Apoio Financeiro"
    ]
   }
  },
  {
-  "id": 578,
+  "id": 583,
   "fase": "PNERA III",
   "codigoSei": "54700.001145/2013-92",
   "nomeProcessual": "Especializacao em Educacao do Campo (para o Trabalho Interdisciplinar nas Areas de Ciencia da Natureza e Matematica)",
@@ -51119,14 +51393,14 @@
     "Estadual"
    ],
    "atuacao": [
-    "Acompanhar",
-    "Apoiar"
+    "Apoio Logistico",
+    "Participacao na Gestao do Curso"
    ]
   }
  },
  {
-  "id": 579,
-  "fase": "PNERA II",
+  "id": 584,
+  "fase": "PNERA III",
   "codigoSei": "54700.002036/2010-40",
   "nomeProcessual": "Curso Tecnico Profissionalizante em Agropecuaria com Enfase em Agroecologia",
   "curso": null,
@@ -51201,17 +51475,17 @@
     "Municipal"
    ],
    "atuacao": [
-    "Apoio"
+    "Apoio Logistico"
    ]
   }
  },
  {
-  "id": 580,
+  "id": 585,
   "fase": "PNERA III",
   "codigoSei": "54700.002590/2011-16",
   "nomeProcessual": "Educacao em Linguagem nas Escolas do Campo",
   "curso": "Especializacao em Linguagens",
-  "areaTematica": "Formação de Educadores",
+  "areaTematica": "Linguagem, Comunicação e Arte",
   "areaConhecimento": "Ciências Humanas",
   "nivel": "Superior",
   "modalidade": "Especialização",
@@ -51270,82 +51544,6 @@
    "nomes": [],
    "natureza": [],
    "abrangencia": []
-  },
-  "parceiras": {
-   "nomes": [],
-   "natureza": [],
-   "macrorregiao": null,
-   "uf": null,
-   "abrangencia": [],
-   "atuacao": []
-  }
- },
- {
-  "id": 581,
-  "fase": "PNERA III",
-  "codigoSei": "54230.000446/2013-82",
-  "nomeProcessual": "Educacao de Base para a Construcao da Cidadania Plena e Participativa Territorios da Reforma Agraria Livres do Analfabetismo",
-  "curso": "Educacao de Jovens e Adultos",
-  "areaTematica": "EJA",
-  "areaConhecimento": "Multidisciplinar",
-  "nivel": "Fundamental",
-  "modalidade": "EJA Anos Iniciais",
-  "macrorregiao": "Nordeste",
-  "uf": "Maranhão",
-  "ufSigla": "MA",
-  "municipio": "Lagoa Grande do Maranhão",
-  "codMunicipio": "2105963",
-  "superintendencia": "SR 12 - Maranhão",
-  "instrumento": "Convênio",
-  "numeroInstrumento": "793326/2013",
-  "vigenciaInicio": "31/12/2013",
-  "vigenciaFim": "12/12/2016",
-  "nup": null,
-  "previstoInicio": "01/12/2013",
-  "previstoFim": "12/2016",
-  "inicio": null,
-  "fim": null,
-  "anoInicio": 2013,
-  "mesInicio": null,
-  "anoFim": 2016,
-  "mesFim": null,
-  "duracaoAnos": 3,
-  "turmas": 60,
-  "metaInicial": 1200,
-  "metaFinal": 1200,
-  "matriculados": 1932,
-  "concluintes": 1594,
-  "bolsistas": null,
-  "taxaConclusao": 82.5,
-  "coordenadores": [
-   {
-    "papel": "Coordenação geral",
-    "nome": "Maristela Ferrari Neves",
-    "titulacao": null
-   }
-  ],
-  "ies": {
-   "nome": "Movimento de Educacao de Base (MEB)",
-   "macrorregiao": "Centro-Oeste",
-   "uf": "Distrito Federal",
-   "ufSigla": "DF",
-   "municipio": "Brasilia",
-   "codMunicipio": "5300108",
-   "natureza": [
-    "Privada sem fins lucrativos"
-   ]
-  },
-  "demandante": {
-   "nome": "Movimento dos Trabalhadores Rurais sem Terra (MST)",
-   "nomes": [
-    "Movimento dos Trabalhadores Rurais sem Terra (MST)"
-   ],
-   "natureza": [
-    "Movimento Social"
-   ],
-   "abrangencia": [
-    "Nacional"
-   ]
   },
   "parceiras": {
    "nomes": [],

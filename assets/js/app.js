@@ -79,7 +79,7 @@
       });
     });
 
-    // Busca dentro do grupo de instituições (154 valores).
+    // Busca dentro do grupo de instituições (147 valores).
     el.querySelectorAll('.js-filtrar-opcoes').forEach((input) => {
       input.addEventListener('input', () => {
         const termo = P.fold(input.value);

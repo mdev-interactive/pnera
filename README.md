@@ -3,7 +3,7 @@
 Painel analítico dos dados da **Pesquisa Nacional de Educação na Reforma Agrária**
 (PNERA II e III — INCRA / Universidade de Brasília) sobre os cursos do **Pronera**.
 
-Converte a planilha `OFICIAL PNERA_22-06-2026.xlsx` em JSON limpo e serve um
+Converte a planilha `OFICIAL PNERA_03-09-2026-.xlsx` em JSON limpo e serve um
 dashboard estático com filtros cruzados. **Não precisa de servidor, build nem
 internet** — basta abrir `index.html`.
 
@@ -22,19 +22,24 @@ Para regerar os dados depois de atualizar a planilha:
 node tools/xlsx-to-json.mjs
 ```
 
+Sem argumento, o script pega a planilha `OFICIAL PNERA*.xlsx` mais recente na
+raiz do projeto ou em `data/` — recente pela data no nome (`DD-MM-AAAA`), não
+pela ordem alfabética. Para apontar outra, passe o caminho:
+`node tools/xlsx-to-json.mjs "data/OFICIAL PNERA_03-09-2026-.xlsx"`.
+
 O script imprime um relatório de sanidade. Os valores conferidos contra a aba
 `CURSOS GERAL` são:
 
 | Medida | Valor |
 |---|---|
-| Cursos | 581 |
-| Matriculados | 186.024 |
-| Concluintes | 96.136 |
-| Turmas | 9.125 |
+| Cursos | 585 |
+| Matriculados | 201.785 |
+| Concluintes | 96.194 |
+| Turmas | 9.129 |
 | Bolsistas | 5.718 |
 | UFs | 27 |
 | Municípios | 247 |
-| Instituições realizadoras | 154 |
+| Instituições realizadoras | 147 |
 | Período | 1998–2026 (início) |
 
 Se algum número divergir, a conversão quebrou — não publique.
@@ -88,7 +93,6 @@ para `assets/` (as URLs versionadas tornam isso seguro).
 ## Estrutura
 
 ```
-OFICIAL PNERA_22-06-2026.xlsx   planilha original (nunca é modificada)
 index.html                      o painel
 maps-interativo.html            o mapa de círculos proporcionais (exige internet)
 tools/
@@ -96,7 +100,8 @@ tools/
   build-uf-map.mjs              gera o SVG das 27 UFs a partir da malha do IBGE
   build-municipio-coords.mjs    gera os centroides dos 246 municípios (IBGE)
 data/
-  pnera.json                    581 cursos normalizados
+  OFICIAL PNERA_03-09-2026-.xlsx  planilha original (nunca é modificada)
+  pnera.json                    585 cursos normalizados
   pnera.meta.json               dicionários, coberturas e totais
   ibge-uf.geojson               malha das UFs em cache
   ibge-municipios/              malhas municipais em cache (6 MB, fora do git)
@@ -179,7 +184,7 @@ A escala é recalculada a cada filtro, e a legenda de círculos concêntricos di
 isso. Dentro de cada série os círculos entram do maior para o menor, para que os
 pequenos fiquem por cima e continuem clicáveis.
 
-**Cobertura declarada, como no resto do painel.** 552 dos 581 cursos têm
+**Cobertura declarada, como no resto do painel.** 556 dos 585 cursos têm
 município na fonte; os 29 restantes ficam fora do mapa e o rodapé diz quantos
 são. Ausência de matriculados nunca vira zero.
 
@@ -213,14 +218,16 @@ ficarem em primeiro plano.
 
 ## Decisões que valem saber
 
-**Fonte única.** Só a aba `CURSOS GERAL` é lida. As 33 abas ocultas são recortes
-da mesma aba, deslocados uma coluna à esquerda; `LINGCOMART` e `SC` são cópias
-integrais desatualizadas. Usá-las duplicaria registros.
+**Fonte única.** Só a aba `CURSOS GERAL` é lida. As outras 36 abas — 35 ocultas
+mais a `CURSOS FINALIZADOS`, visível — são recortes da mesma aba, deslocados uma
+coluna à esquerda; `LINGCOMART` e `SC` são cópias integrais desatualizadas.
+Usá-las duplicaria registros: `CURSOS FINALIZADOS` traz 586 linhas que já estão
+todas na `CURSOS GERAL`, uma delas repetida.
 
 **Ausência não é zero.** A planilha marca dado faltante como `NAO LOCALIZADO`, e
-isso é frequente: 89 cursos sem nº de matriculados, 150 sem concluintes, 324 sem
+isso é frequente: 88 cursos sem nº de matriculados, 152 sem concluintes, 324 sem
 o nome padronizado do curso. Tudo isso vira `null`, fica **fora dos cálculos**, e
-cada cartão declara no rodapé sua base real (“base: 492 de 581 cursos com nº de
+cada cartão declara no rodapé sua base real (“base: 497 de 585 cursos com nº de
 matriculados”). Médias e taxas nunca são diluídas por zeros inventados.
 
 **Normalização.** Números com sufixo `.0` do Excel, variantes de macrorregião
@@ -276,7 +283,7 @@ inteira da categoria como alvo de clique (o vão entre barras não é zona morta
   A exceção é o mapa interativo: lá o nome do município vem acentuado da API de
   localidades do IBGE, junto com a coordenada.
 - `meta inicial` (46% de cobertura) e `meta final` (35%) são esparsos; a
-  dispersão meta × matrícula cobre 178 dos 581 cursos e diz isso no rodapé.
+  dispersão meta × matrícula cobre 182 dos 585 cursos e diz isso no rodapé.
 - Alguns anos de fim são previsões (cursos de graduação iniciados em 2025 com
   término em 2030), como registrado na fonte.
 - O painel é deliberadamente **light**, sem tema escuro.

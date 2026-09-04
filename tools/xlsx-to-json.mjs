@@ -660,12 +660,30 @@ function buildMeta(cursos, sourceFile) {
 
 /* ------------------------------------------------------------------ main --- */
 
+/**
+ * Acha a planilha na raiz ou em data/. A ordenacao alfabetica nao serve para
+ * escolher a mais recente ("03-09" viria antes de "22-06"), entao a data no
+ * nome (DD-MM-AAAA) e lida e comparada de verdade.
+ */
 function findSourceFile() {
   const explicit = process.argv[2];
   if (explicit) return path.resolve(ROOT, explicit);
-  const candidates = fs.readdirSync(ROOT).filter((f) => /^OFICIAL PNERA.*\.xlsx$/i.test(f));
-  if (!candidates.length) throw new Error('Planilha "OFICIAL PNERA*.xlsx" nao encontrada na raiz do projeto');
-  return path.join(ROOT, candidates.sort().pop());
+
+  const dirs = [ROOT, path.join(ROOT, 'data')];
+  const candidates = [];
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (!/^OFICIAL PNERA.*\.xlsx$/i.test(f) || f.startsWith('~$')) continue;
+      const m = /(\d{2})-(\d{2})-(\d{4})/.exec(f);
+      candidates.push({ file: path.join(dir, f), stamp: m ? `${m[3]}${m[2]}${m[1]}` : '' });
+    }
+  }
+  if (!candidates.length) {
+    throw new Error('Planilha "OFICIAL PNERA*.xlsx" nao encontrada na raiz do projeto nem em data/');
+  }
+  candidates.sort((a, b) => a.stamp.localeCompare(b.stamp) || a.file.localeCompare(b.file));
+  return candidates.pop().file;
 }
 
 function main() {
@@ -725,12 +743,13 @@ const fmt = (n) => n.toLocaleString('pt-BR');
 
 function report(cursos, meta) {
   const { totais, cobertura } = meta;
-  // Valores de referencia conferidos contra a aba "CURSOS GERAL" (linhas 4-584).
+  // Valores de referencia conferidos contra a aba "CURSOS GERAL" (linhas 4-588)
+  // da planilha OFICIAL PNERA_03-09-2026-.xlsx.
   console.log('\n== Sanidade =====================================');
-  console.log(`cursos ............... ${fmt(totais.cursos)}   (esperado 581)`);
-  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 186.024)`);
-  console.log(`concluintes .......... ${fmt(totais.concluintes)}   (esperado 96.136)`);
-  console.log(`turmas ............... ${fmt(totais.turmas)}   (esperado 9.125)`);
+  console.log(`cursos ............... ${fmt(totais.cursos)}   (esperado 585)`);
+  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 201.785)`);
+  console.log(`concluintes .......... ${fmt(totais.concluintes)}   (esperado 96.194)`);
+  console.log(`turmas ............... ${fmt(totais.turmas)}   (esperado 9.129)`);
   console.log(`bolsistas ............ ${fmt(totais.bolsistas)}   (esperado 5.718)`);
   console.log(`UFs .................. ${totais.ufs}   (esperado 27)`);
   console.log(`municipios ........... ${totais.municipios}`);

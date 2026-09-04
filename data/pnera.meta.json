@@ -1,8 +1,8 @@
 {
-  "fonte": "OFICIAL PNERA_22-06-2026.xlsx",
+  "fonte": "OFICIAL PNERA_03-09-2026-.xlsx",
   "aba": "CURSOS GERAL",
-  "geradoEm": "2026-08-07T16:26:30.478Z",
-  "totalCursos": 581,
+  "geradoEm": "2026-09-04T14:20:52.359Z",
+  "totalCursos": 585,
   "periodo": {
     "anoMin": 1998,
     "anoMax": 2031,
@@ -436,7 +436,6 @@
       "SR 24 - Piauí",
       "SR 25 - Roraima",
       "SR 26 - Tocantins",
-      "SR 27 - Maraba",
       "SR 27 - Pará / Maraba",
       "SR 28 - Distrito Federal e Entorno",
       "SR 29 - Pernambuco / Medio São Francisco",
@@ -445,6 +444,7 @@
     "instrumento": [
       "Convênio",
       "Fomento",
+      "Portaria Conjunta / Termo de Cooperacao",
       "Termo de Cooperação",
       "Termo de Execução Descentralizada (TED)"
     ],
@@ -502,9 +502,6 @@
       "Instituto Federal de Educacao Ciencia e Tecnologia Fluminense (IFF)",
       "Instituto Federal de Educacao, Ciencia e Tecnologia de Alagoas (IFAL)",
       "Instituto Federal de Educacao, Ciencia e Tecnologia de Pernambuco (IFPE)",
-      "Instituto Federal de Educacao, Ciencia e Tecnologia do Maranhão (IFMA)",
-      "Instituto Federal de Educacao, Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
-      "Instituto Federal de Educacao; Ciencia e Tecnologia do Rio Grande do Norte (IFRN)",
       "Instituto Preservar",
       "Instituto Superior de Educacao Antonino Freire (ISEAF)",
       "Instituto Tecnico de Capacitacao e Pesquisa da Reforma Agraria (ITERRA)",
@@ -528,7 +525,6 @@
       "Universidade do Estado do Rio de Janeiro (UERJ)",
       "Universidade do Estado do Rio Grande do Norte (UERN)",
       "Universidade do Oeste de Santa Catarina (UNOESC)",
-      "Universidade Estadual da Bahia (UNEB)",
       "Universidade Estadual da Paraíba (UEPB)",
       "Universidade Estadual de Campinas (UNICAMP)",
       "Universidade Estadual de Feira de Santana (UEFS)",
@@ -550,8 +546,6 @@
       "Universidade Estadual Vale do Acarau (UVA)",
       "Universidade Federal da Bahia (UFBA)",
       "Universidade Federal da Fronteira Sul (UFFS)",
-      "Universidade Federal da Fronteira Sul (UFFS); Instituto de Tecnico de Capacitacao e Pesquisa da Reforma Agraria (ITERRA)",
-      "Universidade Federal da Fronteira Sul (UFFS); Instituto Educar",
       "Universidade Federal da Fronteira Sul (UFFS); Instituto Tecnico de Capacitacao e Pesquisa da Reforma Agraria (ITERRA)",
       "Universidade Federal da Grande Dourados (UFGD)",
       "Universidade Federal da Integracao Latino Americana (UNILA)",
@@ -561,7 +555,6 @@
       "Universidade Federal de Goiás (UFG)",
       "Universidade Federal de Juiz de Fora (UFJF)",
       "Universidade Federal de Mato Grosso (UFMT)",
-      "Universidade Federal de Mato Grosso do Sul (UFMS)",
       "Universidade Federal de Minas Gerais (UFMG)",
       "Universidade Federal de Pelotas (UFPEL)",
       "Universidade Federal de Pelotas (UFPEL); Fundacao Delfim Mendes da Silveira (FDMS)",
@@ -667,73 +660,73 @@
   },
   "cobertura": {
     "turmas": {
-      "preenchidos": 528,
-      "total": 581
+      "preenchidos": 532,
+      "total": 585
     },
     "metaInicial": {
-      "preenchidos": 267,
-      "total": 581
+      "preenchidos": 271,
+      "total": 585
     },
     "metaFinal": {
-      "preenchidos": 205,
-      "total": 581
+      "preenchidos": 208,
+      "total": 585
     },
     "matriculados": {
-      "preenchidos": 492,
-      "total": 581
+      "preenchidos": 497,
+      "total": 585
     },
     "concluintes": {
-      "preenchidos": 431,
-      "total": 581
+      "preenchidos": 433,
+      "total": 585
     },
     "bolsistas": {
       "preenchidos": 274,
-      "total": 581
+      "total": 585
     },
     "curso": {
-      "preenchidos": 257,
-      "total": 581
+      "preenchidos": 261,
+      "total": 585
     },
     "anoInicio": {
-      "preenchidos": 570,
-      "total": 581
+      "preenchidos": 574,
+      "total": 585
     },
     "anoFim": {
-      "preenchidos": 572,
-      "total": 581
+      "preenchidos": 576,
+      "total": 585
     },
     "instrumento": {
-      "preenchidos": 259,
-      "total": 581
+      "preenchidos": 263,
+      "total": 585
     },
     "municipio": {
-      "preenchidos": 552,
-      "total": 581
+      "preenchidos": 556,
+      "total": 585
     },
     "duracaoAnos": {
-      "preenchidos": 570,
-      "total": 581
+      "preenchidos": 574,
+      "total": 585
     },
     "demandante": {
-      "preenchidos": 447,
-      "total": 581
+      "preenchidos": 450,
+      "total": 585
     },
     "parceiras": {
-      "preenchidos": 420,
-      "total": 581
+      "preenchidos": 421,
+      "total": 585
     }
   },
   "totais": {
-    "cursos": 581,
-    "turmas": 9125,
-    "metaInicial": 64399,
-    "metaFinal": 36121,
-    "matriculados": 186024,
-    "concluintes": 96136,
+    "cursos": 585,
+    "turmas": 9129,
+    "metaInicial": 64609,
+    "metaFinal": 20765,
+    "matriculados": 201785,
+    "concluintes": 96194,
     "bolsistas": 5718,
-    "taxaConclusaoGlobal": 51.7,
+    "taxaConclusaoGlobal": 47.7,
     "ufs": 27,
     "municipios": 247,
-    "instituicoes": 154
+    "instituicoes": 147
   }
 }

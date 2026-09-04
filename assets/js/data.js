@@ -1,6 +1,6 @@
 /* =============================================================================
    PNERA — dados e agregacao
-   Os 581 cursos ficam em memoria; todo recorte e recalculado a cada filtro.
+   Os 585 cursos ficam em memoria; todo recorte e recalculado a cada filtro.
    ========================================================================== */
 
 window.PNERA = (function () {
@@ -52,7 +52,7 @@ window.PNERA = (function () {
   /**
    * Agrupa linhas por uma chave e soma as medidas pedidas.
    * Devolve [{ chave, cursos, <medida>: soma, <medida>Base: quantos tinham dado }].
-   * Contar a base separado e o que permite dizer "base: 492 de 581" sem tratar
+   * Contar a base separado e o que permite dizer "base: 497 de 585" sem tratar
    * ausencia como zero.
    */
   function groupBy(rows, keyOf, measures = []) {
