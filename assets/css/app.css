@@ -542,25 +542,16 @@ body {
   gap: 0.5rem;
 }
 .map-svg { width: 100%; height: auto; display: block; overflow: visible; }
+/* Malha calada: preenchimento neutro vindo do JS e divisa hairline, para o
+   estado existir como referencia sem competir com os circulos. */
 .map-uf {
-  stroke: var(--surface);
+  stroke: var(--border-strong);
   stroke-width: 1;
   cursor: pointer;
   transition: fill 0.18s ease;
 }
 .map-uf:hover { stroke: var(--ink); stroke-width: 1.6; }
 .map-uf.is-active { stroke: var(--ink); stroke-width: 2; }
-.map-label {
-  /* Unidades do viewBox (1096 de largura), nao pixels de tela. */
-  font-size: 24px;
-  font-weight: 650;
-  fill: var(--ink-2);
-  pointer-events: none;
-  text-anchor: middle;
-  dominant-baseline: middle;
-}
-.map-label--outside { text-anchor: start; }
-.map-leader { stroke: var(--baseline); stroke-width: 1; fill: none; }
 
 /* Circulos por municipio. O anel na cor da superficie separa vizinhos que se
    sobrepoem; a cor de preenchimento vem do JS (slot categorico). */
@@ -576,31 +567,37 @@ body {
   outline: none;
 }
 
-.scale-legend {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-  font-size: var(--step--1);
-  color: var(--ink-muted);
+/* Aparato cartografico: cruzetas de coordenada, norte, escala grafica e a
+   legenda dos circulos. Tudo dentro do SVG, em unidades do viewBox (largura
+   1000) — nao em pixels de tela. `pointer-events: none` e obrigatorio: sem
+   isso o aparato intercepta o clique e o tooltip da malha e dos circulos. */
+.map-furniture,
+.map-legend {
+  pointer-events: none;
 }
-/* Vao extra em cima: a linha guia do maior anel sobe acima do proprio SVG. */
-.dots-legend { align-items: flex-end; margin-top: 0.35rem; }
-.dots-legend__svg { display: block; overflow: visible; }
-.dots-legend__num {
-  /* Unidades do viewBox da propria legenda, nao pixels de tela. */
-  font-size: 9px;
-  fill: var(--ink-muted);
+.map-furniture line {
+  stroke: var(--ink-2);
+  stroke-width: 1.2;
+}
+.map-furniture__arrow { fill: var(--ink-2); stroke: none; }
+
+/* Halo na cor da superficie: pratica cartografica, e aqui garante o numero
+   legivel se um circulo grande passar por tras. */
+.map-furniture text,
+.map-legend text {
+  font-size: 19px;
+  fill: var(--ink-2);
+  stroke: var(--surface);
+  stroke-width: 3.5;
+  paint-order: stroke fill;
   dominant-baseline: middle;
 }
+.map-furniture__north { font-size: 30px; font-weight: 650; }
+.map-legend__title { font-size: 20px; fill: var(--ink-muted); }
+.map-legend__num { font-size: 19px; }
 
-.scale-legend__steps { display: flex; gap: 2px; }
-.scale-legend__step {
-  width: 30px;
-  height: 10px;
-  border-radius: 2px;
-  border: 1px solid var(--border);
-}
+.map-scale__seg { fill: var(--ink-2); stroke: none; }
+.map-scale__frame { fill: none; stroke: var(--ink-2); stroke-width: 1.2; }
 
 /* --------------------------------------------------------------- matriz --- */
 

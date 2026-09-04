@@ -116,7 +116,7 @@ assets/
   js/data.js                    formatação e agregação
   js/filters.js                 estado dos filtros, cruzamento e URL
   js/charts.js                  padrões de marca e ciclo de vida dos cartões
-  js/map.js                     mapa do painel: coroplético por UF + círculos por município
+  js/map.js                     mapa do painel: círculos por município e aparato cartográfico
   js/views.js                   definição de cada visual
   js/table.js                   base de dados, detalhe e exportação CSV
   js/app.js                     montagem do painel
@@ -136,9 +136,9 @@ por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
   temática, nível de ensino e macrorregião.
-- **Territórios** — mapa em duas camadas (coroplético por UF e um círculo por
-  município, área proporcional à medida; clique na UF ou no círculo filtra),
-  ranking das 27 UFs, municípios e superintendências do INCRA.
+- **Territórios** — mapa monocromático de círculos proporcionais por município,
+  com cruzetas de coordenada, norte e escala gráfica (clique no círculo ou no
+  estado filtra), ranking das 27 UFs, municípios e superintendências do INCRA.
 - **Cursos e áreas** — matriz área temática × nível, composição das modalidades,
   duração e meta de vagas × matrículas efetivas.
 - **Instituições e redes** — instituições realizadoras, natureza, titulação da
@@ -165,9 +165,10 @@ index.html#aba=territorios&areaTematica=Agroecologia&uf=Bahia~Paraná&de=2010&at
 
 ## Mapa interativo (`maps-interativo.html`)
 
-Página à parte, com CSS e JS próprios, para a pergunta que o coroplético não
-responde: **onde exatamente**. O coroplético pinta o Pará inteiro do mesmo verde;
-aqui o símbolo é o município — 246 pontos.
+Página à parte, com CSS e JS próprios. O mapa do painel já mostra o município,
+mas sobre a malha calada do IBGE; aqui os mesmos 246 pontos entram sobre base
+cartográfica com zoom, escala e reenquadramento — para localizar de fato o
+lugar, não só a nuvem.
 
 Duas séries de círculos sobrepostas, no desenho do Atlas da Questão Agrária:
 
@@ -246,13 +247,39 @@ oito porque nenhum oitavo tom agro passou o piso de visão normal — verdes,
 ocres e marrons se aglomeram justamente onde a visão de cores colapsa. Passado o
 sétimo, a cauda vira “Outros” em cinza; nunca uma cor nova.
 
-O mapa e a matriz usam rampa sequencial de um só tom (verde, 5 passos,
-lightness monótona). O passo mais claro recua até a superfície de propósito —
-significa “perto de zero” — e por isso cada UF leva contorno hairline. Os
-círculos por município sobre esse fundo usam terracota (`--series-4`), o mesmo
-slot do mapa interativo: a segunda camada precisa se separar da rampa verde sem
-introduzir cor nova. Área proporcional ao valor (raio pela raiz quadrada) e
-legenda de anéis concêntricos, como no mapa interativo.
+A matriz área × nível usa rampa sequencial de um só tom (verde, 5 passos,
+lightness monótona), com o passo mais claro recuando até a superfície de
+propósito — significa “perto de zero”.
+
+**O mapa do painel é monocromático.** A malha das UFs é base, não dado:
+preenchimento neutro uniforme (`--seq-empty`, um passo mais escuro em
+`--border-strong` na UF filtrada) e divisas em contorno hairline. Nenhuma sigla
+de estado. Todo o dado vive nos círculos por município, em terracota
+(`--series-4`) — o mesmo slot do mapa interativo. Uma coroplética de estado
+sobre os círculos disputaria a mesma leitura duas vezes e, pior, faria o Pará
+inteiro parecer homogêneo justamente onde o círculo mostra o contrário. Área
+proporcional ao valor (raio pela raiz quadrada) e legenda de anéis concêntricos,
+como no mapa interativo.
+
+**Aparato cartográfico dentro do SVG.** Quatro cruzetas de coordenada (0°/70°O,
+0°/40°O, 25°S/60°O, 25°S/40°O), seta de norte, escala gráfica em km e a legenda
+dos círculos ficam no próprio desenho — não em HTML ao lado. Assim o mapa
+continua completo se virar imagem, e o aparato acompanha qualquer largura.
+Posições verificadas por ponto-em-polígono contra as 27 UFs e os 246 municípios:
+nenhuma peça cai sobre a malha ou sobre um círculo.
+
+**A escala declara a latitude.** Mercator não tem escala única — a mesma unidade
+vale 4,43 km no equador e 3,83 km em 30° S. A barra é calculada em 15° S, a
+latitude média da nuvem de pontos, e traz a nota `km · em 15° S`. Sem declarar,
+a barra seria uma afirmação falsa em metade do mapa. O comprimento sai de
+`UF_MAP.projection.scale`, nunca de número fixo.
+
+**Aparato escala por peça, não por fonte.** O texto está em unidades do viewBox,
+calibrado para o cartão largo (~600 px de SVG, rótulo a ~11 px). Onde a grade
+colapsa, o SVG cai para ~360 px; aumentar só a fonte quebraria o encaixe — o
+número da escala ficaria mais largo que o segmento. Então cada peça cresce por
+inteiro em torno da própria âncora (`ajustarAparato` em `assets/js/map.js`),
+mantendo a razão entre texto, barra e cruzeta.
 
 **Dimensão nominal em barras usa um único tom.** O comprimento da barra já mostra
 o valor; colorir cada barra de um jeito gastaria o canal de identidade

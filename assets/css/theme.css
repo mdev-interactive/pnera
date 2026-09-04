@@ -7,8 +7,9 @@
    - Slots 2 (milho) e 6 (broto) ficam abaixo de 3:1 na superficie: por isso todo
      grafico traz rotulo direto e uma visao em tabela.
    - Rampa sequencial: verde, 5 passos, lightness monotona e degraus >= 0.06.
-     O passo mais claro recua ate a superficie de proposito ("perto de zero" no
-     mapa) — as UFs levam contorno hairline para nao desaparecer.
+     O passo mais claro recua ate a superficie de proposito ("perto de zero" na
+     matriz area x nivel). O mapa e monocromatico: a malha das UFs fica no
+     neutro --seq-empty e o dado vive nos circulos por municipio.
    - Tinta: primaria 16.1:1, secundaria 7.0:1, muted 4.6:1 sobre a superficie.
    ========================================================================== */
 

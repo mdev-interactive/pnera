@@ -23,6 +23,7 @@ window.Viz = (function () {
       muted: css('--ink-muted'),
       grid: css('--grid'),
       baseline: css('--baseline'),
+      borderStrong: css('--border-strong'),
       series: [1, 2, 3, 4, 5, 6, 7].map((i) => css(`--series-${i}`)),
       outros: css('--series-other'),
       seq: [1, 2, 3, 4, 5].map((i) => css(`--seq-${i}`)),

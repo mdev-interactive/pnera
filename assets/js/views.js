@@ -232,7 +232,7 @@
     aba: 'territorios',
     span: 7,
     title: 'Distribuição pelo território nacional',
-    hint: 'Preenchimento por UF; cada círculo é um município, com área proporcional à medida. Clique na UF ou no círculo para filtrar todo o painel.',
+    hint: 'Cada círculo é um município, com área proporcional à medida. Clique no círculo ou no estado para filtrar todo o painel.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
       const cfg = MEDIDAS_MAPA[medidaMapa];
