@@ -55,9 +55,9 @@ Só precisa ser refeita se a malha do IBGE mudar:
 node tools/build-uf-map.mjs
 ```
 
-As coordenadas dos municípios (`assets/js/municipio-coords.js`), usadas só pelo
-mapa interativo, também já estão geradas. Refaça só se a planilha passar a citar
-municípios novos:
+As coordenadas dos municípios (`assets/js/municipio-coords.js`), usadas pela
+camada de círculos do mapa do painel e pelo mapa interativo, também já estão
+geradas. Refaça só se a planilha passar a citar municípios novos:
 
 ```bash
 node tools/build-municipio-coords.mjs
@@ -111,12 +111,12 @@ assets/
   css/app.css                   layout e componentes
   css/maps-interativo.css       estilos do mapa interativo (só dessa página)
   js/dataset.js                 os dados embutidos (para funcionar em file://)
-  js/uf-paths.js                paths SVG das UFs
+  js/uf-paths.js                paths SVG das UFs e os parâmetros da projeção
   js/municipio-coords.js        lat/lon e nome acentuado dos 246 municípios
   js/data.js                    formatação e agregação
   js/filters.js                 estado dos filtros, cruzamento e URL
   js/charts.js                  padrões de marca e ciclo de vida dos cartões
-  js/map.js                     mapa coroplético
+  js/map.js                     mapa do painel: coroplético por UF + círculos por município
   js/views.js                   definição de cada visual
   js/table.js                   base de dados, detalhe e exportação CSV
   js/app.js                     montagem do painel
@@ -136,8 +136,9 @@ por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
   temática, nível de ensino e macrorregião.
-- **Territórios** — mapa coroplético por UF (clique filtra), ranking das 27 UFs,
-  municípios e superintendências do INCRA.
+- **Territórios** — mapa em duas camadas (coroplético por UF e um círculo por
+  município, área proporcional à medida; clique na UF ou no círculo filtra),
+  ranking das 27 UFs, municípios e superintendências do INCRA.
 - **Cursos e áreas** — matriz área temática × nível, composição das modalidades,
   duração e meta de vagas × matrículas efetivas.
 - **Instituições e redes** — instituições realizadoras, natureza, titulação da
@@ -247,7 +248,11 @@ sétimo, a cauda vira “Outros” em cinza; nunca uma cor nova.
 
 O mapa e a matriz usam rampa sequencial de um só tom (verde, 5 passos,
 lightness monótona). O passo mais claro recua até a superfície de propósito —
-significa “perto de zero” — e por isso cada UF leva contorno hairline.
+significa “perto de zero” — e por isso cada UF leva contorno hairline. Os
+círculos por município sobre esse fundo usam terracota (`--series-4`), o mesmo
+slot do mapa interativo: a segunda camada precisa se separar da rampa verde sem
+introduzir cor nova. Área proporcional ao valor (raio pela raiz quadrada) e
+legenda de anéis concêntricos, como no mapa interativo.
 
 **Dimensão nominal em barras usa um único tom.** O comprimento da barra já mostra
 o valor; colorir cada barra de um jeito gastaria o canal de identidade

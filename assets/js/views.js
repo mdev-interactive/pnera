@@ -184,12 +184,55 @@
   };
   let medidaMapa = 'cursos';
 
+  /**
+   * Agrega o recorte por municipio, para a camada de circulos do mapa. Usa os
+   * centroides de assets/js/municipio-coords.js; o que nao tem codigo IBGE
+   * mapeavel entra em `fora`, para o rodape declarar a base real do desenho.
+   */
+  function pontosMunicipio(rows, cfg) {
+    const coords = window.MUNICIPIO_COORDS;
+    if (!coords) return { pontos: [], maxPonto: 0, plotados: 0 };
+
+    const porMun = new Map();
+    let plotados = 0;
+
+    for (const c of rows) {
+      const cod = c.codMunicipio ? String(c.codMunicipio) : null;
+      const geo = cod ? coords[cod] : null;
+      if (!geo) continue;
+      let m = porMun.get(cod);
+      if (!m) {
+        m = {
+          nome: geo.nome || c.municipio || cod,
+          uf: geo.uf,
+          lat: geo.lat,
+          lon: geo.lon,
+          cursos: 0,
+          matriculados: 0,
+          matriculadosBase: 0,
+        };
+        porMun.set(cod, m);
+      }
+      m.cursos++;
+      plotados++;
+      // Ausencia nunca vira zero: a base conta so quem tinha o dado.
+      if (c.matriculados != null) { m.matriculados += c.matriculados; m.matriculadosBase++; }
+    }
+
+    const pontos = [...porMun.values()].map((m) => ({
+      ...m,
+      valor: cfg.campo ? m[cfg.campo] : m.cursos,
+    }));
+    const maxPonto = Math.max(0, ...pontos.map((p) => p.valor || 0));
+    return { pontos, maxPonto, plotados };
+  }
+
   registrar({
     id: 'mapa',
     aba: 'territorios',
     span: 7,
     title: 'Distribuição pelo território nacional',
-    hint: 'Clique numa UF para filtrar todo o painel. Estados sem cursos no recorte ficam neutros.',
+    hint: 'Preenchimento por UF; cada círculo é um município, com área proporcional à medida. Clique na UF ou no círculo para filtrar todo o painel.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
       const cfg = MEDIDAS_MAPA[medidaMapa];
@@ -199,20 +242,29 @@
         cursos: g.cursos,
       }]));
       const nomes = P.groupBy(rows, (c) => c.uf, ['matriculados']).sort(P.desc('cursos'));
+      const { pontos, maxPonto, plotados } = pontosMunicipio(rows, cfg);
+      const desenhaveis = pontos.filter((p) => p.valor).length;
+      const semMedida = pontos.length - desenhaveis;
       return {
         valores,
         cfg,
+        pontos,
+        maxPonto,
         table: tabelaRanking(nomes, [
           { key: 'cursos', label: 'Cursos' },
           { key: 'matriculados', label: 'Matriculados' },
         ]),
-        note: `${valores.size} de 27 UFs com cursos no recorte.`,
+        coverage: { preenchidos: plotados, total: rows.length, rotulo: 'município localizado' },
+        // Circulo so existe onde ha valor: com "matriculados", municipio sem o
+        // dado nao entra — a nota conta o que foi desenhado, nao o que existe.
+        note: `${valores.size} de 27 UFs com cursos no recorte · ${desenhaveis} municípios no mapa`
+          + (semMedida ? ` (${semMedida} sem ${cfg.rotulo} informado).` : '.'),
       };
     },
     render(box, rows, res) {
       const barra = document.createElement('div');
       barra.className = 'data-toolbar';
-      barra.innerHTML = `<label class="muted" for="medida-mapa">Colorir por</label>
+      barra.innerHTML = `<label class="muted" for="medida-mapa">Medida</label>
         <select id="medida-mapa" class="form-select form-select-sm" style="width:auto">
           ${Object.entries(MEDIDAS_MAPA).map(([k, v]) => `<option value="${k}"${k === medidaMapa ? ' selected' : ''}>${v.rotulo}</option>`).join('')}
         </select>`;
@@ -226,6 +278,8 @@
         rotuloMedida: res.cfg.rotulo,
         ativos: F.state.selecao.uf,
         onPick: (nome) => F.alternar('uf', nome),
+        pontos: res.pontos,
+        maxPonto: res.maxPonto,
       });
     },
   });

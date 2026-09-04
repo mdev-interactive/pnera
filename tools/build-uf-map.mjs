@@ -153,9 +153,19 @@ async function main() {
     labels[sigla] = { x: gutterX, y: round(y), from: anchor, outside: true };
   }
 
+  // Parametros da projecao, para o painel colocar um par lat/lon no mesmo
+  // referencial dos paths (circulos por municipio sobre o coropleto). Sao
+  // radianos: precisao alta, senao o ponto escorrega dezenas de quilometros.
+  const projection = {
+    minX: Number(minX.toFixed(8)),
+    maxY: Number(maxY.toFixed(8)),
+    scale: Number(scale.toFixed(6)),
+    pad: PAD,
+  };
+
   const out = `/* Gerado por tools/build-uf-map.mjs a partir da malha do IBGE — nao editar a mao. */\n`
     + `window.UF_MAP = ${JSON.stringify({
-      viewBox: `0 0 ${WIDTH + GUTTER} ${height}`, mapWidth: WIDTH, paths, labels,
+      viewBox: `0 0 ${WIDTH + GUTTER} ${height}`, mapWidth: WIDTH, projection, paths, labels,
     })};\n`;
 
   fs.mkdirSync(path.join(ROOT, 'assets', 'js'), { recursive: true });
