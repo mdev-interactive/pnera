@@ -243,6 +243,13 @@ body {
 .opt--empty { color: var(--ink-muted); }
 .opt--empty .opt__label { text-decoration: line-through; }
 
+.opt--todos {
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  margin-bottom: 0.2rem;
+}
+.opt--todos .opt__label { font-weight: 600; }
+
 .range-row { display: flex; align-items: center; gap: 0.5rem; }
 .range-row input[type='number'] {
   width: 100%;

@@ -29,7 +29,7 @@
     { dim: 'areaTematica', aberto: true },
     { dim: 'nivel', aberto: false },
     { dim: 'modalidade', aberto: false },
-    { dim: 'areaConhecimento', aberto: false },
+    { dim: 'areaConhecimento', aberto: false, todos: true },
     { dim: 'macrorregiao', aberto: true },
     { dim: 'uf', aberto: false },
     { dim: 'iesNatureza', aberto: false },
@@ -83,7 +83,7 @@
     el.querySelectorAll('.js-filtrar-opcoes').forEach((input) => {
       input.addEventListener('input', () => {
         const termo = P.fold(input.value);
-        $(`#${input.dataset.alvo}`).querySelectorAll('.opt').forEach((opt) => {
+        $(`#${input.dataset.alvo}`).querySelectorAll('.opt:not(.opt--todos)').forEach((opt) => {
           opt.hidden = termo && !P.fold(opt.dataset.valor).includes(termo);
         });
       });
@@ -96,7 +96,7 @@
     const dim = P.DIMENSOES[g.dim];
     const idCorpo = `${prefixo}-g${i}`;
     return `
-      <div class="filter-group" data-dim="${g.dim}">
+      <div class="filter-group" data-dim="${g.dim}"${g.todos ? ' data-todos="1"' : ''}>
         <button type="button" class="filter-group__btn js-grupo-btn" data-alvo="${idCorpo}"
                 aria-expanded="${g.aberto}" aria-controls="${idCorpo}">
           ${dim.rotulo}
@@ -117,8 +117,43 @@
     el.addEventListener('change', (ev) => {
       const input = ev.target.closest('input[type="checkbox"][data-dim]');
       if (!input) return;
-      F.alternar(input.dataset.dim, input.dataset.valor, input.checked);
+      const dim = input.dataset.dim;
+      const grupoTodos = !!input.closest('.filter-group')?.dataset.todos;
+      // Sem nada escolhido o grupo já vale por inteiro: as caixas aparecem
+      // marcadas, então desmarcar uma significa "todas menos esta".
+      const implicito = grupoTodos && F.state.selecao[dim].size === 0;
+
+      if (input.classList.contains('js-todos')) {
+        F.definir(dim, input.checked ? selecionaveis(dim) : []);
+        return;
+      }
+      if (implicito && !input.checked) {
+        F.definir(dim, selecionaveis(dim).filter((v) => v !== input.dataset.valor));
+        return;
+      }
+      F.alternar(dim, input.dataset.valor, input.checked);
     });
+  }
+
+  /** Valores de uma dimensão que o recorte atual ainda oferece (os não-vazios). */
+  function selecionaveis(dim) {
+    return F.opcoes(dim).filter((o) => o.n > 0 || o.escolhido).map((o) => o.valor);
+  }
+
+  /**
+   * Caixa "Selecionar todos" no topo da lista de um grupo. Fica marcada também
+   * quando nada foi escolhido, porque aí o recorte já inclui todas as opções.
+   */
+  function itemTodosHtml(dim, opcoes) {
+    const disponiveis = opcoes.filter((o) => o.n > 0 || o.escolhido);
+    const escolhidos = opcoes.filter((o) => o.escolhido).length;
+    const marcado = escolhidos === 0 || escolhidos === disponiveis.length;
+    const id = `f-${dim}-todos`;
+    return `<label class="opt opt--todos" for="${id}">
+      <input type="checkbox" id="${id}" class="js-todos" data-dim="${dim}" ${marcado ? 'checked' : ''}>
+      <span class="opt__label">Selecionar todos</span>
+      <span class="opt__n">${int(disponiveis.length)}</span>
+    </label>`;
   }
 
   /** Repinta as opções e as contagens cruzadas de todos os painéis abertos. */
@@ -135,19 +170,31 @@
         contador.textContent = escolhidos;
 
         const termo = P.fold($('.js-filtrar-opcoes', grupo)?.value ?? '');
-        lista.innerHTML = opcoes.map((o) => {
+        // Grupo com "Selecionar todos" e nada escolhido: mostra tudo marcado,
+        // que é o recorte real (nenhuma escolha = todas as opções entram).
+        const implicito = !!grupo.dataset.todos && escolhidos === 0;
+        const todosHtml = grupo.dataset.todos ? itemTodosHtml(dim, opcoes) : '';
+        lista.innerHTML = todosHtml + opcoes.map((o) => {
           const id = `f-${dim}-${P.fold(o.valor).replace(/[^a-z0-9]+/g, '-')}`;
           const vazio = o.n === 0 && !o.escolhido;
           const oculto = termo && !P.fold(o.valor).includes(termo);
           return `<label class="opt${vazio ? ' opt--empty' : ''}" for="${id}"
                     data-valor="${o.valor.replace(/"/g, '&quot;')}"${oculto ? ' hidden' : ''}>
             <input type="checkbox" id="${id}" data-dim="${dim}"
-                   data-valor="${o.valor.replace(/"/g, '&quot;')}" ${o.escolhido ? 'checked' : ''}
+                   data-valor="${o.valor.replace(/"/g, '&quot;')}"
+                   ${o.escolhido || (implicito && !vazio) ? 'checked' : ''}
                    ${vazio ? 'disabled' : ''}>
             <span class="opt__label">${o.valor}</span>
             <span class="opt__n">${int(o.n)}</span>
           </label>`;
         }).join('');
+
+        // `indeterminate` não existe como atributo: só via propriedade.
+        const todos = $('.js-todos', lista);
+        if (todos) {
+          const disponiveis = opcoes.filter((o) => o.n > 0 || o.escolhido);
+          todos.indeterminate = escolhidos > 0 && escolhidos < disponiveis.length;
+        }
       });
 
       const limpar = $('.js-limpar-tudo', painel);
