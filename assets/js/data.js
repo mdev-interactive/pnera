@@ -157,6 +157,7 @@ window.PNERA = (function () {
     modalidade: { rotulo: 'Modalidade', get: (c) => c.modalidade },
     macrorregiao: { rotulo: 'Macrorregião', get: (c) => c.macrorregiao },
     uf: { rotulo: 'Estado', get: (c) => c.uf },
+    superintendencia: { rotulo: 'Superintendência', get: (c) => c.superintendencia },
     iesNatureza: { rotulo: 'Natureza da instituição', get: (c) => c.ies?.natureza ?? [] },
     ies: { rotulo: 'Instituição de ensino', get: (c) => c.ies?.nome },
     instrumento: { rotulo: 'Instrumento', get: (c) => c.instrumento },
