@@ -14,6 +14,11 @@ window.Filters = (function () {
   const ANO_MIN = meta.periodo?.anoMin ?? 1998;
   const ANO_MAX = meta.periodo?.anoInicioMax ?? 2026;
 
+  /** Faixa de matriculados: extremos reais da base, nao um teto arbitrario. */
+  const mats = data.map((c) => c.matriculados).filter((v) => Number.isFinite(v));
+  const MAT_MIN = mats.length ? Math.min(...mats) : 0;
+  const MAT_MAX = mats.length ? Math.max(...mats) : 0;
+
   /**
    * Dimensoes que nascem com todas as opcoes marcadas. Para elas a selecao
    * cheia *e* o estado neutro: nao vira chip, nao vai para a URL e é o que
@@ -36,6 +41,8 @@ window.Filters = (function () {
     selecao: Object.fromEntries(DIMS.map((d) => [d, padrao(d)])),
     anoDe: ANO_MIN,
     anoAte: ANO_MAX,
+    matDe: MAT_MIN,
+    matAte: MAT_MAX,
     busca: '',
     aba: 'geral',
   };
@@ -72,6 +79,17 @@ window.Filters = (function () {
     return de <= state.anoAte && (ate ?? de) >= state.anoDe;
   }
 
+  /**
+   * Faixa de matriculados. Como no periodo, cursos sem o numero informado so
+   * caem fora quando o usuario realmente estreitou a faixa.
+   */
+  function casaMatriculados(curso) {
+    if (state.matDe <= MAT_MIN && state.matAte >= MAT_MAX) return true;
+    const n = curso.matriculados;
+    if (!Number.isFinite(n)) return false;
+    return n >= state.matDe && n <= state.matAte;
+  }
+
   function casaBusca(curso) {
     if (!state.busca) return true;
     const termos = fold(state.busca).split(/\s+/).filter(Boolean);
@@ -82,7 +100,7 @@ window.Filters = (function () {
   /** Recorte atual. `exceto` deixa uma dimensao de fora (usado no cruzamento). */
   function aplicar(exceto = null) {
     return data.filter((c) => {
-      if (!casaPeriodo(c) || !casaBusca(c)) return false;
+      if (!casaPeriodo(c) || !casaMatriculados(c) || !casaBusca(c)) return false;
       for (const d of DIMS) {
         if (d === exceto) continue;
         if (!casaDimensao(c, d)) return false;
@@ -144,6 +162,8 @@ window.Filters = (function () {
       for (const d of DIMS) state.selecao[d] = padrao(d);
       state.anoDe = ANO_MIN;
       state.anoAte = ANO_MAX;
+      state.matDe = MAT_MIN;
+      state.matAte = MAT_MAX;
       state.busca = '';
     }
     notificar();
@@ -152,6 +172,12 @@ window.Filters = (function () {
   function periodo(de, ate) {
     state.anoDe = Math.max(ANO_MIN, Math.min(de, ate));
     state.anoAte = Math.min(ANO_MAX, Math.max(de, ate));
+    notificar();
+  }
+
+  function matriculas(de, ate) {
+    state.matDe = Math.max(MAT_MIN, Math.min(de, ate));
+    state.matAte = Math.min(MAT_MAX, Math.max(de, ate));
     notificar();
   }
 
@@ -181,6 +207,9 @@ window.Filters = (function () {
     if (state.anoDe > ANO_MIN || state.anoAte < ANO_MAX) {
       out.push({ tipo: 'periodo', rotulo: 'Período', valor: `${state.anoDe}–${state.anoAte}` });
     }
+    if (state.matDe > MAT_MIN || state.matAte < MAT_MAX) {
+      out.push({ tipo: 'matriculas', rotulo: 'Matrículas', valor: `${state.matDe}–${state.matAte}` });
+    }
     if (state.busca) out.push({ tipo: 'busca', rotulo: 'Busca', valor: state.busca });
     return out;
   }
@@ -205,6 +234,8 @@ window.Filters = (function () {
     }
     if (state.anoDe > ANO_MIN) p.set('de', state.anoDe);
     if (state.anoAte < ANO_MAX) p.set('ate', state.anoAte);
+    if (state.matDe > MAT_MIN) p.set('mde', state.matDe);
+    if (state.matAte < MAT_MAX) p.set('mate', state.matAte);
     if (state.busca) p.set('q', state.busca);
     ignorarHash = true;
     history.replaceState(null, '', `#${p.toString()}`);
@@ -226,6 +257,10 @@ window.Filters = (function () {
     const ate = Number(p.get('ate'));
     if (Number.isFinite(de) && de) state.anoDe = Math.max(ANO_MIN, de);
     if (Number.isFinite(ate) && ate) state.anoAte = Math.min(ANO_MAX, ate);
+    const mde = Number(p.get('mde'));
+    const mate = Number(p.get('mate'));
+    state.matDe = p.has('mde') && Number.isFinite(mde) ? Math.max(MAT_MIN, mde) : MAT_MIN;
+    state.matAte = p.has('mate') && Number.isFinite(mate) ? Math.min(MAT_MAX, mate) : MAT_MAX;
     state.busca = p.get('q') || '';
     state.aba = p.get('aba') || 'geral';
     cacheRecorte = null;
@@ -243,6 +278,8 @@ window.Filters = (function () {
     DIMS,
     ANO_MIN,
     ANO_MAX,
+    MAT_MIN,
+    MAT_MAX,
     subscribe,
     recorte,
     opcoes,
@@ -250,6 +287,7 @@ window.Filters = (function () {
     definir,
     limpar,
     periodo,
+    matriculas,
     buscar,
     aba,
     ativos,

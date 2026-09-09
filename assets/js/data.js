@@ -145,21 +145,45 @@ window.PNERA = (function () {
 
   /* --------------------------------------------------------------- dimensoes - */
 
+  /** O mesmo rotulo dos graficos: ha municipios homonimos em UFs diferentes. */
+  const rotuloMunicipio = (c) => (c.municipio ? `${c.municipio} (${c.ufSigla ?? '—'})` : null);
+
+  /**
+   * Universo fixo das dimensoes que o gerador do dataset nao publica em
+   * `meta.valores`. Precisa ser calculado sobre a base inteira: se saisse do
+   * recorte, a lista de opcoes mudaria de tamanho a cada clique.
+   */
+  function completarValores() {
+    meta.valores ??= {};
+    const ordenar = (s) => [...s].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    if (!meta.valores.municipio?.length || !meta.valores.municipio[0]?.includes('(')) {
+      meta.valores.municipio = ordenar(new Set(data.map(rotuloMunicipio).filter(Boolean)));
+    }
+    if (!meta.valores.demandante) {
+      const nomes = new Set();
+      for (const c of data) for (const n of c.demandante?.nomes ?? []) if (n) nomes.add(n);
+      meta.valores.demandante = ordenar(nomes);
+    }
+  }
+  completarValores();
+
   /**
    * Dicionario unico das dimensoes filtraveis: rotulo, como extrair o valor de
    * um curso e a ordem dos valores. Filtros, chips e URL leem tudo daqui.
    */
   const DIMENSOES = {
-    fase: { rotulo: 'Fase da pesquisa', get: (c) => c.fase },
-    areaTematica: { rotulo: 'Área temática', get: (c) => c.areaTematica },
-    areaConhecimento: { rotulo: 'Área do conhecimento', get: (c) => c.areaConhecimento },
-    nivel: { rotulo: 'Nível de ensino', get: (c) => c.nivel },
-    modalidade: { rotulo: 'Modalidade', get: (c) => c.modalidade },
     macrorregiao: { rotulo: 'Macrorregião', get: (c) => c.macrorregiao },
     uf: { rotulo: 'Estado', get: (c) => c.uf },
     superintendencia: { rotulo: 'Superintendência', get: (c) => c.superintendencia },
+    municipio: { rotulo: 'Município', get: (c) => rotuloMunicipio(c) },
+    areaConhecimento: { rotulo: 'Área do conhecimento', get: (c) => c.areaConhecimento },
+    areaTematica: { rotulo: 'Área temática', get: (c) => c.areaTematica },
+    nivel: { rotulo: 'Nível de ensino', get: (c) => c.nivel },
+    modalidade: { rotulo: 'Modalidade', get: (c) => c.modalidade },
     iesNatureza: { rotulo: 'Natureza da instituição', get: (c) => c.ies?.natureza ?? [] },
     ies: { rotulo: 'Instituição de ensino', get: (c) => c.ies?.nome },
+    demandante: { rotulo: 'Organização demandante', get: (c) => c.demandante?.nomes ?? [] },
+    fase: { rotulo: 'Fase da pesquisa', get: (c) => c.fase },
     instrumento: { rotulo: 'Instrumento', get: (c) => c.instrumento },
   };
 

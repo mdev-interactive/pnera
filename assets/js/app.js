@@ -23,18 +23,26 @@
 
   /* ------------------------------------------------------ painel de filtros -- */
 
-  /** Grupos na ordem em que fazem sentido para quem lê: o que, onde, quem. */
+  /**
+   * Grupos na ordem em que fazem sentido para quem lê: quando, onde, o que, quem.
+   * As duas faixas numéricas entram como `tipo` próprio para que a ordem do
+   * painel seja definida só aqui, e não por HTML solto antes da lista.
+   */
   const GRUPOS = [
-    { dim: 'fase', aberto: true },
-    { dim: 'areaTematica', aberto: true },
-    { dim: 'nivel', aberto: false },
-    { dim: 'modalidade', aberto: false },
-    { dim: 'areaConhecimento', aberto: false, todos: true },
+    { tipo: 'periodo' },
     { dim: 'macrorregiao', aberto: true },
     { dim: 'uf', aberto: false },
     { dim: 'superintendencia', aberto: false, busca: true, todos: true },
+    { dim: 'municipio', aberto: false, busca: true },
+    { dim: 'areaConhecimento', aberto: false, todos: true },
+    { dim: 'areaTematica', aberto: true },
+    { dim: 'nivel', aberto: false },
+    { dim: 'modalidade', aberto: false },
+    { tipo: 'matriculas' },
     { dim: 'iesNatureza', aberto: false },
     { dim: 'ies', aberto: false, busca: true },
+    { dim: 'demandante', aberto: false, busca: true },
+    { dim: 'fase', aberto: true },
     { dim: 'instrumento', aberto: false },
   ];
 
@@ -46,18 +54,6 @@
         <h2>Filtros</h2>
         <button type="button" class="chips__clear js-limpar-tudo" hidden>Limpar tudo</button>
       </div>
-      <div class="filter-group">
-        <div class="filter-group__btn" style="cursor:default">Período de início</div>
-        <div class="filter-group__body">
-          <div class="range-row">
-            <input type="number" class="js-ano-de" inputmode="numeric"
-                   min="${F.ANO_MIN}" max="${F.ANO_MAX}" aria-label="Ano inicial">
-            <span class="muted">até</span>
-            <input type="number" class="js-ano-ate" inputmode="numeric"
-                   min="${F.ANO_MIN}" max="${F.ANO_MAX}" aria-label="Ano final">
-          </div>
-        </div>
-      </div>
       ${GRUPOS.map((g, i) => grupoHtml(g, i, el.id)).join('')}`;
 
     // Faixa de anos.
@@ -68,6 +64,18 @@
     const aplicarPeriodo = () => F.periodo(Number(de.value) || F.ANO_MIN, Number(ate.value) || F.ANO_MAX);
     de.addEventListener('change', aplicarPeriodo);
     ate.addEventListener('change', aplicarPeriodo);
+
+    // Faixa de matriculados.
+    const matDe = $('.js-mat-de', el);
+    const matAte = $('.js-mat-ate', el);
+    matDe.value = F.state.matDe;
+    matAte.value = F.state.matAte;
+    const aplicarMatriculas = () => F.matriculas(
+      matDe.value === '' ? F.MAT_MIN : Number(matDe.value),
+      matAte.value === '' ? F.MAT_MAX : Number(matAte.value),
+    );
+    matDe.addEventListener('change', aplicarMatriculas);
+    matAte.addEventListener('change', aplicarMatriculas);
 
     $('.js-limpar-tudo', el).addEventListener('click', () => F.limpar());
 
@@ -93,7 +101,31 @@
     delegarOpcoes(el);
   }
 
+  /** Bloco de faixa numerica (periodo e matriculas), sempre aberto. */
+  function faixaHtml(rotulo, classe, min, max, rotuloDe, rotuloAte) {
+    return `
+      <div class="filter-group">
+        <div class="filter-group__btn" style="cursor:default">${rotulo}</div>
+        <div class="filter-group__body">
+          <div class="range-row">
+            <input type="number" class="js-${classe}-de" inputmode="numeric"
+                   min="${min}" max="${max}" aria-label="${rotuloDe}">
+            <span class="muted">até</span>
+            <input type="number" class="js-${classe}-ate" inputmode="numeric"
+                   min="${min}" max="${max}" aria-label="${rotuloAte}">
+          </div>
+        </div>
+      </div>`;
+  }
+
   function grupoHtml(g, i, prefixo) {
+    if (g.tipo === 'periodo') {
+      return faixaHtml('Período de início', 'ano', F.ANO_MIN, F.ANO_MAX, 'Ano inicial', 'Ano final');
+    }
+    if (g.tipo === 'matriculas') {
+      return faixaHtml('Matrículas por curso', 'mat', F.MAT_MIN, F.MAT_MAX,
+        'Mínimo de matriculados', 'Máximo de matriculados');
+    }
     const dim = P.DIMENSOES[g.dim];
     const idCorpo = `${prefixo}-g${i}`;
     return `
@@ -193,6 +225,10 @@
       const ate = $('.js-ano-ate', painel);
       if (de) de.value = F.state.anoDe;
       if (ate) ate.value = F.state.anoAte;
+      const matDe = $('.js-mat-de', painel);
+      const matAte = $('.js-mat-ate', painel);
+      if (matDe) matDe.value = F.state.matDe;
+      if (matAte) matAte.value = F.state.matAte;
     });
   }
 
@@ -219,6 +255,7 @@
         if (a.tipo === 'dim') F.alternar(a.dim, a.valor, false);
         else if (a.tipo === 'dim-vazio') F.limpar(a.dim);
         else if (a.tipo === 'periodo') F.periodo(F.ANO_MIN, F.ANO_MAX);
+        else if (a.tipo === 'matriculas') F.matriculas(F.MAT_MIN, F.MAT_MAX);
         else F.buscar('');
       });
     });

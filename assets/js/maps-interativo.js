@@ -74,11 +74,11 @@
 
   /** Dimensoes filtraveis nesta pagina — o recorte enxuto que o mapa pede. */
   const GRUPOS = [
-    { dim: 'fase', aberto: true },
-    { dim: 'areaTematica', aberto: true },
-    { dim: 'nivel', aberto: false },
     { dim: 'macrorregiao', aberto: true },
     { dim: 'uf', aberto: false, busca: true },
+    { dim: 'areaTematica', aberto: true },
+    { dim: 'nivel', aberto: false },
+    { dim: 'fase', aberto: true },
   ];
   const DIMS = GRUPOS.map((g) => g.dim);
 
