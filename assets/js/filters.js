@@ -20,22 +20,14 @@ window.Filters = (function () {
   const MAT_MAX = mats.length ? Math.max(...mats) : 0;
 
   /**
-   * Dimensoes que nascem com todas as opcoes marcadas. Para elas a selecao
-   * cheia *e* o estado neutro: nao vira chip, nao vai para a URL e é o que
-   * "Limpar tudo" restaura. Como todo curso tem um valor dessas dimensoes,
-   * marcar tudo dá o mesmo recorte que não filtrar nada.
+   * Nenhuma dimensao nasce marcada: caixa vazia em todo o painel. O estado
+   * neutro é sempre "nada escolhido" — nao vira chip, nao vai para a URL e é o
+   * que "Limpar tudo" restaura.
    */
-  const TODOS_POR_PADRAO = new Set(['areaConhecimento', 'superintendencia']);
-  const universo = (dim) => meta.valores?.[dim] ?? [];
-  const padrao = (dim) => new Set(TODOS_POR_PADRAO.has(dim) ? universo(dim) : []);
+  const padrao = () => new Set();
 
-  /** A dimensao esta no seu estado neutro (nada escolhido, ou tudo escolhido). */
-  function ehPadrao(dim) {
-    const sel = state.selecao[dim];
-    if (!TODOS_POR_PADRAO.has(dim)) return sel.size === 0;
-    const todos = universo(dim);
-    return sel.size === todos.length && todos.every((v) => sel.has(v));
-  }
+  /** A dimensao esta no seu estado neutro (nada escolhido). */
+  const ehPadrao = (dim) => state.selecao[dim].size === 0;
 
   const state = {
     selecao: Object.fromEntries(DIMS.map((d) => [d, padrao(d)])),
@@ -52,14 +44,10 @@ window.Filters = (function () {
 
   /* ------------------------------------------------------------- predicados -- */
 
-  /**
-   * Um curso passa por uma dimensao se nada foi escolhido ou se casa a escolha.
-   * Nos grupos que nascem cheios, porem, "nada marcado" é uma escolha do
-   * usuario (ele desmarcou tudo) e nao deixa passar nenhum curso.
-   */
+  /** Um curso passa por uma dimensao se nada foi escolhido ou se casa a escolha. */
   function casaDimensao(curso, dim) {
     const escolhidos = state.selecao[dim];
-    if (!escolhidos.size) return !TODOS_POR_PADRAO.has(dim);
+    if (!escolhidos.size) return true;
     const valor = DIMENSOES[dim].get(curso);
     if (Array.isArray(valor)) return valor.some((v) => escolhidos.has(v));
     return escolhidos.has(valor);
@@ -196,12 +184,6 @@ window.Filters = (function () {
     const out = [];
     for (const d of DIMS) {
       if (ehPadrao(d)) continue;
-      if (!state.selecao[d].size) {
-        // Grupo cheio que ficou sem nenhuma marca: sem chip o usuario veria
-        // zero cursos sem nada explicando por que.
-        out.push({ tipo: 'dim-vazio', dim: d, rotulo: DIMENSOES[d].rotulo, valor: 'nenhuma marcada' });
-        continue;
-      }
       for (const v of state.selecao[d]) out.push({ tipo: 'dim', dim: d, rotulo: DIMENSOES[d].rotulo, valor: v });
     }
     if (state.anoDe > ANO_MIN || state.anoAte < ANO_MAX) {
@@ -220,7 +202,7 @@ window.Filters = (function () {
 
   let ignorarHash = false;
 
-  /** Marca de "nenhuma opcao marcada" na URL, para grupos que nascem cheios. */
+  /** Marca legada de "nenhuma opcao marcada" — ainda lida em links antigos. */
   const NENHUM = '∅';
 
   function gravarUrl() {
@@ -228,9 +210,7 @@ window.Filters = (function () {
     p.set('aba', state.aba);
     for (const d of DIMS) {
       if (ehPadrao(d)) continue;
-      // Grupo que nasce cheio e ficou sem nenhuma marca: precisa de um valor
-      // proprio na URL, senao ao recarregar ele voltaria ao padrao (cheio).
-      p.set(d, state.selecao[d].size ? [...state.selecao[d]].join('~') : NENHUM);
+      p.set(d, [...state.selecao[d]].join('~'));
     }
     if (state.anoDe > ANO_MIN) p.set('de', state.anoDe);
     if (state.anoAte < ANO_MAX) p.set('ate', state.anoAte);

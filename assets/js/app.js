@@ -190,11 +190,9 @@
         const opcoes = F.opcoes(dim);
         const escolhidos = opcoes.filter((o) => o.escolhido).length;
         const disponiveis = opcoes.filter((o) => o.n > 0 || o.escolhido).length;
-        // Grupo cheio não estreita nada: o contador só atrapalharia.
-        const completo = !!grupo.dataset.todos && disponiveis > 0 && escolhidos === disponiveis;
 
         const contador = $('.js-count', grupo);
-        contador.hidden = !escolhidos || completo;
+        contador.hidden = !escolhidos;
         contador.textContent = escolhidos;
 
         const termo = P.fold($('.js-filtrar-opcoes', grupo)?.value ?? '');
@@ -253,7 +251,6 @@
       btn.addEventListener('click', () => {
         const a = ativos[Number(btn.dataset.i)];
         if (a.tipo === 'dim') F.alternar(a.dim, a.valor, false);
-        else if (a.tipo === 'dim-vazio') F.limpar(a.dim);
         else if (a.tipo === 'periodo') F.periodo(F.ANO_MIN, F.ANO_MAX);
         else if (a.tipo === 'matriculas') F.matriculas(F.MAT_MIN, F.MAT_MAX);
         else F.buscar('');
