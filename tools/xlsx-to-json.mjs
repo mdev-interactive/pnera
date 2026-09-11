@@ -168,6 +168,50 @@ function ibge(raw) {
   return s.length === 7 ? s : s.padStart(7, '0');
 }
 
+/**
+ * Codigo IBGE reconciliado com a UF da linha. A planilha tem codigo trocado
+ * (Marabá/PA com 1200401, que e Rio Branco/AC), e o codigo errado poe o
+ * circulo do mapa em outro estado — a UF e o nome do municipio sao a fonte de
+ * verdade, o codigo e so o atalho. Quando o prefixo do codigo diverge da UF, o
+ * municipio e reprocurado pelo nome dentro da UF certa; nao achando, o codigo
+ * cai para null (o curso continua na base, apenas sem ponto no mapa).
+ */
+const municipiosPorUf = new Map();
+
+/**
+ * Chave de municipio: alem do que `key` faz, apaga hifen e apostrofo, que a
+ * planilha escreve solto ("CEARA MIRIM" para "Ceará-Mirim").
+ */
+const keyMunicipio = (nome) => key(nome).replace(/[-'’]/g, ' ').replace(/\s+/g, ' ').trim();
+
+function nomesDaUf(sigla) {
+  const prefixo = UF_IBGE[sigla];
+  if (!prefixo) return null;
+  if (!municipiosPorUf.has(prefixo)) {
+    const arquivo = path.join(ROOT, 'data', 'ibge-municipios', `${prefixo}-nomes.json`);
+    let mapa = null;
+    if (fs.existsSync(arquivo)) {
+      mapa = new Map();
+      for (const m of JSON.parse(fs.readFileSync(arquivo, 'utf8'))) mapa.set(keyMunicipio(m.nome), String(m.id));
+    }
+    municipiosPorUf.set(prefixo, mapa);
+  }
+  return municipiosPorUf.get(prefixo);
+}
+
+const codigosCorrigidos = [];
+
+function codigoMunicipio(raw, nome, ufSigla) {
+  const cod = ibge(raw);
+  if (!cod || !ufSigla || !UF_IBGE[ufSigla]) return cod;
+  if (cod.slice(0, 2) === UF_IBGE[ufSigla]) return cod;
+
+  const porNome = nomesDaUf(ufSigla);
+  const achado = nome && porNome ? porNome.get(keyMunicipio(nome)) ?? null : null;
+  codigosCorrigidos.push({ nome: clean(nome), ufSigla, de: cod, para: achado });
+  return achado;
+}
+
 const UF_NOMES = {
   ACRE: 'Acre', ALAGOAS: 'Alagoas', AMAPA: 'Amapá', AMAZONAS: 'Amazonas',
   BAHIA: 'Bahia', CEARA: 'Ceará', 'DISTRITO FEDERAL': 'Distrito Federal',
@@ -189,6 +233,14 @@ const UF_SIGLAS = {
   'Rio Grande do Norte': 'RN', 'Rio Grande do Sul': 'RS', Rondônia: 'RO',
   Roraima: 'RR', 'Santa Catarina': 'SC', 'São Paulo': 'SP', Sergipe: 'SE',
   Tocantins: 'TO',
+};
+
+/** Prefixo IBGE (dois primeiros digitos do codigo de municipio) por sigla. */
+const UF_IBGE = {
+  RO: '11', AC: '12', AM: '13', RR: '14', PA: '15', AP: '16', TO: '17',
+  MA: '21', PI: '22', CE: '23', RN: '24', PB: '25', PE: '26', AL: '27',
+  SE: '28', BA: '29', MG: '31', ES: '32', RJ: '33', SP: '35',
+  PR: '41', SC: '42', RS: '43', MS: '50', MT: '51', GO: '52', DF: '53',
 };
 
 const UF_REGIAO = {
@@ -520,7 +572,7 @@ function buildCurso(cells, index) {
     uf,
     ufSigla,
     municipio: titleCase(cells.L),
-    codMunicipio: ibge(cells.M),
+    codMunicipio: codigoMunicipio(cells.M, cells.L, ufSigla),
     superintendencia: titleCase(cells.N),
 
     instrumento: normInstrumento(cells.O),
@@ -557,7 +609,7 @@ function buildCurso(cells, index) {
       uf: iesUf,
       ufSigla: iesSigla,
       municipio: titleCase(cells.AQ),
-      codMunicipio: ibge(cells.AR),
+      codMunicipio: codigoMunicipio(cells.AR, cells.AQ, iesSigla),
       natureza: multi(cells.AS, normNatureza),
     },
 
@@ -784,6 +836,10 @@ function report(cursos, meta) {
   console.log(`\nresiduos "NAO LOCALIZADO": ${sujeira.length}${sujeira.length ? ' (INVESTIGAR)' : ' ✓'}`);
   const regiaoInvalida = cursos.filter((c) => c.macrorregiao && !REGIOES_VALIDAS.has(c.macrorregiao));
   console.log(`macrorregioes invalidas: ${regiaoInvalida.length}${regiaoInvalida.length ? ' (INVESTIGAR)' : ' ✓'}`);
+  console.log(`codigos IBGE fora da UF: ${codigosCorrigidos.length}${codigosCorrigidos.length ? '' : ' ✓'}`);
+  for (const c of codigosCorrigidos) {
+    console.log(`  ${c.nome ?? '—'} (${c.ufSigla}): ${c.de} -> ${c.para ?? 'null (nome não encontrado na UF)'}`);
+  }
   console.log('\nGerado: data/pnera.json, data/pnera.meta.json, assets/js/dataset.js');
 }
 

@@ -200,6 +200,9 @@
       const cod = c.codMunicipio ? String(c.codMunicipio) : null;
       const geo = cod ? coords[cod] : null;
       if (!geo) continue;
+      // Codigo IBGE que discorda da UF da linha nao vira circulo: desenha-lo
+      // poria o ponto em outro estado, contradizendo o proprio filtro de UF.
+      if (c.ufSigla && geo.uf !== c.ufSigla) continue;
       let m = porMun.get(cod);
       if (!m) {
         m = {
