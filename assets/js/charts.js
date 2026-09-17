@@ -58,6 +58,19 @@ window.Viz = (function () {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b > 0.2 ? T.ink : T.surface;
   }
 
+  /**
+   * Ponto intermediario entre duas cores da paleta. Serve para esticar a rampa
+   * de 5 passos sobre uma escala com mais categorias: sem isso, dois niveis
+   * vizinhos cairiam no mesmo passo e ficariam indistinguiveis lado a lado.
+   */
+  function misturar(hexA, hexB, t) {
+    const canais = (hex) => [0, 2, 4].map((i) => parseInt(hex.replace('#', '').slice(i, i + 2), 16));
+    const [a, b] = [canais(hexA), canais(hexB)];
+    const p = Math.min(1, Math.max(0, t));
+    const hx = (n) => Math.round(n).toString(16).padStart(2, '0');
+    return `#${a.map((v, i) => hx(v + (b[i] - v) * p)).join('')}`;
+  }
+
   const rgba = (hex, a) => {
     const h = hex.replace('#', '');
     const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16));
@@ -146,9 +159,9 @@ window.Viz = (function () {
    */
   const ALVO = { intersect: false };
 
-  function ligarTooltip(canvas, chart, montar) {
+  function ligarTooltip(canvas, chart, montar, alvo = ALVO) {
     const mover = (ev) => {
-      const pontos = chart.getElementsAtEventForMode(ev, 'nearest', ALVO, true);
+      const pontos = chart.getElementsAtEventForMode(ev, 'nearest', alvo, true);
       if (!pontos.length) { esconderTip(); return; }
       const html = montar(pontos, chart);
       if (!html) { esconderTip(); return; }
@@ -279,6 +292,36 @@ window.Viz = (function () {
     };
   }
 
+  /**
+   * Rosca de composicao (pizza com buraco). A leitura de proporcao vive no
+   * angulo; o buraco guarda o total do recorte, para o numero absoluto nao
+   * depender do tooltip. Vao de 2px na cor da superficie entre as fatias, como
+   * na empilhada 100% — a mesma gramatica de separacao em todo o painel.
+   * Nunca mais de 8 fatias: a cauda chega ja somada em "Outros", em cinza.
+   */
+  function rosca({ labels, valores, cores, titulos = null, centro = null }) {
+    return {
+      type: 'doughnut',
+      data: {
+        labels,
+        titulos,
+        datasets: [{
+          label: 'Cursos',
+          data: valores,
+          backgroundColor: cores,
+          borderColor: T.surface,
+          borderWidth: 2,
+          hoverOffset: 6,
+        }],
+      },
+      options: {
+        cutout: '62%',
+        layout: { padding: 8 },
+        plugins: centro ? { centro } : {},
+      },
+    };
+  }
+
   /** Dispersao meta x realizado, com a reta de referencia y = x. */
   function dispersao({ pontos, xTitulo, yTitulo, limite }) {
     return {
@@ -347,6 +390,30 @@ window.Viz = (function () {
     },
   };
   Chart.register(pluginPontas);
+
+  /** Total no buraco da rosca: a proporcao esta no angulo, o absoluto no centro. */
+  const pluginCentro = {
+    id: 'centro',
+    afterDatasetsDraw(chart, _args, opts) {
+      if (!opts || !opts.valor) return;
+      const arco = chart.getDatasetMeta(0)?.data?.[0];
+      if (!arco) return;
+      const { ctx } = chart;
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = T.ink;
+      ctx.font = `700 22px ${Chart.defaults.font.family}`;
+      ctx.fillText(opts.valor, arco.x, arco.y - 7);
+      if (opts.titulo) {
+        ctx.fillStyle = T.muted;
+        ctx.font = `500 11px ${Chart.defaults.font.family}`;
+        ctx.fillText(opts.titulo, arco.x, arco.y + 12);
+      }
+      ctx.restore();
+    },
+  };
+  Chart.register(pluginCentro);
 
   /* ------------------------------------------------------------- cartoes ----- */
 
@@ -466,12 +533,17 @@ window.Viz = (function () {
     const chart = new Chart(canvas, res.config);
     instancias.set(spec.id, chart);
 
-    ligarTooltip(canvas, chart, res.tooltip || padraoTooltip(res));
+    // Na rosca o vao entre fatias nao e zona morta, mas o miolo e o lado de fora
+    // do anel sao: sem intersect, um clique no vazio escolheria a fatia mais
+    // proxima e filtraria o painel por algo que ninguem apontou.
+    const alvo = res.alvo || ALVO;
+
+    ligarTooltip(canvas, chart, res.tooltip || padraoTooltip(res), alvo);
 
     if (spec.onPick) {
       canvas.style.cursor = 'pointer';
       canvas.addEventListener('click', (ev) => {
-        const pontos = chart.getElementsAtEventForMode(ev, 'nearest', ALVO, true);
+        const pontos = chart.getElementsAtEventForMode(ev, 'nearest', alvo, true);
         if (!pontos.length) return;
         // Fora do despacho do evento: aplicar o filtro destroi este grafico, e
         // o Chart.js ainda esta percorrendo os proprios ouvintes.
@@ -563,6 +635,7 @@ window.Viz = (function () {
     seqColor,
     inkOn,
     rgba,
+    misturar,
     registrar,
     montarAba,
     atualizar,
@@ -571,6 +644,7 @@ window.Viz = (function () {
     colunasAgrupadas,
     areaEmpilhada,
     empilhada100,
+    rosca,
     dispersao,
     eixoValor,
     eixoCategoria,

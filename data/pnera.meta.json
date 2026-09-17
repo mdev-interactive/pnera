@@ -1,7 +1,7 @@
 {
-  "fonte": "OFICIAL PNERA_03-09-2026-.xlsx",
+  "fonte": "OFICIAL PNERA_16-09-2026.xlsx",
   "aba": "CURSOS GERAL",
-  "geradoEm": "2026-09-11T20:22:03.030Z",
+  "geradoEm": "2026-09-17T10:51:46.711Z",
   "totalCursos": 585,
   "periodo": {
     "anoMin": 1998,
@@ -70,6 +70,10 @@
     "fase": [
       "PNERA II",
       "PNERA III"
+    ],
+    "situacao": [
+      "Concluído",
+      "Em andamento"
     ],
     "areaTematica": [
       "Agroecologia",
@@ -668,11 +672,11 @@
       "total": 585
     },
     "metaFinal": {
-      "preenchidos": 208,
+      "preenchidos": 207,
       "total": 585
     },
     "matriculados": {
-      "preenchidos": 497,
+      "preenchidos": 498,
       "total": 585
     },
     "concluintes": {
@@ -685,6 +689,10 @@
     },
     "curso": {
       "preenchidos": 261,
+      "total": 585
+    },
+    "situacao": {
+      "preenchidos": 585,
       "total": 585
     },
     "anoInicio": {
@@ -720,11 +728,11 @@
     "cursos": 585,
     "turmas": 9129,
     "metaInicial": 64609,
-    "metaFinal": 20765,
-    "matriculados": 201785,
+    "metaFinal": 19371,
+    "matriculados": 203179,
     "concluintes": 96194,
     "bolsistas": 5718,
-    "taxaConclusaoGlobal": 47.7,
+    "taxaConclusaoGlobal": 47.3,
     "ufs": 27,
     "municipios": 247,
     "instituicoes": 147

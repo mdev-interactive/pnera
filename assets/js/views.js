@@ -48,6 +48,126 @@
 
   const semDados = (rows) => rows.length === 0;
 
+  /**
+   * Corte seco com reticencias. Ao contrario de `nomesLimitados`, nao troca o
+   * nome pela sigla final: em modalidades o que distingue esta no comeco
+   * ("EJA Ensino Médio/Técnico (Integrado)" x "Ensino Médio/Técnico
+   * (Integrado)"), e ficar so com a sigla juntaria as duas num "Integrado" so.
+   */
+  const cortar = (s, max) => (!s || s.length <= max ? s : `${s.slice(0, max - 1)}…`);
+
+  /**
+   * Rampa de um tom esticada sobre n categorias ordinais. Interpola entre os
+   * passos em vez de arredondar para o mais proximo: com 6 niveis e 5 passos,
+   * arredondar daria a mesma cor a dois niveis vizinhos — em fatias encostadas
+   * uma na outra, isso apaga a fronteira entre elas.
+   */
+  function rampaOrdinal(n) {
+    const passos = V.T.seq;
+    return Array.from({ length: n }, (_, i) => {
+      const p = (i / Math.max(1, n - 1)) * (passos.length - 1);
+      const base = Math.floor(p);
+      return V.misturar(passos[base], passos[Math.min(passos.length - 1, base + 1)], p - base);
+    });
+  }
+
+  /**
+   * Cartao de composicao em rosca: que fatia do recorte cada categoria ocupa.
+   * Dimensao ordinal (nivel) segue a ordem da escala e recebe a rampa de um
+   * tom; dimensao nominal e ordenada por tamanho e recebe os slots
+   * categoricos, com a cauda somada em "Outros" (cinza, nunca uma cor nova).
+   * A tabela gemea traz a lista inteira, inclusive o que entrou em "Outros".
+   */
+  function registrarRosca({ id, aba, span, title, hint, dim, ordinal = false, fatias = 7 }) {
+    const D = P.DIMENSOES[dim];
+    registrar({
+      id,
+      aba,
+      span,
+      title,
+      hint,
+      height: 300,
+      build(rows) {
+        if (semDados(rows)) return { vazio: true, linhas: [] };
+        const grupos = P.groupBy(rows, D.get, ['matriculados']);
+        if (!grupos.length) {
+          return {
+            vazio: true,
+            linhas: [],
+            vazioMensagem: `Nenhum curso do recorte registra ${D.rotulo.toLowerCase()}.`,
+          };
+        }
+
+        let linhas;
+        let dobradas = 0;
+        if (ordinal) {
+          // Ordem da escala, nao do tamanho: numa dimensao ordinal a sequencia
+          // e parte do significado.
+          const ordem = P.meta.valores?.[dim] ?? [];
+          linhas = grupos.slice().sort((a, b) => ordem.indexOf(a.chave) - ordem.indexOf(b.chave));
+        } else {
+          ({ linhas, dobradas } = P.topN(grupos, fatias, 'cursos'));
+        }
+
+        const cores = ordinal
+          ? rampaOrdinal(linhas.length)
+          : linhas.map((l, i) => (l.__outros ? V.T.outros : V.slot(i)));
+        const total = linhas.reduce((s, l) => s + l.cursos, 0);
+        const fatia = (v) => (total ? (v / total) * 100 : 0);
+
+        return {
+          linhas,
+          config: V.rosca({
+            // A rosca nao tem eixo: o nome inteiro cabe no rotulo, e so a
+            // legenda em HTML precisa de corte.
+            labels: linhas.map((l) => l.chave),
+            titulos: linhas.map((l) => l.chave),
+            valores: linhas.map((l) => l.cursos),
+            cores,
+            centro: { valor: compact(total), titulo: total === 1 ? 'curso' : 'cursos' },
+          }),
+          // O miolo e o lado de fora do anel sao vazio de verdade: sem
+          // intersect, um clique ali filtraria por uma fatia que ninguem apontou.
+          alvo: { intersect: true },
+          legend: linhas.map((l, i) => ({
+            nome: `${cortar(l.chave, 30)} · ${pct(fatia(l.cursos), 0)}`,
+            cor: cores[i],
+          })),
+          coverage: { preenchidos: total, total: rows.length, rotulo: D.rotulo.toLowerCase() },
+          note: dobradas ? `${dobradas} categorias menores somadas em "Outros".` : null,
+          tooltip: (pontos, chart) => {
+            const i = pontos[0].index;
+            const l = linhas[i];
+            if (!l) return '';
+            return `<div class="viz-tip__title">${chart.data.titulos[i]}</div>`
+              + V.linhaTip(cores[i], 'Cursos', int(l.cursos))
+              + `<div class="viz-tip__note">${pct(fatia(l.cursos))} do recorte`
+              + (l.__outros ? ` · ${l.__membros.length} categorias` : '') + '</div>';
+          },
+          table: {
+            columns: [
+              { key: 'chave', label: D.rotulo },
+              { key: 'cursos', label: 'Cursos', num: true },
+              { key: 'share', label: 'Participação', num: true },
+              { key: 'matriculados', label: 'Matriculados', num: true },
+            ],
+            rows: (ordinal ? linhas : grupos.slice().sort(P.desc('cursos'))).map((l) => ({
+              chave: l.chave,
+              cursos: int(l.cursos),
+              share: pct(fatia(l.cursos)),
+              matriculados: int(l.matriculados),
+            })),
+          },
+        };
+      },
+      onPick(ponto, chart, res) {
+        const linha = res.linhas?.[ponto.index];
+        if (!linha || linha.__outros) return;
+        F.alternar(dim, linha.chave);
+      },
+    });
+  }
+
   /* ======================================================= ABA: VISAO GERAL == */
 
   registrar({
@@ -230,6 +350,51 @@
     return { pontos, maxPonto, plotados };
   }
 
+  const ICONE_IMPRIMIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/>'
+    + '<path d="M6 14h12v7H6z"/></svg>';
+
+  /**
+   * Imprime so o cartao do mapa. Nao abre outra janela nem serializa o SVG: o
+   * mesmo documento entra em modo de impressao (`body.imprimindo-mapa`) e o CSS
+   * esconde o resto — assim o desenho sai com o tema, o aparato cartografico e a
+   * legenda que ja estao na tela, sem copia paralela para manter.
+   */
+  function imprimirMapa(box) {
+    const card = box.closest('.card');
+    if (!card) return;
+
+    // Na folha o mapa perde o painel de filtros ao lado: o recorte vai junto,
+    // senao a imagem impressa nao diz de que recorte ela e.
+    let legenda = card.querySelector('.js-print-caption');
+    if (!legenda) {
+      legenda = document.createElement('p');
+      legenda.className = 'print-caption js-print-caption';
+      card.appendChild(legenda);
+    }
+    const ativos = F.ativos();
+    const recorte = ativos.length
+      ? ativos.map((a) => `${a.rotulo}: ${a.valor}`).join(' · ')
+      : 'todos os cursos (sem filtros)';
+    legenda.textContent = `PNERA — Educação na Reforma Agrária · Pronera. Recorte: ${recorte}. `
+      + `${int(F.recorte().length)} de ${int(P.data.length)} cursos. `
+      + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
+
+    card.classList.add('is-print-target');
+    document.body.classList.add('imprimindo-mapa');
+    const limpar = () => {
+      window.removeEventListener('afterprint', limpar);
+      document.body.classList.remove('imprimindo-mapa');
+      card.classList.remove('is-print-target');
+    };
+    window.addEventListener('afterprint', limpar);
+    window.print();
+    // Rede de seguranca: em navegador que nao dispara afterprint, o painel
+    // voltaria ao normal so no proximo redesenho.
+    setTimeout(limpar, 1000);
+  }
+
   registrar({
     id: 'mapa',
     aba: 'territorios',
@@ -275,6 +440,15 @@
         medidaMapa = ev.target.value;
         V.atualizar(F.recorte());
       });
+
+      const botaoImprimir = document.createElement('button');
+      botaoImprimir.type = 'button';
+      botaoImprimir.className = 'icon-btn js-imprimir-mapa';
+      botaoImprimir.title = 'Imprimir apenas o mapa, com o recorte atual';
+      botaoImprimir.innerHTML = `${ICONE_IMPRIMIR}Imprimir mapa`;
+      botaoImprimir.addEventListener('click', () => imprimirMapa(box));
+      barra.appendChild(botaoImprimir);
+
       box.appendChild(barra);
       window.MapaUF.desenhar(box, {
         valores: res.valores,
@@ -442,6 +616,38 @@
       scroll.appendChild(tabela);
       box.appendChild(scroll);
     },
+  });
+
+  /*
+    Trio de composicao: as mesmas tres perguntas de "quanto do recorte e cada
+    coisa", uma por dimensao. Clique na fatia filtra o painel inteiro.
+  */
+  registrarRosca({
+    id: 'roscaModalidade',
+    aba: 'cursos',
+    span: 4,
+    title: 'Composição por modalidade',
+    hint: 'Participação de cada modalidade no recorte. As menores entram em "Outros".',
+    dim: 'modalidade',
+  });
+
+  registrarRosca({
+    id: 'roscaNivel',
+    aba: 'cursos',
+    span: 4,
+    title: 'Composição por nível de ensino',
+    hint: 'Do ensino fundamental à pós-graduação, na ordem da escala.',
+    dim: 'nivel',
+    ordinal: true,
+  });
+
+  registrarRosca({
+    id: 'roscaAreaTematica',
+    aba: 'cursos',
+    span: 4,
+    title: 'Composição por área temática',
+    hint: 'Participação de cada uma das áreas temáticas do Pronera.',
+    dim: 'areaTematica',
   });
 
   registrar({

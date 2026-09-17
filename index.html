@@ -20,8 +20,8 @@
     bootstrap e chart.js so mudam quando o arquivo e trocado por outra versao).
   -->
   <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/theme.css?v=8">
-  <link rel="stylesheet" href="assets/css/app.css?v=8">
+  <link rel="stylesheet" href="assets/css/theme.css?v=12">
+  <link rel="stylesheet" href="assets/css/app.css?v=12">
 </head>
 <body>
   <a class="skip-link" href="#painel">Ir para o conteúdo</a>
@@ -87,6 +87,27 @@
       </div>
     </div>
 
+    <!--
+      Filtros ativos vivem num painel lateral: a barra do topo so anuncia quantos
+      sao, para a lista nunca empurrar o dashboard para baixo.
+    -->
+    <div class="offcanvas offcanvas-end chips-panel" tabindex="-1" id="offcanvasAtivos"
+         aria-labelledby="offcanvasAtivosTitulo">
+      <div class="offcanvas-header">
+        <h2 class="offcanvas-title h6 mb-0" id="offcanvasAtivosTitulo">Filtros ativos</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body">
+        <p class="chips-panel__resumo" id="chips-resumo"></p>
+        <div class="chips__list" id="chips-lista"></div>
+      </div>
+      <div class="chips-panel__foot">
+        <button type="button" class="btn btn-outline-secondary w-100 js-limpar-tudo-chips">
+          Limpar todos os filtros
+        </button>
+      </div>
+    </div>
+
     <main>
       <h1 class="visually-hidden">Painel da Pesquisa Nacional de Educação na Reforma Agrária</h1>
 
@@ -121,15 +142,15 @@
 
   <script src="assets/vendor/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.umd.min.js"></script>
-  <script src="assets/js/uf-paths.js?v=8"></script>
-  <script src="assets/js/municipio-coords.js?v=8"></script>
-  <script src="assets/js/dataset.js?v=8"></script>
-  <script src="assets/js/data.js?v=8"></script>
-  <script src="assets/js/filters.js?v=8"></script>
-  <script src="assets/js/charts.js?v=8"></script>
-  <script src="assets/js/map.js?v=8"></script>
-  <script src="assets/js/views.js?v=8"></script>
-  <script src="assets/js/table.js?v=8"></script>
-  <script src="assets/js/app.js?v=8"></script>
+  <script src="assets/js/uf-paths.js?v=12"></script>
+  <script src="assets/js/municipio-coords.js?v=12"></script>
+  <script src="assets/js/dataset.js?v=12"></script>
+  <script src="assets/js/data.js?v=12"></script>
+  <script src="assets/js/filters.js?v=12"></script>
+  <script src="assets/js/charts.js?v=12"></script>
+  <script src="assets/js/map.js?v=12"></script>
+  <script src="assets/js/views.js?v=12"></script>
+  <script src="assets/js/table.js?v=12"></script>
+  <script src="assets/js/app.js?v=12"></script>
 </body>
 </html>

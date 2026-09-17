@@ -520,66 +520,190 @@ function ano(raw) {
   return n != null && n >= 1990 && n <= 2035 ? n : null;
 }
 
+const normSituacao = domain({
+  CONCLUIDO: 'Concluído',
+  CONCLUIDA: 'Concluído',
+  'EM ANDAMENTO': 'Em andamento',
+  ANDAMENTO: 'Em andamento',
+}, { fallback: () => null });
+
+/* ------------------------------------------------------------- colunas ---- */
+
+/**
+ * Mapa campo -> cabecalho, na ordem em que as colunas aparecem na aba. As letras
+ * nao sao fixas de proposito: a planilha de 16/09/2026 inseriu "SITUACAO" em F e
+ * empurrou tudo que vinha depois uma casa. Resolver pelo cabecalho faz a proxima
+ * insercao ser inofensiva; com letras fixas, ela renomearia silenciosamente
+ * metade da base (municipio viraria codigo, coordenador viraria titulacao).
+ */
+const COLUNAS = [
+  ['fase', 'PNERA II / PNERA III'],
+  ['codigoSei', 'CODIGO SEI'],
+  ['nomeProcessual', 'NOME PROCESSUAL DO CURSO'],
+  ['curso', 'CURSO'],
+  ['situacao', 'SITUACAO'],
+  ['areaTematica', 'AREA TEMATICA'],
+  ['areaConhecimento', 'AREA DO CONHECIMENTO'],
+  ['nivel', 'NIVEL DO CURSO'],
+  ['modalidade', 'MODALIDADE'],
+  ['macrorregiao', 'MACRO-REGIAO'],
+  ['uf', 'ESTADO'],
+  ['municipio', 'MUNICIPIO'],
+  ['codMunicipio', 'COD MUNICIPIO'],
+  ['superintendencia', 'SUPER INTENDENCIA'],
+  ['instrumento', 'INSTRUMENTO'],
+  ['numeroInstrumento', 'NUMERO DO INSTRUMENTO'],
+  ['vigenciaInicio', 'VIGENCIA DO INSTRUMENTO (INICIO)'],
+  ['vigenciaFim', 'VIGENCIA DO INSTRUMENTO (FIM)'],
+  ['previstoInicio', 'MES/ANO PREVISTO PARA INICIO DO CURSO'],
+  ['previstoFim', 'MES/ANO PREVISTO PARA FIM DO CURSO'],
+  ['nup', 'NUP'],
+  ['inicio', 'MES/ANO INICIO DO CURSO'],
+  ['anoInicio', 'ANO DE INICIO DO CURSO'],
+  ['fim', 'MES/ANO FIM DO CURSO'],
+  ['anoFim', 'ANO DE FIM DO CURSO'],
+  ['turmas', 'NUMERO DE TURMAS'],
+  ['metaInicial', 'NUMERO DE ALUNOS (META INICIAL)'],
+  ['metaFinal', 'NUMERO DE ALUNOS (META FINAL)'],
+  ['matriculados', 'NUMERO DE ALUNOS INGRESSANTES (MATRICULADOS)'],
+  ['concluintes', 'NUMERO DE ALUNOS CONCLUINTES (FORMADOS)'],
+  ['bolsistas', 'NUMERO DE BOLSISTAS'],
+  ['coordProjeto', 'COORDENADOR DO PROJETO'],
+  ['coordProjetoTit', 'TITULACAO DO COORDENADOR DO PROJETO'],
+  ['coordGeral', 'COORDENADOR GERAL'],
+  ['coordGeralTit', 'TITULACAO DO COORDENADOR GERAL'],
+  ['viceCoord', 'VICE COORDENADOR'],
+  ['viceCoordTit', 'TITULACAO DO VICE COORDENADOR'],
+  ['coordPedagogico', 'COORDENADOR PEDAGOGICO'],
+  ['coordPedagogicoTit', 'TITULACAO DO COORDENADOR PEDAGOGICO'],
+  ['iesNome', 'INSTITUICAO DE ENSINO REALIZADORA'],
+  ['iesMacrorregiao', 'MACRO-REGIAO DA INSTITUICAO REALIZADORA'],
+  ['iesUf', 'ESTADO'],
+  ['iesMunicipio', 'MUNICIPIO'],
+  ['iesCodMunicipio', 'COD MUNICIPIO'],
+  ['iesNatureza', 'NATUREZA DA INSTITUICAO REALIZADORA'],
+  ['demandanteNome', 'NOME DA ORGANIZACAO DEMANDANTE'],
+  ['demandanteNatureza', 'NATUREZA DA ORGANIZACAO DEMANDANTE'],
+  ['demandanteAbrangencia', 'ABRANGENCIA DA INSTITUICAO DEMANDANTE'],
+  ['parceiraNomes', 'NOME DA INSTITUICAO PARCEIRA'],
+  ['parceiraNatureza', 'NATUREZA DA INSTITUICAO PARCEIRA'],
+  ['parceiraMacrorregiao', 'LOCALIZACAO DA INSTITUICAO PARCEIRA MACRO REGIAO'],
+  ['parceiraUf', 'LOCALIZACAO DA INSTITUICAO PARCEIRA ESTADO'],
+  ['parceiraAbrangencia', 'ABRANGENCIA DA INSTITUICAO PARCEIRA'],
+  ['parceiraAtuacao', 'ATUACAO DA INSTITUICAO PARCEIRA'],
+];
+
+/** Colunas obrigatorias: sem elas o dataset sai mudo em vez de sair errado. */
+const COLUNAS_OBRIGATORIAS = new Set([
+  'fase', 'nomeProcessual', 'curso', 'areaTematica', 'nivel', 'uf', 'municipio',
+  'matriculados', 'iesNome',
+]);
+
+/** "A".."Z", "AA".. -> posicao numerica, para ordenar as colunas do cabecalho. */
+function colIndex(letra) {
+  let n = 0;
+  for (const ch of letra) n = n * 26 + (ch.charCodeAt(0) - 64);
+  return n;
+}
+
+/**
+ * Resolve campo -> letra casando os cabecalhos em ordem. Como COLUNAS segue a
+ * ordem da planilha, o cursor avanca e "ESTADO"/"MUNICIPIO" duplicados caem
+ * naturalmente no par certo (o do curso primeiro, o da IES depois). O casamento
+ * aceita prefixo porque a planilha anota titulos ("CURSO (Ocultar)").
+ */
+function mapearColunas(header) {
+  const letras = Object.keys(header).sort((a, b) => colIndex(a) - colIndex(b));
+  const titulos = letras.map((l) => key(header[l]));
+
+  const mapa = {};
+  const faltando = [];
+  let cursor = 0;
+  for (const [campo, titulo] of COLUNAS) {
+    const alvo = key(titulo);
+    let achado = -1;
+    for (let i = cursor; i < titulos.length; i++) {
+      if (titulos[i] === alvo || titulos[i].startsWith(`${alvo} `) || titulos[i].startsWith(`${alvo}(`)) {
+        achado = i;
+        break;
+      }
+    }
+    if (achado < 0) { faltando.push(campo); continue; }
+    mapa[campo] = letras[achado];
+    cursor = achado + 1;
+  }
+
+  const criticas = faltando.filter((c) => COLUNAS_OBRIGATORIAS.has(c));
+  if (criticas.length) {
+    throw new Error(`Colunas obrigatorias nao encontradas no cabecalho: ${criticas.join(', ')}`);
+  }
+  if (faltando.length) console.log(`aviso: colunas ausentes na planilha: ${faltando.join(', ')}`);
+  return mapa;
+}
+
 /* ------------------------------------------------------- transformacao ---- */
 
-function buildCurso(cells, index) {
-  const inicio = periodo(cells.V);
-  const fim = periodo(cells.X);
-  const previstoInicio = periodo(cells.S);
-  const previstoFim = periodo(cells.T);
-  const vigenciaInicio = periodo(cells.Q);
-  const vigenciaFim = periodo(cells.R);
+function buildCurso(cells, index, col) {
+  const at = (campo) => (col[campo] ? cells[col[campo]] : undefined);
 
-  const anoInicio = ano(cells.W) ?? inicio.ano ?? previstoInicio.ano;
-  const anoFim = ano(cells.Y) ?? fim.ano ?? previstoFim.ano;
+  const inicio = periodo(at('inicio'));
+  const fim = periodo(at('fim'));
+  const previstoInicio = periodo(at('previstoInicio'));
+  const previstoFim = periodo(at('previstoFim'));
+  const vigenciaInicio = periodo(at('vigenciaInicio'));
+  const vigenciaFim = periodo(at('vigenciaFim'));
 
-  const uf = normUf(cells.K);
+  const anoInicio = ano(at('anoInicio')) ?? inicio.ano ?? previstoInicio.ano;
+  const anoFim = ano(at('anoFim')) ?? fim.ano ?? previstoFim.ano;
+
+  const uf = normUf(at('uf'));
   const ufSigla = uf ? UF_SIGLAS[uf] ?? null : null;
   // Macrorregiao da planilha, com a UF como fonte de verdade quando divergir.
-  const macrorregiao = (ufSigla && UF_REGIAO[ufSigla]) || normRegiao(cells.J);
+  const macrorregiao = (ufSigla && UF_REGIAO[ufSigla]) || normRegiao(at('macrorregiao'));
 
-  const iesUf = normUf(cells.AP);
+  const iesUf = normUf(at('iesUf'));
   const iesSigla = iesUf ? UF_SIGLAS[iesUf] ?? null : null;
-  const iesRegiao = (iesSigla && UF_REGIAO[iesSigla]) || normRegiao(cells.AO);
+  const iesRegiao = (iesSigla && UF_REGIAO[iesSigla]) || normRegiao(at('iesMacrorregiao'));
 
   const coordenadores = [
-    ['Coordenação do projeto', cells.AF, cells.AG],
-    ['Coordenação geral', cells.AH, cells.AI],
-    ['Vice-coordenação', cells.AJ, cells.AK],
-    ['Coordenação pedagógica', cells.AL, cells.AM],
+    ['Coordenação do projeto', at('coordProjeto'), at('coordProjetoTit')],
+    ['Coordenação geral', at('coordGeral'), at('coordGeralTit')],
+    ['Vice-coordenação', at('viceCoord'), at('viceCoordTit')],
+    ['Coordenação pedagógica', at('coordPedagogico'), at('coordPedagogicoTit')],
   ]
     .map(([papel, nome, titulacao]) => ({ papel, nome: titleCase(nome), titulacao: primeiraTitulacao(titulacao) }))
     .filter((c) => c.nome || c.titulacao);
 
-  const matriculados = int(cells.AC);
-  const concluintes = int(cells.AD);
+  const matriculados = int(at('matriculados'));
+  const concluintes = int(at('concluintes'));
 
-  const parceiraRegiaoUf = normUf(cells.AZ);
+  const parceiraRegiaoUf = normUf(at('parceiraUf'));
 
   return {
     id: index + 1,
-    fase: clean(cells.B),
-    codigoSei: codigoSei(cells.C),
-    nomeProcessual: titleCase(cells.D),
-    curso: titleCase(cells.E),
+    fase: clean(at('fase')),
+    codigoSei: codigoSei(at('codigoSei')),
+    nomeProcessual: titleCase(at('nomeProcessual')),
+    curso: titleCase(at('curso')),
+    situacao: normSituacao(at('situacao')),
 
-    areaTematica: normAreaTematica(cells.F),
-    areaConhecimento: normAreaConhecimento(cells.G),
-    nivel: normNivel(cells.H),
-    modalidade: normModalidade(cells.I),
+    areaTematica: normAreaTematica(at('areaTematica')),
+    areaConhecimento: normAreaConhecimento(at('areaConhecimento')),
+    nivel: normNivel(at('nivel')),
+    modalidade: normModalidade(at('modalidade')),
 
     macrorregiao,
     uf,
     ufSigla,
-    municipio: titleCase(cells.L),
-    codMunicipio: codigoMunicipio(cells.M, cells.L, ufSigla),
-    superintendencia: titleCase(cells.N),
+    municipio: titleCase(at('municipio')),
+    codMunicipio: codigoMunicipio(at('codMunicipio'), at('municipio'), ufSigla),
+    superintendencia: titleCase(at('superintendencia')),
 
-    instrumento: normInstrumento(cells.O),
-    numeroInstrumento: clean(cells.P),
+    instrumento: normInstrumento(at('instrumento')),
+    numeroInstrumento: clean(at('numeroInstrumento')),
     vigenciaInicio: vigenciaInicio.texto,
     vigenciaFim: vigenciaFim.texto,
-    nup: clean(cells.U),
+    nup: clean(at('nup')),
 
     previstoInicio: previstoInicio.texto,
     previstoFim: previstoFim.texto,
@@ -591,12 +715,12 @@ function buildCurso(cells, index) {
     mesFim: fim.mes ?? null,
     duracaoAnos: anoInicio && anoFim && anoFim >= anoInicio ? anoFim - anoInicio : null,
 
-    turmas: int(cells.Z),
-    metaInicial: int(cells.AA),
-    metaFinal: int(cells.AB),
+    turmas: int(at('turmas')),
+    metaInicial: int(at('metaInicial')),
+    metaFinal: int(at('metaFinal')),
     matriculados,
     concluintes,
-    bolsistas: int(cells.AE),
+    bolsistas: int(at('bolsistas')),
     taxaConclusao: matriculados && concluintes != null && matriculados > 0
       ? Math.round((concluintes / matriculados) * 1000) / 10
       : null,
@@ -604,29 +728,29 @@ function buildCurso(cells, index) {
     coordenadores,
 
     ies: {
-      nome: titleCase(cells.AN),
+      nome: titleCase(at('iesNome')),
       macrorregiao: iesRegiao,
       uf: iesUf,
       ufSigla: iesSigla,
-      municipio: titleCase(cells.AQ),
-      codMunicipio: codigoMunicipio(cells.AR, cells.AQ, iesSigla),
-      natureza: multi(cells.AS, normNatureza),
+      municipio: titleCase(at('iesMunicipio')),
+      codMunicipio: codigoMunicipio(at('iesCodMunicipio'), at('iesMunicipio'), iesSigla),
+      natureza: multi(at('iesNatureza'), normNatureza),
     },
 
     demandante: {
-      nome: titleCase(cells.AT),
-      nomes: multiNomes(cells.AT),
-      natureza: multi(cells.AU, normNatureza),
-      abrangencia: multi(cells.AV, normAbrangencia),
+      nome: titleCase(at('demandanteNome')),
+      nomes: multiNomes(at('demandanteNome')),
+      natureza: multi(at('demandanteNatureza'), normNatureza),
+      abrangencia: multi(at('demandanteAbrangencia'), normAbrangencia),
     },
 
     parceiras: {
-      nomes: multiNomes(cells.AW),
-      natureza: multi(cells.AX, normNatureza),
-      macrorregiao: (parceiraRegiaoUf && UF_REGIAO[UF_SIGLAS[parceiraRegiaoUf]]) || normRegiao(cells.AY),
+      nomes: multiNomes(at('parceiraNomes')),
+      natureza: multi(at('parceiraNatureza'), normNatureza),
+      macrorregiao: (parceiraRegiaoUf && UF_REGIAO[UF_SIGLAS[parceiraRegiaoUf]]) || normRegiao(at('parceiraMacrorregiao')),
       uf: parceiraRegiaoUf,
-      abrangencia: multi(cells.BA, normAbrangencia),
-      atuacao: multiNomes(cells.BB),
+      abrangencia: multi(at('parceiraAbrangencia'), normAbrangencia),
+      atuacao: multiNomes(at('parceiraAtuacao')),
     },
   };
 }
@@ -635,6 +759,7 @@ function buildCurso(cells, index) {
 
 const DIMENSOES = {
   fase: (c) => [c.fase],
+  situacao: (c) => [c.situacao],
   areaTematica: (c) => [c.areaTematica],
   areaConhecimento: (c) => [c.areaConhecimento],
   nivel: (c) => [c.nivel],
@@ -674,7 +799,7 @@ function buildMeta(cursos, sourceFile) {
   const cobertura = {};
   const registrar = (campo, preenchidos) => { cobertura[campo] = { preenchidos, total: cursos.length }; };
   for (const m of MEDIDAS) registrar(m, cursos.filter((c) => c[m] != null).length);
-  for (const campo of ['curso', 'anoInicio', 'anoFim', 'instrumento', 'municipio', 'duracaoAnos']) {
+  for (const campo of ['curso', 'situacao', 'anoInicio', 'anoFim', 'instrumento', 'municipio', 'duracaoAnos']) {
     registrar(campo, cursos.filter((c) => c[campo] != null).length);
   }
   registrar('demandante', cursos.filter((c) => c.demandante.nome).length);
@@ -762,17 +887,16 @@ function main() {
   collectAcronyms(rows);
 
   const header = rows.get(HEADER_ROW);
-  if (!header || key(header.D) !== 'NOME PROCESSUAL DO CURSO') {
-    throw new Error(`Cabecalho inesperado na linha ${HEADER_ROW}: ${JSON.stringify(header)}`);
-  }
+  if (!header) throw new Error(`Cabecalho ausente na linha ${HEADER_ROW}`);
+  const col = mapearColunas(header);
 
   const maxRow = Math.max(...rows.keys());
   const cursos = [];
   for (let r = HEADER_ROW + 1; r <= maxRow; r++) {
     const cells = rows.get(r);
-    // Linha valida = tem nome processual do curso (coluna D).
-    if (!cells || !clean(cells.D)) continue;
-    cursos.push(buildCurso(cells, cursos.length));
+    // Linha valida = tem nome processual do curso.
+    if (!cells || !clean(cells[col.nomeProcessual])) continue;
+    cursos.push(buildCurso(cells, cursos.length, col));
   }
 
   const meta = buildMeta(cursos, sourceFile);
@@ -796,10 +920,11 @@ const fmt = (n) => n.toLocaleString('pt-BR');
 function report(cursos, meta) {
   const { totais, cobertura } = meta;
   // Valores de referencia conferidos contra a aba "CURSOS GERAL" (linhas 4-588)
-  // da planilha OFICIAL PNERA_03-09-2026-.xlsx.
+  // da planilha OFICIAL PNERA_16-09-2026.xlsx. Ante a de 03-09 mudou so uma
+  // celula: a linha 472 moveu 1.394 de "meta final" para "matriculados".
   console.log('\n== Sanidade =====================================');
   console.log(`cursos ............... ${fmt(totais.cursos)}   (esperado 585)`);
-  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 201.785)`);
+  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 203.179)`);
   console.log(`concluintes .......... ${fmt(totais.concluintes)}   (esperado 96.194)`);
   console.log(`turmas ............... ${fmt(totais.turmas)}   (esperado 9.129)`);
   console.log(`bolsistas ............ ${fmt(totais.bolsistas)}   (esperado 5.718)`);
@@ -808,6 +933,11 @@ function report(cursos, meta) {
   console.log(`instituicoes ......... ${totais.instituicoes}`);
   console.log(`periodo .............. ${meta.periodo.anoMin}–${meta.periodo.anoMax}`);
   console.log(`taxa de conclusao .... ${totais.taxaConclusaoGlobal}%`);
+  const semSituacao = cursos.filter((c) => !c.situacao).length;
+  const porSituacao = new Map();
+  for (const c of cursos) porSituacao.set(c.situacao ?? '(sem situacao)', (porSituacao.get(c.situacao ?? '(sem situacao)') ?? 0) + 1);
+  console.log(`situacao ............. ${[...porSituacao].map(([k, v]) => `${k}: ${fmt(v)}`).join(' · ')}`
+    + `${semSituacao ? '  (INVESTIGAR)' : ' ✓'}`);
 
   console.log('\n-- cobertura (preenchidos / total) --------------');
   for (const [campo, c] of Object.entries(cobertura)) {
@@ -828,7 +958,7 @@ function report(cursos, meta) {
   }
 
   console.log('\n-- dimensoes normalizadas ----------------------');
-  for (const dim of ['fase', 'macrorregiao', 'nivel', 'modalidade', 'areaConhecimento', 'iesNatureza']) {
+  for (const dim of ['fase', 'situacao', 'macrorregiao', 'nivel', 'modalidade', 'areaConhecimento', 'iesNatureza']) {
     console.log(`  ${dim.padEnd(18)} ${meta.valores[dim].length} valores: ${meta.valores[dim].slice(0, 6).join(' | ')}${meta.valores[dim].length > 6 ? ' …' : ''}`);
   }
 

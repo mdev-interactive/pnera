@@ -40,8 +40,9 @@
     { dim: 'modalidade', aberto: false },
     { tipo: 'matriculas' },
     { dim: 'iesNatureza', aberto: false },
-    { dim: 'ies', aberto: false, busca: true },
+    { dim: 'ies', aberto: false, busca: true, todos: true },
     { dim: 'demandante', aberto: false, busca: true },
+    { dim: 'situacao', aberto: true },
     { dim: 'fase', aberto: true },
     { dim: 'instrumento', aberto: false },
   ];
@@ -232,22 +233,46 @@
 
   /* ------------------------------------------------------------------ chips -- */
 
+  /**
+   * A barra no topo do painel so resume ("7 filtros ativos"); a lista inteira
+   * mora no offcanvas lateral, para nunca roubar altura do dashboard.
+   */
   function pintarChips(rows) {
     const el = $('#chips');
+    const lista = $('#chips-lista');
     const ativos = F.ativos();
-    if (!ativos.length) { el.innerHTML = ''; return; }
-    el.innerHTML = ativos.map((a, i) => `
+    const contagem = `${int(rows.length)} de ${int(P.data.length)} cursos`;
+
+    if (!ativos.length) {
+      el.innerHTML = '';
+      lista.innerHTML = '';
+      fecharPainelChips();
+      return;
+    }
+
+    const plural = ativos.length === 1 ? 'filtro ativo' : 'filtros ativos';
+    el.innerHTML = `
+      <div class="chips__bar">
+        <button type="button" class="chips__toggle" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasAtivos" aria-controls="offcanvasAtivos">
+          <span class="chips__badge">${ativos.length}</span>
+          <span>${plural}</span>
+          <span class="chips__caret" aria-hidden="true">&rsaquo;</span>
+        </button>
+        <span class="chips__resumo">${contagem}</span>
+        <button type="button" class="chips__clear js-limpar-tudo-chips">Limpar tudo</button>
+      </div>`;
+
+    $('#chips-resumo').textContent = contagem;
+    lista.innerHTML = ativos.map((a, i) => `
       <span class="chip">
         <span class="chip__dim">${a.rotulo}:</span>
         <span class="chip__val" title="${a.valor}">${a.valor}</span>
         <button type="button" class="chip__x js-chip" data-i="${i}"
                 aria-label="Remover filtro ${a.rotulo} ${a.valor}">&times;</button>
-      </span>`).join('')
-      + `<span class="chip" style="background:var(--brand-wash);border-color:var(--series-1)">
-           <span class="chip__val">${int(rows.length)} de ${int(P.data.length)} cursos</span></span>`
-      + `<button type="button" class="chips__clear js-limpar-tudo-chips">Limpar tudo</button>`;
+      </span>`).join('');
 
-    el.querySelectorAll('.js-chip').forEach((btn) => {
+    lista.querySelectorAll('.js-chip').forEach((btn) => {
       btn.addEventListener('click', () => {
         const a = ativos[Number(btn.dataset.i)];
         if (a.tipo === 'dim') F.alternar(a.dim, a.valor, false);
@@ -256,7 +281,12 @@
         else F.buscar('');
       });
     });
-    $('.js-limpar-tudo-chips', el).addEventListener('click', () => F.limpar());
+  }
+
+  /** Sem filtro nenhum o painel lateral perde o assunto: fecha junto. */
+  function fecharPainelChips() {
+    const alvo = document.getElementById('offcanvasAtivos');
+    if (alvo) window.bootstrap?.Offcanvas.getInstance(alvo)?.hide();
   }
 
   /* ------------------------------------------------------------------- KPIs -- */
@@ -341,7 +371,7 @@
   /** Botão "limpar filtros" dos estados vazios, onde quer que apareça. */
   function ligarLimparDelegado() {
     document.addEventListener('click', (ev) => {
-      if (ev.target.closest('.js-limpar')) F.limpar();
+      if (ev.target.closest('.js-limpar, .js-limpar-tudo-chips')) F.limpar();
     });
   }
 

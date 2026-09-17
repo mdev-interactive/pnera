@@ -3,7 +3,7 @@
 Painel analítico dos dados da **Pesquisa Nacional de Educação na Reforma Agrária**
 (PNERA II e III — INCRA / Universidade de Brasília) sobre os cursos do **Pronera**.
 
-Converte a planilha `OFICIAL PNERA_03-09-2026-.xlsx` em JSON limpo e serve um
+Converte a planilha `OFICIAL PNERA_16-09-2026.xlsx` em JSON limpo e serve um
 dashboard estático com filtros cruzados. **Não precisa de servidor, build nem
 internet** — basta abrir `index.html`.
 
@@ -27,13 +27,20 @@ raiz do projeto ou em `data/` — recente pela data no nome (`DD-MM-AAAA`), não
 pela ordem alfabética. Para apontar outra, passe o caminho:
 `node tools/xlsx-to-json.mjs "data/OFICIAL PNERA_03-09-2026-.xlsx"`.
 
+As colunas são localizadas **pelo texto do cabeçalho** (linha 3), não pela letra.
+A planilha de 16/09/2026 inseriu `SITUACAO` em `F` e empurrou todas as colunas
+seguintes uma casa: com letras fixas, a conversão teria trocado município por
+código e coordenador por titulação **sem acusar erro**. O casamento percorre os
+cabeçalhos em ordem, então uma coluna nova no meio é inofensiva; se faltar uma
+coluna essencial, o script aborta.
+
 O script imprime um relatório de sanidade. Os valores conferidos contra a aba
 `CURSOS GERAL` são:
 
 | Medida | Valor |
 |---|---|
 | Cursos | 585 |
-| Matriculados | 201.785 |
+| Matriculados | 203.179 |
 | Concluintes | 96.194 |
 | Turmas | 9.129 |
 | Bolsistas | 5.718 |
@@ -41,8 +48,15 @@ O script imprime um relatório de sanidade. Os valores conferidos contra a aba
 | Municípios | 247 |
 | Instituições realizadoras | 147 |
 | Período | 1998–2026 (início) |
+| Situação | 517 concluídos · 68 em andamento |
 
 Se algum número divergir, a conversão quebrou — não publique.
+
+Ante a planilha de 03/09/2026, os totais mudaram em um único ponto: a linha 472
+(“Formação de Educadores de EJA”) moveu 1.394 de *meta final* para
+*matriculados*, o que sobe matriculados de 201.785 para 203.179 e desce a meta
+final na mesma medida. Todo o resto — cursos, turmas, concluintes, bolsistas,
+UFs, municípios e instituições — bate com a conversão anterior.
 
 As medidas **Concluintes** (e a taxa de conclusão derivada dela) e **Bolsistas**
 seguem sendo extraídas e conferidas aqui, mas **não são exibidas no painel** nem
@@ -100,7 +114,7 @@ tools/
   build-uf-map.mjs              gera o SVG das 27 UFs a partir da malha do IBGE
   build-municipio-coords.mjs    gera os centroides dos 246 municípios (IBGE)
 data/
-  OFICIAL PNERA_03-09-2026-.xlsx  planilha original (nunca é modificada)
+  OFICIAL PNERA_16-09-2026.xlsx   planilha original (nunca é modificada)
   pnera.json                    585 cursos normalizados
   pnera.meta.json               dicionários, coberturas e totais
   ibge-uf.geojson               malha das UFs em cache
@@ -139,16 +153,18 @@ por cartão):
 - **Territórios** — mapa monocromático de círculos proporcionais por município,
   com cruzetas de coordenada, norte e escala gráfica (clique no círculo ou no
   estado filtra), ranking das 27 UFs, municípios e superintendências do INCRA.
-- **Cursos e áreas** — matriz área temática × nível, composição das modalidades,
-  duração e meta de vagas × matrículas efetivas.
+- **Cursos e áreas** — matriz área temática × nível, roscas de composição por
+  modalidade, nível e área temática (clique na fatia filtra), composição das
+  modalidades por macrorregião, duração e meta de vagas × matrículas efetivas.
 - **Instituições e redes** — instituições realizadoras, natureza, titulação da
   coordenação, organizações demandantes e parceiras.
 - **Base de dados** — tabela completa ordenável, detalhe do curso e exportação
   do recorte em CSV.
 
-Filtros disponíveis: fase, área temática, nível, modalidade, área do
-conhecimento, macrorregião, UF, natureza da instituição, instituição,
-instrumento, período de início e busca textual livre.
+Filtros disponíveis: situação (concluído / em andamento), fase, área temática,
+nível, modalidade, área do conhecimento, macrorregião, UF, superintendência,
+município, natureza da instituição, instituição, organização demandante,
+instrumento, período de início, matrículas por curso e busca textual livre.
 
 Os filtros são **cruzados**: a contagem ao lado de cada opção mostra quantos
 cursos sobrariam se ela fosse marcada, considerando os outros filtros ativos.
@@ -195,8 +211,9 @@ são. Ausência de matriculados nunca vira zero.
 anel da malha do IBGE (mesmo critério que ancora as siglas das UFs) e traz de
 quebra o **nome acentuado** do município — que na planilha vem sem acento.
 
-**Filtros próprios e enxutos:** fase, área temática, nível, macrorregião, UF,
-período de início e busca livre, com chips e estado no hash da URL. Sem contagem
+**Filtros próprios e enxutos:** situação, fase, área temática, nível,
+macrorregião, UF, período de início e busca livre, com chips e estado no hash
+da URL. Sem contagem
 cruzada por opção — essa complexidade fica no painel principal (`js/filters.js`).
 
 ```
@@ -249,7 +266,14 @@ sétimo, a cauda vira “Outros” em cinza; nunca uma cor nova.
 
 A matriz área × nível usa rampa sequencial de um só tom (verde, 5 passos,
 lightness monótona), com o passo mais claro recuando até a superfície de
-propósito — significa “perto de zero”.
+propósito — significa “perto de zero”. As roscas de composição seguem a mesma
+divisão: dimensão nominal (modalidade, área temática) recebe os slots
+categóricos com a cauda em cinza; dimensão ordinal (nível) segue a ordem da
+escala e recebe a rampa, **interpolada** entre os passos quando há mais
+categorias que passos — arredondar para o passo mais próximo daria a mesma cor a
+dois níveis vizinhos, e em fatias encostadas isso apaga a fronteira. O buraco da
+rosca guarda o total do recorte: a proporção está no ângulo, o número absoluto
+não depende do tooltip.
 
 **O mapa do painel é monocromático.** A malha das UFs é base, não dado:
 preenchimento neutro uniforme (`--seq-empty`, um passo mais escuro em

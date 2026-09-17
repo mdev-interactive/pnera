@@ -15,6 +15,7 @@ window.Tabela = (function () {
   const COLUNAS = [
     { key: 'nomeProcessual', label: 'Curso', cls: 'cell-name', get: (c) => c.nomeProcessual },
     { key: 'fase', label: 'Fase', get: (c) => c.fase, render: (c) => faseTag(c.fase) },
+    { key: 'situacao', label: 'Situação', get: (c) => c.situacao, render: (c) => situacaoTag(c.situacao) },
     { key: 'areaTematica', label: 'Área temática', get: (c) => c.areaTematica },
     { key: 'nivel', label: 'Nível', get: (c) => c.nivel },
     { key: 'uf', label: 'UF', get: (c) => c.ufSigla },
@@ -34,6 +35,9 @@ window.Tabela = (function () {
 
   const faseTag = (fase) => (!fase ? '<span class="muted">—</span>'
     : `<span class="tag tag--${fase === 'PNERA II' ? 'fase2' : 'fase3'}">${fase}</span>`);
+
+  const situacaoTag = (situacao) => (!situacao ? '<span class="muted">—</span>'
+    : `<span class="tag${situacao === 'Em andamento' ? ' tag--andamento' : ''}">${situacao}</span>`);
 
   const escapar = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
 
@@ -181,6 +185,7 @@ window.Tabela = (function () {
     el.querySelector('.modal-title').textContent = curso.nomeProcessual || 'Curso';
     el.querySelector('.modal-body').innerHTML = `
       <p class="mb-2">${faseTag(curso.fase)}
+        ${situacaoTag(curso.situacao)}
         <span class="tag">${escapar(curso.areaTematica ?? '—')}</span>
         <span class="tag">${escapar(curso.nivel ?? '—')}</span></p>
       ${bloco('Identificação', [
@@ -229,7 +234,8 @@ window.Tabela = (function () {
   /* ----------------------------------------------------------------- CSV ---- */
 
   const CSV_COLUNAS = [
-    ['id', (c) => c.id], ['fase', (c) => c.fase], ['codigo_sei', (c) => c.codigoSei],
+    ['id', (c) => c.id], ['fase', (c) => c.fase], ['situacao', (c) => c.situacao],
+    ['codigo_sei', (c) => c.codigoSei],
     ['nome_processual', (c) => c.nomeProcessual], ['curso', (c) => c.curso],
     ['area_tematica', (c) => c.areaTematica], ['area_conhecimento', (c) => c.areaConhecimento],
     ['nivel', (c) => c.nivel], ['modalidade', (c) => c.modalidade],

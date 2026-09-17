@@ -78,6 +78,7 @@
     { dim: 'uf', aberto: false, busca: true },
     { dim: 'areaTematica', aberto: true },
     { dim: 'nivel', aberto: false },
+    { dim: 'situacao', aberto: true },
     { dim: 'fase', aberto: true },
   ];
   const DIMS = GRUPOS.map((g) => g.dim);
@@ -644,14 +645,34 @@
     if (estado.busca) chips.push({ dim: '__busca', valor: estado.busca, rotulo: 'Busca' });
 
     const el = $('#chips');
-    el.innerHTML = chips.map((c) => `
+    const lista = $('#chips-lista');
+    if (!chips.length) {
+      el.innerHTML = '';
+      lista.innerHTML = '';
+      const alvo = document.getElementById('offcanvasAtivos');
+      if (alvo) window.bootstrap?.Offcanvas.getInstance(alvo)?.hide();
+      return;
+    }
+
+    const plural = chips.length === 1 ? 'filtro ativo' : 'filtros ativos';
+    el.innerHTML = `
+      <div class="chips__bar">
+        <button type="button" class="chips__toggle" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasAtivos" aria-controls="offcanvasAtivos">
+          <span class="chips__badge">${chips.length}</span>
+          <span>${plural}</span>
+          <span class="chips__caret" aria-hidden="true">&rsaquo;</span>
+        </button>
+        <button type="button" class="chips__clear js-limpar-chips">Limpar tudo</button>
+      </div>`;
+
+    lista.innerHTML = chips.map((c) => `
       <span class="chip">
         <span class="chip__dim">${c.rotulo}:</span>
         <span class="chip__val" title="${c.valor}">${c.valor}</span>
         <button type="button" class="chip__x" data-dim="${c.dim}" data-valor="${c.valor}"
                 aria-label="Remover filtro ${c.rotulo}: ${c.valor}">&times;</button>
-      </span>`).join('')
-      + (chips.length > 1 ? '<button type="button" class="chips__clear js-limpar-chips">Limpar tudo</button>' : '');
+      </span>`).join('');
   }
 
   /* ------------------------------------------------------------- URL hash --- */
@@ -751,8 +772,9 @@
       busca.focus();
     });
 
-    // Chips: um ouvinte para todos os "x".
-    $('#chips').addEventListener('click', (ev) => {
+    // Chips: um ouvinte cobre a barra-resumo e o painel lateral.
+    document.addEventListener('click', (ev) => {
+      if (!ev.target.closest('#chips, #offcanvasAtivos')) return;
       if (ev.target.closest('.js-limpar-chips')) { limparTudo(); return; }
       const btn = ev.target.closest('.chip__x');
       if (!btn) return;

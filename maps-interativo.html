@@ -15,9 +15,9 @@
   -->
   <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
   <link rel="stylesheet" href="assets/vendor/leaflet.css">
-  <link rel="stylesheet" href="assets/css/theme.css?v=4">
-  <link rel="stylesheet" href="assets/css/app.css?v=4">
-  <link rel="stylesheet" href="assets/css/maps-interativo.css?v=3">
+  <link rel="stylesheet" href="assets/css/theme.css?v=11">
+  <link rel="stylesheet" href="assets/css/app.css?v=11">
+  <link rel="stylesheet" href="assets/css/maps-interativo.css?v=11">
 </head>
 <body>
   <a class="skip-link" href="#mapa">Ir para o mapa</a>
@@ -76,6 +76,23 @@
       </div>
       <div class="offcanvas-body">
         <div class="filters-panel" id="filtros-mobile"></div>
+      </div>
+    </div>
+
+    <!-- Mesma mecanica do painel: a lista de filtros ativos mora ao lado. -->
+    <div class="offcanvas offcanvas-end chips-panel" tabindex="-1" id="offcanvasAtivos"
+         aria-labelledby="offcanvasAtivosTitulo">
+      <div class="offcanvas-header">
+        <h2 class="offcanvas-title h6 mb-0" id="offcanvasAtivosTitulo">Filtros ativos</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="chips__list" id="chips-lista"></div>
+      </div>
+      <div class="chips-panel__foot">
+        <button type="button" class="btn btn-outline-secondary w-100 js-limpar-chips">
+          Limpar todos os filtros
+        </button>
       </div>
     </div>
 
@@ -142,9 +159,9 @@
 
   <script src="assets/vendor/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/leaflet.js"></script>
-  <script src="assets/js/dataset.js?v=4"></script>
-  <script src="assets/js/data.js?v=4"></script>
-  <script src="assets/js/municipio-coords.js?v=3"></script>
-  <script src="assets/js/maps-interativo.js?v=3"></script>
+  <script src="assets/js/dataset.js?v=11"></script>
+  <script src="assets/js/data.js?v=11"></script>
+  <script src="assets/js/municipio-coords.js?v=11"></script>
+  <script src="assets/js/maps-interativo.js?v=11"></script>
 </body>
 </html>

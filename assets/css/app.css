@@ -264,13 +264,76 @@ body {
 /* ------------------------------------------------------------ chips bar --- */
 
 .chips {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.375rem;
   margin-bottom: var(--gap);
 }
 .chips:empty { display: none; }
+
+/* Linha-resumo: sempre visível, ocupa uma só altura de texto. */
+.chips__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.chips__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.6rem 0.22rem 0.45rem;
+  background: var(--brand-wash);
+  border: 1px solid var(--series-1);
+  border-radius: var(--radius-pill);
+  font-size: var(--step--1);
+  font-weight: 550;
+  color: var(--ink);
+  cursor: pointer;
+}
+.chips__toggle:hover { background: var(--surface); border-color: var(--brand-deep); }
+.chips__caret { color: var(--ink-muted); font-size: 1.1em; line-height: 1; }
+.chips__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35em;
+  padding: 0 0.3em;
+  border-radius: var(--radius-pill);
+  background: var(--series-1);
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.chips__resumo {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------- painel lateral ativos -- */
+
+/* Largura confortável no desktop; tela cheia no celular. */
+.chips-panel { --bs-offcanvas-width: 22rem; }
+@media (max-width: 575.98px) {
+  .chips-panel { --bs-offcanvas-width: 100%; }
+}
+.chips-panel .offcanvas-body { padding-top: 0.5rem; }
+.chips-panel__resumo {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.75rem;
+}
+.chips-panel__foot {
+  padding: var(--gap);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+/* Dentro do painel os chips empilham: um por linha, rótulo inteiro à vista. */
+.chips__list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.375rem;
+}
 .chip {
   display: inline-flex;
   align-items: center;
@@ -283,8 +346,20 @@ body {
   color: var(--ink-2);
   max-width: 100%;
 }
-.chip__dim { color: var(--ink-muted); }
-.chip__val { color: var(--ink); font-weight: 550; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chips__list .chip {
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.35rem 0.35rem 0.6rem;
+}
+.chips__list .chip__x { margin-left: auto; }
+.chip__dim { color: var(--ink-muted); flex: 0 0 auto; }
+.chip__val {
+  color: var(--ink);
+  font-weight: 550;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .chip__x {
   border: 0;
   background: transparent;
@@ -714,6 +789,10 @@ body {
 .tag--fase2 { background: var(--brand-wash); border-color: var(--series-1); color: var(--brand-deep); }
 .tag--fase3 { background: #FBF2D9; border-color: #C08F0F; color: #6E5107; }
 
+/* Situacao: "Concluido" e a regra (517 de 585) e fica na caixa neutra; so
+   "Em andamento" ganha cor, porque e a excecao que a leitura procura. */
+.tag--andamento { background: #E4F0F7; border-color: var(--series-3); color: #0B5478; }
+
 /* -------------------------------------------------------- estados vazios -- */
 
 .empty {
@@ -785,8 +864,38 @@ body {
   }
 }
 
+/* Assinatura do mapa impresso: so existe na folha (ver bloco @media print). */
+.print-caption { display: none; }
+
 @media print {
   .topbar, .filters-panel, .viewnav, .card__tools, .pager { display: none !important; }
   .shell { grid-template-columns: 1fr; }
   .card { break-inside: avoid; box-shadow: none; }
+
+  /* ----------------------------------------- imprimir so o cartao do mapa --
+     O botao "Imprimir mapa" marca o cartao e liga este modo no body; tudo que
+     nao esta no caminho ate ele sai da folha, sem abrir uma segunda janela. */
+  body.imprimindo-mapa > *:not(.shell),
+  body.imprimindo-mapa .shell > *:not(main),
+  body.imprimindo-mapa main > *:not(#painel),
+  body.imprimindo-mapa #painel > *:not(.grid),
+  body.imprimindo-mapa #painel .grid > *:not(.is-print-target) { display: none !important; }
+
+  /* A grade vira bloco: em grid o cartao ainda ocuparia so as colunas do span. */
+  body.imprimindo-mapa #painel .grid { display: block; }
+  body.imprimindo-mapa .card.is-print-target {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  /* Seletor de medida e gemeo em tabela ficam fora: a folha leva o desenho. */
+  body.imprimindo-mapa .card.is-print-target .data-toolbar,
+  body.imprimindo-mapa .card.is-print-target .table-view { display: none !important; }
+
+  body.imprimindo-mapa .print-caption {
+    display: block;
+    margin: 0.6rem 0 0;
+    font-size: 9pt;
+    color: var(--ink-muted);
+  }
 }

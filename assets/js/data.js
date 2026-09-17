@@ -183,6 +183,7 @@ window.PNERA = (function () {
     iesNatureza: { rotulo: 'Natureza da instituição', get: (c) => c.ies?.natureza ?? [] },
     ies: { rotulo: 'Instituição de ensino', get: (c) => c.ies?.nome },
     demandante: { rotulo: 'Organização demandante', get: (c) => c.demandante?.nomes ?? [] },
+    situacao: { rotulo: 'Situação do curso', get: (c) => c.situacao },
     fase: { rotulo: 'Fase da pesquisa', get: (c) => c.fase },
     instrumento: { rotulo: 'Instrumento', get: (c) => c.instrumento },
   };
