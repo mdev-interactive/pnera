@@ -164,6 +164,9 @@ window.PNERA = (function () {
       for (const c of data) for (const n of c.demandante?.nomes ?? []) if (n) nomes.add(n);
       meta.valores.demandante = ordenar(nomes);
     }
+    if (!meta.valores.curso) {
+      meta.valores.curso = ordenar(new Set(data.map((c) => c.nomeProcessual).filter(Boolean)));
+    }
   }
   completarValores();
 
@@ -176,6 +179,7 @@ window.PNERA = (function () {
     uf: { rotulo: 'Estado', get: (c) => c.uf },
     superintendencia: { rotulo: 'Superintendência', get: (c) => c.superintendencia },
     municipio: { rotulo: 'Município', get: (c) => rotuloMunicipio(c) },
+    curso: { rotulo: 'Curso', get: (c) => c.nomeProcessual },
     areaConhecimento: { rotulo: 'Área do conhecimento', get: (c) => c.areaConhecimento },
     areaTematica: { rotulo: 'Área temática', get: (c) => c.areaTematica },
     nivel: { rotulo: 'Nível de ensino', get: (c) => c.nivel },

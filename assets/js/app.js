@@ -34,6 +34,7 @@
     { dim: 'uf', aberto: false },
     { dim: 'superintendencia', aberto: false, busca: true, todos: true },
     { dim: 'municipio', aberto: false, busca: true },
+    { dim: 'curso', aberto: false, busca: true, todos: true },
     { dim: 'areaConhecimento', aberto: false, todos: true },
     { dim: 'areaTematica', aberto: true },
     { dim: 'nivel', aberto: false },
