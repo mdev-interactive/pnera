@@ -473,6 +473,7 @@
       // Sao no maximo 27 UFs e o cartao acompanha a altura do mapa ao lado:
       // cabe o ranking inteiro, sem cauda escondida.
       const { linhas, dobradas } = P.topN(grupos, 27, 'cursos', { semOutros: true });
+      const cob = grupos.reduce((s, g) => s + g.cursos, 0);
       return {
         linhas,
         config: V.barrasH({
@@ -480,6 +481,7 @@
           valores: linhas.map((l) => l.cursos),
           rotulo: 'Cursos',
         }),
+        coverage: { preenchidos: cob, total: rows.length, rotulo: 'UF identificada' },
         note: dobradas ? `${dobradas} UFs somadas em "Outros".` : null,
         table: tabelaRanking(grupos.sort(P.desc('cursos')), [
           { key: 'cursos', label: 'Cursos' },
