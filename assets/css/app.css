@@ -793,6 +793,157 @@ body {
    "Em andamento" ganha cor, porque e a excecao que a leitura procura. */
 .tag--andamento { background: #E4F0F7; border-color: var(--series-3); color: #0B5478; }
 
+/* --------------------------------------------------------------- quadros -- */
+
+/* Sub-abas dos quadros: o mesmo desenho da navegacao principal, um degrau
+   abaixo (fundo neutro, texto menor), para nao competir com ela. */
+.subnav {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.subnav::-webkit-scrollbar { display: none; }
+.subnav__btn {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: var(--step--1);
+  font-weight: 550;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.subnav__btn:hover { background: var(--surface); color: var(--ink); }
+.subnav__btn[aria-selected='true'] {
+  background: var(--surface);
+  color: var(--brand-deep);
+  box-shadow: var(--shadow-sm);
+  outline: 1px solid var(--series-1);
+}
+
+.quadro-busca { width: 260px; max-width: 100%; }
+/* O d-flex do Bootstrap e !important e venceria o atributo hidden. */
+.quadro-toolbar [hidden] { display: none !important; }
+
+/* Cabecalho fixo so funciona com rolagem propria: a tabela rola dentro do
+   cartao, e o titulo das colunas fica sempre a vista. */
+.quadro-scroll {
+  max-height: 70vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.quadro-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--step--1);
+}
+.quadro-table--agrupado { min-width: 820px; }
+.quadro-table--cruzado { min-width: 760px; }
+.quadro-table--ies { min-width: 1180px; }
+
+.quadro-table th,
+.quadro-table td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--grid);
+  text-align: left;
+  vertical-align: top;
+}
+.quadro-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 2;
+  border-bottom: 1px solid var(--border-strong);
+}
+.quadro-table .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.quadro-table th.sortable { cursor: pointer; user-select: none; }
+.quadro-table th.sortable:hover { color: var(--ink); }
+.quadro-table th .dir { color: var(--brand-deep); }
+.quadro-col-nome { min-width: 280px; }
+.quadro-org { white-space: normal; }
+.quadro-ufs { white-space: normal; min-width: 120px; color: var(--ink-2); }
+
+.quadro-linha:hover td { background: var(--brand-wash); }
+.quadro-linha.is-resto td { color: var(--ink-muted); font-style: italic; }
+
+/* Cruzado: a celula colorida carrega o valor; zero fica neutro. */
+.quadro-table--cruzado td.num { min-width: 84px; }
+.quadro-table td.quadro-zero { color: var(--ink-muted); }
+.quadro-table .quadro-col-total {
+  font-weight: 620;
+  border-left: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.quadro-table thead .quadro-col-total { background: var(--surface-2); }
+
+/* Grupo: a linha-cabecalho e o total do territorio, as de baixo detalham. */
+.quadro-grupo__head th,
+.quadro-grupo__head td {
+  background: var(--surface-2);
+  font-weight: 620;
+  color: var(--ink);
+  border-top: 1px solid var(--border);
+}
+.quadro-grupo__head th { padding: 0; }
+.quadro-grupo__btn {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.5rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.quadro-grupo__btn .chev {
+  align-self: center;
+  flex: 0 0 auto;
+  color: var(--ink-muted);
+  transition: transform 0.15s ease;
+}
+.quadro-grupo__btn[aria-expanded='false'] .chev { transform: rotate(-90deg); }
+.quadro-grupo__btn:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+.quadro-grupo__sub { font-weight: 400; color: var(--ink-muted); font-size: var(--step--1); }
+.quadro-grupo.is-fechado .quadro-linha { display: none; }
+.quadro-grupo .quadro-linha .quadro-org { padding-left: 2.1rem; }
+
+.quadro-table tfoot th,
+.quadro-table tfoot td {
+  position: sticky;
+  bottom: 0;
+  background: var(--surface);
+  font-weight: 650;
+  border-top: 2px solid var(--border-strong);
+  border-bottom: 0;
+  z-index: 1;
+}
+
+@media (max-width: 575.98px) {
+  .quadro-busca { width: 100%; }
+  .quadro-col-nome { min-width: 200px; }
+}
+
 /* -------------------------------------------------------- estados vazios -- */
 
 .empty {
@@ -895,6 +1046,43 @@ body {
   body.imprimindo-mapa .print-caption {
     display: block;
     margin: 0.6rem 0 0;
+    font-size: 9pt;
+    color: var(--ink-muted);
+  }
+
+  /* ---------------------------------------- imprimir so o quadro da vez --
+     Mesmo esquema do mapa. A tabela sai inteira: sem rolagem propria, sem
+     cabecalho/rodape grudados, e o cabecalho se repete em cada folha. */
+  body.imprimindo-quadro > *:not(.shell),
+  body.imprimindo-quadro .shell > *:not(main),
+  body.imprimindo-quadro main > *:not(#painel),
+  body.imprimindo-quadro #painel > *:not(.grid),
+  body.imprimindo-quadro #painel .grid > *:not(.is-print-target),
+  body.imprimindo-quadro .is-print-target .subnav,
+  body.imprimindo-quadro .is-print-target .data-toolbar { display: none !important; }
+
+  body.imprimindo-quadro #painel .grid { display: block; }
+  body.imprimindo-quadro .card.is-print-target {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    break-inside: auto;
+  }
+  body.imprimindo-quadro .quadro-scroll { max-height: none; overflow: visible; border: 0; }
+  body.imprimindo-quadro .quadro-table { min-width: 0; font-size: 8.5pt; }
+  body.imprimindo-quadro .quadro-table thead { display: table-header-group; }
+  body.imprimindo-quadro .quadro-table thead th,
+  body.imprimindo-quadro .quadro-table tfoot th,
+  body.imprimindo-quadro .quadro-table tfoot td { position: static; }
+  body.imprimindo-quadro .quadro-table tr { break-inside: avoid; }
+  body.imprimindo-quadro .quadro-table th,
+  body.imprimindo-quadro .quadro-table td { padding: 0.25rem 0.4rem; }
+  body.imprimindo-quadro .quadro-table td[style] { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  body.imprimindo-quadro .quadro-grupo__btn .chev { display: none; }
+
+  body.imprimindo-quadro .print-caption {
+    display: block;
+    margin: 0 0 0.6rem;
     font-size: 9pt;
     color: var(--ink-muted);
   }

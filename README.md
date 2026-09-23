@@ -151,6 +151,7 @@ assets/
   js/map.js                     mapa do painel: círculos por município e aparato cartográfico
   js/views.js                   definição de cada visual
   js/table.js                   base de dados, detalhe e exportação CSV
+  js/quadros.js                 aba Quadros: relatórios tabulares, CSV e impressão
   js/app.js                     montagem do painel
   js/maps-interativo.js         lógica do mapa interativo (só dessa página)
 ```
@@ -163,7 +164,7 @@ artefato de dados; o `.js` existe porque `fetch()` é bloqueado no protocolo
 
 ## O que o painel faz
 
-Cinco visões, todas governadas pelo **mesmo painel de filtros** (nunca filtro
+Seis visões, todas governadas pelo **mesmo painel de filtros** (nunca filtro
 por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
@@ -178,6 +179,10 @@ por cartão):
   coordenação, organizações demandantes e parceiras.
 - **Base de dados** — tabela completa ordenável, detalhe do curso e exportação
   do recorte em CSV.
+- **Quadros** — relatórios tabulares: organizações demandantes por
+  macrorregião (tabela cruzada), por superintendência, por estado e por
+  município (agrupadas, recolhíveis), e o quadro das instituições que
+  realizaram os cursos. Cada quadro tem busca, exportação CSV e impressão.
 
 Filtros disponíveis: situação (concluído / em andamento), fase, área temática,
 nível, modalidade, área do conhecimento, macrorregião, UF, superintendência,

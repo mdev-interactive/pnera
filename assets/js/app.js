@@ -19,6 +19,7 @@
     { id: 'cursos', rotulo: 'Cursos e áreas' },
     { id: 'instituicoes', rotulo: 'Instituições e redes' },
     { id: 'dados', rotulo: 'Base de dados' },
+    { id: 'quadros', rotulo: 'Quadros' },
   ];
 
   /* ------------------------------------------------------ painel de filtros -- */
@@ -341,6 +342,9 @@
     if (id === 'dados') {
       painel.innerHTML = '<div class="grid"></div>';
       window.Tabela.montar($('.grid', painel), rows);
+    } else if (id === 'quadros') {
+      painel.innerHTML = '<div class="grid"></div>';
+      window.Quadros.montar($('.grid', painel), rows);
     } else {
       V.montarAba(painel, id, rows);
     }
@@ -408,6 +412,7 @@
       pintarChips(rows);
       pintarOpcoes();
       if (F.state.aba === 'dados') window.Tabela.pintar(rows);
+      else if (F.state.aba === 'quadros') window.Quadros.pintar(rows);
       else V.atualizar(rows);
     });
 
