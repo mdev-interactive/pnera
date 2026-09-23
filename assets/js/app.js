@@ -32,16 +32,16 @@
     { tipo: 'periodo' },
     { dim: 'macrorregiao', aberto: true },
     { dim: 'uf', aberto: false },
-    { dim: 'superintendencia', aberto: false, busca: true, todos: true },
+    { dim: 'superintendencia', aberto: false, busca: true },
     { dim: 'municipio', aberto: false, busca: true },
-    { dim: 'curso', aberto: false, busca: true, todos: true },
-    { dim: 'areaConhecimento', aberto: false, todos: true },
+    { dim: 'curso', aberto: false, busca: true },
+    { dim: 'areaConhecimento', aberto: false },
     { dim: 'areaTematica', aberto: true },
     { dim: 'nivel', aberto: false },
     { dim: 'modalidade', aberto: false },
     { tipo: 'matriculas' },
     { dim: 'iesNatureza', aberto: false },
-    { dim: 'ies', aberto: false, busca: true, todos: true },
+    { dim: 'ies', aberto: false, busca: true },
     { dim: 'demandante', aberto: false, busca: true },
     { dim: 'situacao', aberto: true },
     { dim: 'fase', aberto: true },
@@ -131,7 +131,7 @@
     const dim = P.DIMENSOES[g.dim];
     const idCorpo = `${prefixo}-g${i}`;
     return `
-      <div class="filter-group" data-dim="${g.dim}"${g.todos ? ' data-todos="1"' : ''}>
+      <div class="filter-group" data-dim="${g.dim}">
         <button type="button" class="filter-group__btn js-grupo-btn" data-alvo="${idCorpo}"
                 aria-expanded="${g.aberto}" aria-controls="${idCorpo}">
           ${dim.rotulo}
@@ -198,8 +198,7 @@
         contador.textContent = escolhidos;
 
         const termo = P.fold($('.js-filtrar-opcoes', grupo)?.value ?? '');
-        const todosHtml = grupo.dataset.todos ? itemTodosHtml(dim, opcoes) : '';
-        lista.innerHTML = todosHtml + opcoes.map((o) => {
+        lista.innerHTML = itemTodosHtml(dim, opcoes) + opcoes.map((o) => {
           const id = `f-${dim}-${P.fold(o.valor).replace(/[^a-z0-9]+/g, '-')}`;
           const vazio = o.n === 0 && !o.escolhido;
           const oculto = termo && !P.fold(o.valor).includes(termo);
