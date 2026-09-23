@@ -460,7 +460,7 @@
       </p>
       <ul class="mun-lista">${cursos.map((c) => `
         <li>
-          <div class="mun-lista__nome">${c.curso || c.nomeProcessual || 'Curso sem nome na fonte'}</div>
+          <div class="mun-lista__nome">${c.nomeProcessual || 'Curso sem nome na fonte'}</div>
           <div class="mun-lista__meta">
             ${[c.nivel, c.areaTematica, c.fase].filter(Boolean).join(' · ')}
             ${c.anoInicio ? ` · ${c.anoInicio}${c.anoFim && c.anoFim !== c.anoInicio ? `–${c.anoFim}` : ''}` : ''}

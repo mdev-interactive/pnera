@@ -1,8 +1,8 @@
 {
-  "fonte": "OFICIAL PNERA_16-09-2026.xlsx",
+  "fonte": "OFICIAL PNERA_23-09-2026.xlsx",
   "aba": "CURSOS GERAL",
-  "geradoEm": "2026-09-17T10:51:46.711Z",
-  "totalCursos": 585,
+  "geradoEm": "2026-09-23T18:44:03.458Z",
+  "totalCursos": 587,
   "periodo": {
     "anoMin": 1998,
     "anoMax": 2031,
@@ -79,6 +79,7 @@
       "Agroecologia",
       "Agroindústria e Cooperativismo",
       "Ciências Agrárias",
+      "Ciências Sociais",
       "Direito",
       "EJA",
       "Formação de Educadores",
@@ -664,72 +665,68 @@
   },
   "cobertura": {
     "turmas": {
-      "preenchidos": 532,
-      "total": 585
+      "preenchidos": 534,
+      "total": 587
     },
     "metaInicial": {
-      "preenchidos": 271,
-      "total": 585
+      "preenchidos": 273,
+      "total": 587
     },
     "metaFinal": {
       "preenchidos": 207,
-      "total": 585
+      "total": 587
     },
     "matriculados": {
-      "preenchidos": 498,
-      "total": 585
+      "preenchidos": 499,
+      "total": 587
     },
     "concluintes": {
       "preenchidos": 433,
-      "total": 585
+      "total": 587
     },
     "bolsistas": {
       "preenchidos": 274,
-      "total": 585
-    },
-    "curso": {
-      "preenchidos": 261,
-      "total": 585
+      "total": 587
     },
     "situacao": {
-      "preenchidos": 585,
-      "total": 585
+      "preenchidos": 587,
+      "total": 587
     },
     "anoInicio": {
-      "preenchidos": 574,
-      "total": 585
+      "preenchidos": 576,
+      "total": 587
     },
     "anoFim": {
-      "preenchidos": 576,
-      "total": 585
+      "preenchidos": 578,
+      "total": 587
     },
     "instrumento": {
-      "preenchidos": 263,
-      "total": 585
+      "preenchidos": 265,
+      "total": 587
     },
     "municipio": {
-      "preenchidos": 556,
-      "total": 585
+      "preenchidos": 558,
+      "total": 587
     },
     "duracaoAnos": {
-      "preenchidos": 574,
-      "total": 585
+      "preenchidos": 576,
+      "total": 587
     },
     "demandante": {
       "preenchidos": 450,
-      "total": 585
+      "total": 587
     },
     "parceiras": {
       "preenchidos": 421,
-      "total": 585
+      "total": 587
     }
   },
   "totais": {
-    "cursos": 585,
-    "turmas": 9129,
-    "metaInicial": 64609,
+    "cursos": 587,
+    "turmas": 9142,
+    "metaInicial": 64899,
     "metaFinal": 19371,
-    "matriculados": 203179,
+    "matriculados": 203229,
     "concluintes": 96194,
     "bolsistas": 5718,
     "taxaConclusaoGlobal": 47.3,

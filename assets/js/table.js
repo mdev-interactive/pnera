@@ -189,7 +189,6 @@ window.Tabela = (function () {
         <span class="tag">${escapar(curso.areaTematica ?? '—')}</span>
         <span class="tag">${escapar(curso.nivel ?? '—')}</span></p>
       ${bloco('Identificação', [
-    ['Nome do curso', curso.curso],
     ['Código SEI', curso.codigoSei],
     ['NUP', curso.nup],
     ['Modalidade', curso.modalidade],
@@ -236,7 +235,7 @@ window.Tabela = (function () {
   const CSV_COLUNAS = [
     ['id', (c) => c.id], ['fase', (c) => c.fase], ['situacao', (c) => c.situacao],
     ['codigo_sei', (c) => c.codigoSei],
-    ['nome_processual', (c) => c.nomeProcessual], ['curso', (c) => c.curso],
+    ['nome_processual', (c) => c.nomeProcessual],
     ['area_tematica', (c) => c.areaTematica], ['area_conhecimento', (c) => c.areaConhecimento],
     ['nivel', (c) => c.nivel], ['modalidade', (c) => c.modalidade],
     ['macrorregiao', (c) => c.macrorregiao], ['uf', (c) => c.uf], ['uf_sigla', (c) => c.ufSigla],

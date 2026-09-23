@@ -364,6 +364,7 @@ const normAreaTematica = domain({
   'AGROINDUSTRIA/COOPERATIVISMO': 'Agroindústria e Cooperativismo',
   HISTORIA: 'História',
   DIREITO: 'Direito',
+  'CIENCIAS SOCIAIS': 'Ciências Sociais',
 });
 
 const normAreaConhecimento = domain({
@@ -539,8 +540,9 @@ const normSituacao = domain({
 const COLUNAS = [
   ['fase', 'PNERA II / PNERA III'],
   ['codigoSei', 'CODIGO SEI'],
+  // O nome do curso vem so daqui. A coluna "CURSO (Ocultar)" logo ao lado
+  // esta desativada e e ignorada de proposito.
   ['nomeProcessual', 'NOME PROCESSUAL DO CURSO'],
-  ['curso', 'CURSO'],
   ['situacao', 'SITUACAO'],
   ['areaTematica', 'AREA TEMATICA'],
   ['areaConhecimento', 'AREA DO CONHECIMENTO'],
@@ -582,7 +584,12 @@ const COLUNAS = [
   ['iesMunicipio', 'MUNICIPIO'],
   ['iesCodMunicipio', 'COD MUNICIPIO'],
   ['iesNatureza', 'NATUREZA DA INSTITUICAO REALIZADORA'],
+  // Ate 16/09/2026 o demandante vinha numa coluna so; a partir de 23/09/2026 ela
+  // foi dividida em tres (movimento isolado, comunidade, articulacao de varios).
   ['demandanteNome', 'NOME DA ORGANIZACAO DEMANDANTE'],
+  ['demandanteMovimento', 'MOVIMENTO / INSTITUICAO'],
+  ['demandanteComunidade', 'COMUNIDADE'],
+  ['demandanteArticulacao', 'ARTICULACAO DE MOVIMENTOS / INSTITUICOES'],
   ['demandanteNatureza', 'NATUREZA DA ORGANIZACAO DEMANDANTE'],
   ['demandanteAbrangencia', 'ABRANGENCIA DA INSTITUICAO DEMANDANTE'],
   ['parceiraNomes', 'NOME DA INSTITUICAO PARCEIRA'],
@@ -595,7 +602,7 @@ const COLUNAS = [
 
 /** Colunas obrigatorias: sem elas o dataset sai mudo em vez de sair errado. */
 const COLUNAS_OBRIGATORIAS = new Set([
-  'fase', 'nomeProcessual', 'curso', 'areaTematica', 'nivel', 'uf', 'municipio',
+  'fase', 'nomeProcessual', 'areaTematica', 'nivel', 'uf', 'municipio',
   'matriculados', 'iesNome',
 ]);
 
@@ -679,12 +686,25 @@ function buildCurso(cells, index, col) {
 
   const parceiraRegiaoUf = normUf(at('parceiraUf'));
 
+  // Planilha antiga: coluna unica. Nova: tres colunas, unidas na mesma lista.
+  const demandanteNomes = [];
+  const demandanteTipos = [];
+  for (const [campo, tipo] of [
+    ['demandanteNome', null],
+    ['demandanteMovimento', 'Movimento / instituição'],
+    ['demandanteComunidade', 'Comunidade'],
+    ['demandanteArticulacao', 'Articulação de movimentos'],
+  ]) {
+    const nomes = multiNomes(at(campo));
+    for (const n of nomes) if (!demandanteNomes.includes(n)) demandanteNomes.push(n);
+    if (tipo && nomes.length) demandanteTipos.push(tipo);
+  }
+
   return {
     id: index + 1,
     fase: clean(at('fase')),
     codigoSei: codigoSei(at('codigoSei')),
     nomeProcessual: titleCase(at('nomeProcessual')),
-    curso: titleCase(at('curso')),
     situacao: normSituacao(at('situacao')),
 
     areaTematica: normAreaTematica(at('areaTematica')),
@@ -738,8 +758,9 @@ function buildCurso(cells, index, col) {
     },
 
     demandante: {
-      nome: titleCase(at('demandanteNome')),
-      nomes: multiNomes(at('demandanteNome')),
+      nome: demandanteNomes.length ? demandanteNomes.join('; ') : null,
+      nomes: demandanteNomes,
+      tipo: demandanteTipos,
       natureza: multi(at('demandanteNatureza'), normNatureza),
       abrangencia: multi(at('demandanteAbrangencia'), normAbrangencia),
     },
@@ -799,7 +820,7 @@ function buildMeta(cursos, sourceFile) {
   const cobertura = {};
   const registrar = (campo, preenchidos) => { cobertura[campo] = { preenchidos, total: cursos.length }; };
   for (const m of MEDIDAS) registrar(m, cursos.filter((c) => c[m] != null).length);
-  for (const campo of ['curso', 'situacao', 'anoInicio', 'anoFim', 'instrumento', 'municipio', 'duracaoAnos']) {
+  for (const campo of ['situacao', 'anoInicio', 'anoFim', 'instrumento', 'municipio', 'duracaoAnos']) {
     registrar(campo, cursos.filter((c) => c[campo] != null).length);
   }
   registrar('demandante', cursos.filter((c) => c.demandante.nome).length);
@@ -923,10 +944,10 @@ function report(cursos, meta) {
   // da planilha OFICIAL PNERA_16-09-2026.xlsx. Ante a de 03-09 mudou so uma
   // celula: a linha 472 moveu 1.394 de "meta final" para "matriculados".
   console.log('\n== Sanidade =====================================');
-  console.log(`cursos ............... ${fmt(totais.cursos)}   (esperado 585)`);
-  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 203.179)`);
+  console.log(`cursos ............... ${fmt(totais.cursos)}   (esperado 587)`);
+  console.log(`matriculados ......... ${fmt(totais.matriculados)}   (esperado 203.229)`);
   console.log(`concluintes .......... ${fmt(totais.concluintes)}   (esperado 96.194)`);
-  console.log(`turmas ............... ${fmt(totais.turmas)}   (esperado 9.129)`);
+  console.log(`turmas ............... ${fmt(totais.turmas)}   (esperado 9.142)`);
   console.log(`bolsistas ............ ${fmt(totais.bolsistas)}   (esperado 5.718)`);
   console.log(`UFs .................. ${totais.ufs}   (esperado 27)`);
   console.log(`municipios ........... ${totais.municipios}`);

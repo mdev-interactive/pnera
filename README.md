@@ -3,7 +3,7 @@
 Painel analítico dos dados da **Pesquisa Nacional de Educação na Reforma Agrária**
 (PNERA II e III — INCRA / Universidade de Brasília) sobre os cursos do **Pronera**.
 
-Converte a planilha `OFICIAL PNERA_16-09-2026.xlsx` em JSON limpo e serve um
+Converte a planilha `OFICIAL PNERA_23-09-2026.xlsx` em JSON limpo e serve um
 dashboard estático com filtros cruzados. **Não precisa de servidor, build nem
 internet** — basta abrir `index.html`.
 
@@ -34,23 +34,41 @@ código e coordenador por titulação **sem acusar erro**. O casamento percorre 
 cabeçalhos em ordem, então uma coluna nova no meio é inofensiva; se faltar uma
 coluna essencial, o script aborta.
 
+A planilha de 23/09/2026 dividiu `NOME DA ORGANIZACAO DEMANDANTE` em três
+colunas: `MOVIMENTO / INSTITUICAO` (um movimento só), `COMUNIDADE` e
+`ARTICULACAO DE MOVIMENTOS / INSTITUICOES` (vários movimentos juntos). O
+conversor une as três na mesma lista `demandante.nomes` que o painel já usa e
+guarda em `demandante.tipo` de qual coluna veio cada curso. Planilhas antigas,
+com a coluna única, continuam funcionando.
+
+O nome do curso vem **só** da coluna `NOME PROCESSUAL DO CURSO` (D). A coluna
+`CURSO (Ocultar)` (E) está desativada e o conversor a ignora.
+
 O script imprime um relatório de sanidade. Os valores conferidos contra a aba
 `CURSOS GERAL` são:
 
 | Medida | Valor |
 |---|---|
-| Cursos | 585 |
-| Matriculados | 203.179 |
+| Cursos | 587 |
+| Matriculados | 203.229 |
 | Concluintes | 96.194 |
-| Turmas | 9.129 |
+| Turmas | 9.142 |
 | Bolsistas | 5.718 |
 | UFs | 27 |
 | Municípios | 247 |
 | Instituições realizadoras | 147 |
 | Período | 1998–2026 (início) |
-| Situação | 517 concluídos · 68 em andamento |
+| Situação | 519 concluídos · 68 em andamento |
 
 Se algum número divergir, a conversão quebrou — não publique.
+
+Ante a planilha de 16/09/2026: entraram dois cursos novos no RJ (linha 586,
+“Especialização em Trabalho, Educação e Movimentos Sociais”, 50 matriculados;
+linha 587, “Educar para Emancipar”, EJA em Seropédica, sem nº de matriculados),
+o que sobe cursos de 585 para 587, matriculados de 203.179 para 203.229 e turmas
+de 9.129 para 9.142. As três Licenciaturas em Ciências Sociais saíram de
+“Saúde e Serviço Social” para uma área temática nova, **Ciências Sociais**.
+Concluintes, bolsistas, UFs, municípios e instituições não mudaram.
 
 Ante a planilha de 03/09/2026, os totais mudaram em um único ponto: a linha 472
 (“Formação de Educadores de EJA”) moveu 1.394 de *meta final* para
@@ -114,8 +132,8 @@ tools/
   build-uf-map.mjs              gera o SVG das 27 UFs a partir da malha do IBGE
   build-municipio-coords.mjs    gera os centroides dos 246 municípios (IBGE)
 data/
-  OFICIAL PNERA_16-09-2026.xlsx   planilha original (nunca é modificada)
-  pnera.json                    585 cursos normalizados
+  OFICIAL PNERA_23-09-2026.xlsx   planilha original (nunca é modificada)
+  pnera.json                    587 cursos normalizados
   pnera.meta.json               dicionários, coberturas e totais
   ibge-uf.geojson               malha das UFs em cache
   ibge-municipios/              malhas municipais em cache (6 MB, fora do git)
@@ -202,7 +220,7 @@ A escala é recalculada a cada filtro, e a legenda de círculos concêntricos di
 isso. Dentro de cada série os círculos entram do maior para o menor, para que os
 pequenos fiquem por cima e continuem clicáveis.
 
-**Cobertura declarada, como no resto do painel.** 556 dos 585 cursos têm
+**Cobertura declarada, como no resto do painel.** 558 dos 587 cursos têm
 município na fonte; os 29 restantes ficam fora do mapa e o rodapé diz quantos
 são. Ausência de matriculados nunca vira zero.
 
@@ -244,9 +262,9 @@ Usá-las duplicaria registros: `CURSOS FINALIZADOS` traz 586 linhas que já est�
 todas na `CURSOS GERAL`, uma delas repetida.
 
 **Ausência não é zero.** A planilha marca dado faltante como `NAO LOCALIZADO`, e
-isso é frequente: 88 cursos sem nº de matriculados, 152 sem concluintes, 324 sem
-o nome padronizado do curso. Tudo isso vira `null`, fica **fora dos cálculos**, e
-cada cartão declara no rodapé sua base real (“base: 497 de 585 cursos com nº de
+isso é frequente: 88 cursos sem nº de matriculados e 154 sem
+concluintes. Tudo isso vira `null`, fica **fora dos cálculos**, e
+cada cartão declara no rodapé sua base real (“base: 499 de 587 cursos com nº de
 matriculados”). Médias e taxas nunca são diluídas por zeros inventados.
 
 **Normalização.** Números com sufixo `.0` do Excel, variantes de macrorregião

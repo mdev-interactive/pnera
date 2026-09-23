@@ -38,7 +38,7 @@ window.PNERA = (function () {
   function haystack(c) {
     if (c.__hay === undefined) {
       c.__hay = fold([
-        c.nomeProcessual, c.curso, c.ies?.nome, c.municipio, c.uf, c.areaTematica,
+        c.nomeProcessual, c.ies?.nome, c.municipio, c.uf, c.areaTematica,
         c.modalidade, c.demandante?.nome, c.codigoSei, c.superintendencia,
         ...(c.parceiras?.nomes || []),
         ...(c.coordenadores || []).map((x) => x.nome),
