@@ -171,8 +171,9 @@ por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
   temática, nível de ensino e macrorregião.
-- **Territórios** — mapa “Brasil - Número de Cursos do Pronera por Município”:
-  círculos proporcionais por município, com cruzetas de coordenada, norte,
+- **Territórios** — mapa “Brasil - Número de Cursos do Pronera por Município”
+  (o título acompanha o seletor de medida: com “matriculados”, vira “Número de
+  Matriculados”): círculos proporcionais por município, com cruzetas de coordenada, norte,
   legenda e escala gráfica (clique no círculo ou no estado filtra) e botão de
   impressão só do mapa; ranking das 27 UFs, municípios e superintendências do
   INCRA.

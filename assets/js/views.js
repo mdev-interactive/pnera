@@ -299,10 +299,13 @@
   /* ======================================================== ABA: TERRITORIOS = */
 
   const MEDIDAS_MAPA = {
-    cursos: { rotulo: 'cursos', campo: null },
-    matriculados: { rotulo: 'matriculados', campo: 'matriculados' },
+    cursos: { rotulo: 'cursos', titulo: 'Cursos', campo: null },
+    matriculados: { rotulo: 'matriculados', titulo: 'Matriculados', campo: 'matriculados' },
   };
   let medidaMapa = 'cursos';
+
+  /** Titulo do cartao do mapa: acompanha a medida, na tela e na folha impressa. */
+  const tituloMapa = () => `Brasil - Número de ${MEDIDAS_MAPA[medidaMapa].titulo} do Pronera por Município`;
 
   /**
    * Agrega o recorte por municipio, para a camada de circulos do mapa. Usa os
@@ -429,7 +432,7 @@
     id: 'mapa',
     aba: 'territorios',
     span: 7,
-    title: 'Brasil - Número de Cursos do Pronera por Município',
+    get title() { return tituloMapa(); },
     hint: 'Cada círculo é um município, com área proporcional à medida. Clique no círculo ou no estado para filtrar todo o painel.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
@@ -460,6 +463,11 @@
       };
     },
     render(box, rows, res) {
+      // O cabecalho do cartao nasce uma vez so; ao trocar a medida, o titulo
+      // e reescrito aqui para nao contradizer os circulos.
+      const titulo = box.closest('.card')?.querySelector('.card__title');
+      if (titulo) titulo.textContent = tituloMapa();
+
       const barra = document.createElement('div');
       barra.className = 'data-toolbar';
       barra.innerHTML = `<label class="muted" for="medida-mapa">Medida</label>
