@@ -675,6 +675,10 @@ body {
   dominant-baseline: middle;
 }
 .map-furniture__north { font-size: 30px; font-weight: 650; }
+/* Cabecalhos "Legenda" e "Escala": mesmo peso nos dois cantos do mapa. O
+   `text.` iguala a especificidade de `.map-legend text` / `.map-furniture text`
+   (declarados antes), senao o tamanho e a cor deles venceriam. */
+text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
 .map-legend__title { font-size: 20px; fill: var(--ink-muted); }
 .map-legend__num { font-size: 19px; }
 
@@ -1015,8 +1019,9 @@ body {
   }
 }
 
-/* Assinatura do mapa impresso: so existe na folha (ver bloco @media print). */
-.print-caption { display: none; }
+/* Assinatura e rodape do mapa impresso: so existem na folha (ver bloco @media print). */
+.print-caption,
+.print-footer { display: none; }
 
 @media print {
   .topbar, .filters-panel, .viewnav, .card__tools, .pager { display: none !important; }
@@ -1039,8 +1044,10 @@ body {
     padding: 0;
     margin: 0;
   }
-  /* Seletor de medida e gemeo em tabela ficam fora: a folha leva o desenho. */
+  /* Seletor de medida, gemeo em tabela e a dica de uso ("clique no circulo...")
+     ficam fora: a folha leva o desenho, e na folha nao ha o que clicar. */
   body.imprimindo-mapa .card.is-print-target .data-toolbar,
+  body.imprimindo-mapa .card.is-print-target .card__hint,
   body.imprimindo-mapa .card.is-print-target .table-view { display: none !important; }
 
   body.imprimindo-mapa .print-caption {
@@ -1048,6 +1055,29 @@ body {
     margin: 0.6rem 0 0;
     font-size: 9pt;
     color: var(--ink-muted);
+  }
+
+  /* Rodape em dois blocos lado a lado: fonte + endereco | logo do Pronera. */
+  body.imprimindo-mapa .print-footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 0.8rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    break-inside: avoid;
+  }
+  body.imprimindo-mapa .print-footer__fonte {
+    font-size: 9pt;
+    color: var(--ink-2);
+  }
+  body.imprimindo-mapa .print-footer__fonte p { margin: 0 0 0.25rem; }
+  body.imprimindo-mapa .print-footer__fonte p:last-child { margin-bottom: 0; }
+  body.imprimindo-mapa .print-footer__logo img {
+    display: block;
+    height: 14mm;
+    width: auto;
   }
 
   /* ---------------------------------------- imprimir so o quadro da vez --

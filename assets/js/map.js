@@ -353,6 +353,10 @@ window.MapaUF = (function () {
     g.appendChild(el('rect', {
       x, y, width: (passo * passos).toFixed(1), height: alt, class: 'map-scale__frame',
     }));
+    // Cabecalho "Escala", no mesmo estilo do "Legenda" do canto oposto.
+    g.appendChild(texto('Escala', {
+      x: x.toFixed(1), y: y - 45, 'text-anchor': 'start', class: 'map-heading',
+    }));
     for (let i = 0; i <= passos; i++) {
       g.appendChild(texto(int(i * ESCALA.kmPorPasso), {
         x: (x + passo * i).toFixed(1), y: y - 15, 'text-anchor': 'middle', class: 'map-furniture__label',
@@ -388,6 +392,10 @@ window.MapaUF = (function () {
     // Ancora no canto inferior esquerdo: ampliada, a legenda cresce para dentro.
     const g = peca(wrap, x - rMax, base);
 
+    // Cabecalho da legenda, uma linha acima do titulo da medida.
+    g.appendChild(texto('Legenda', {
+      x: (x - rMax).toFixed(1), y: (base - rMax * 2 - 56).toFixed(1), class: 'map-heading',
+    }));
     g.appendChild(texto(`${rotuloMedida} por município`, {
       x: (x - rMax).toFixed(1), y: (base - rMax * 2 - 26).toFixed(1), class: 'map-legend__title',
     }));

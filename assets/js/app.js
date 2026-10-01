@@ -40,7 +40,13 @@
     { dim: 'areaTematica', aberto: true },
     { dim: 'nivel', aberto: false },
     { dim: 'modalidade', aberto: false },
-    { tipo: 'matriculas' },
+    // Filtro "Matrículas por curso" desativado por enquanto. Para reativar, basta
+    // descomentar a linha abaixo e voltar a ler `mde`/`mate` em
+    // lerUrl (filters.js) — toda a lógica de estado, predicado, chip e
+    // URL continua lá, e a ligação dos campos aqui em montarPainel já tolera o
+    // grupo ausente. Atenção ao reativar: estreitar a faixa tira do recorte os
+    // cursos sem nº de matriculados (NAO LOCALIZADO).
+    // { tipo: 'matriculas' },
     { dim: 'iesNatureza', aberto: false },
     { dim: 'ies', aberto: false, busca: true },
     { dim: 'demandante', aberto: false, busca: true },
@@ -68,17 +74,19 @@
     de.addEventListener('change', aplicarPeriodo);
     ate.addEventListener('change', aplicarPeriodo);
 
-    // Faixa de matriculados.
+    // Faixa de matriculados (grupo hoje fora de GRUPOS; ver comentário lá).
     const matDe = $('.js-mat-de', el);
     const matAte = $('.js-mat-ate', el);
-    matDe.value = F.state.matDe;
-    matAte.value = F.state.matAte;
-    const aplicarMatriculas = () => F.matriculas(
-      matDe.value === '' ? F.MAT_MIN : Number(matDe.value),
-      matAte.value === '' ? F.MAT_MAX : Number(matAte.value),
-    );
-    matDe.addEventListener('change', aplicarMatriculas);
-    matAte.addEventListener('change', aplicarMatriculas);
+    if (matDe && matAte) {
+      matDe.value = F.state.matDe;
+      matAte.value = F.state.matAte;
+      const aplicarMatriculas = () => F.matriculas(
+        matDe.value === '' ? F.MAT_MIN : Number(matDe.value),
+        matAte.value === '' ? F.MAT_MAX : Number(matAte.value),
+      );
+      matDe.addEventListener('change', aplicarMatriculas);
+      matAte.addEventListener('change', aplicarMatriculas);
+    }
 
     $('.js-limpar-tudo', el).addEventListener('click', () => F.limpar());
 

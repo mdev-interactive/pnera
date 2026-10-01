@@ -139,6 +139,8 @@ data/
   ibge-municipios/              malhas municipais em cache (6 MB, fora do git)
 assets/
   vendor/                       Bootstrap 5.3.3, Chart.js 4.4.4 e Leaflet 1.9.4 locais
+  img/logo_pronera.png          logo do Pronera (original)
+  img/logo_pronera-impressao.png  a mesma, aparada, no rodapé do mapa impresso
   css/theme.css                 tokens (paleta, tipografia, superfícies)
   css/app.css                   layout e componentes
   css/maps-interativo.css       estilos do mapa interativo (só dessa página)
@@ -169,9 +171,11 @@ por cartão):
 
 - **Visão geral** — KPIs, cursos iniciados por ano, matriculados por área
   temática, nível de ensino e macrorregião.
-- **Territórios** — mapa monocromático de círculos proporcionais por município,
-  com cruzetas de coordenada, norte e escala gráfica (clique no círculo ou no
-  estado filtra), ranking das 27 UFs, municípios e superintendências do INCRA.
+- **Territórios** — mapa “Brasil - Número de Cursos do Pronera por Município”:
+  círculos proporcionais por município, com cruzetas de coordenada, norte,
+  legenda e escala gráfica (clique no círculo ou no estado filtra) e botão de
+  impressão só do mapa; ranking das 27 UFs, municípios e superintendências do
+  INCRA.
 - **Cursos e áreas** — matriz área temática × nível, roscas de composição por
   modalidade, nível e área temática (clique na fatia filtra), composição das
   modalidades por macrorregião, duração e meta de vagas × matrículas efetivas.
@@ -187,7 +191,9 @@ por cartão):
 Filtros disponíveis: situação (concluído / em andamento), fase, área temática,
 nível, modalidade, área do conhecimento, macrorregião, UF, superintendência,
 município, natureza da instituição, instituição, organização demandante,
-instrumento, período de início, matrículas por curso e busca textual livre.
+instrumento, período de início e busca textual livre. (O filtro “matrículas por
+curso” está desativado; a lógica segue em `filters.js` — ver comentário em
+`GRUPOS`, `app.js`.)
 
 Os filtros são **cruzados**: a contagem ao lado de cada opção mostra quantos
 cursos sobrariam se ela fosse marcada, considerando os outros filtros ativos.
@@ -310,7 +316,8 @@ como no mapa interativo.
 
 **Aparato cartográfico dentro do SVG.** Quatro cruzetas de coordenada (0°/70°O,
 0°/40°O, 25°S/60°O, 25°S/40°O), seta de norte, escala gráfica em km e a legenda
-dos círculos ficam no próprio desenho — não em HTML ao lado. Assim o mapa
+dos círculos ficam no próprio desenho — não em HTML ao lado. Legenda e escala
+levam os cabeçalhos “Legenda” e “Escala”, no mesmo estilo (`text.map-heading`). Assim o mapa
 continua completo se virar imagem, e o aparato acompanha qualquer largura.
 Posições verificadas por ponto-em-polígono contra as 27 UFs e os 246 municípios:
 nenhuma peça cai sobre a malha ou sobre um círculo.
@@ -327,6 +334,15 @@ colapsa, o SVG cai para ~360 px; aumentar só a fonte quebraria o encaixe — o
 número da escala ficaria mais largo que o segmento. Então cada peça cresce por
 inteiro em torno da própria âncora (`ajustarAparato` em `assets/js/map.js`),
 mantendo a razão entre texto, barra e cruzeta.
+
+**Mapa impresso.** O botão “Imprimir mapa” manda para a folha só o cartão do
+mapa: sem seletor de medida, sem tabela e sem a dica de uso (“Cada círculo é um
+município…”), já que no papel não há o que clicar. Abaixo do desenho entram a
+linha do recorte (filtros ativos, nº de cursos e data) e um rodapé em dois
+blocos — à esquerda a fonte (PNERA II e III, INCRA/UnB, planilha e data da
+conversão) e o endereço https://mdev-interactive.github.io/pnera/, à direita a
+logo do Pronera (`assets/img/logo_pronera-impressao.png`, cópia aparada da
+original). A impressão espera a logo carregar antes de abrir o diálogo.
 
 **Dimensão nominal em barras usa um único tom.** O comprimento da barra já mostra
 o valor; colorir cada barra de um jeito gastaria o canal de identidade
@@ -362,7 +378,7 @@ inteira da categoria como alvo de clique (o vão entre barras não é zona morta
   A exceção é o mapa interativo: lá o nome do município vem acentuado da API de
   localidades do IBGE, junto com a coordenada.
 - `meta inicial` (46% de cobertura) e `meta final` (35%) são esparsos; a
-  dispersão meta × matrícula cobre 182 dos 585 cursos e diz isso no rodapé.
+  dispersão meta × matrícula cobre 182 dos 587 cursos e diz isso no rodapé.
 - Alguns anos de fim são previsões (cursos de graduação iniciados em 2025 com
   término em 2030), como registrado na fonte.
 - O painel é deliberadamente **light**, sem tema escuro.

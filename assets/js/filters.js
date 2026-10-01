@@ -237,10 +237,15 @@ window.Filters = (function () {
     const ate = Number(p.get('ate'));
     if (Number.isFinite(de) && de) state.anoDe = Math.max(ANO_MIN, de);
     if (Number.isFinite(ate) && ate) state.anoAte = Math.min(ANO_MAX, ate);
-    const mde = Number(p.get('mde'));
-    const mate = Number(p.get('mate'));
-    state.matDe = p.has('mde') && Number.isFinite(mde) ? Math.max(MAT_MIN, mde) : MAT_MIN;
-    state.matAte = p.has('mate') && Number.isFinite(mate) ? Math.min(MAT_MAX, mate) : MAT_MAX;
+    // Filtro de matriculas desativado no painel (ver GRUPOS em app.js): a faixa
+    // fica sempre cheia, para que um link antigo com `mde`/`mate` nao aplique
+    // um recorte invisivel. Para reativar, troque as duas linhas abaixo por:
+    //   const mde = Number(p.get('mde'));
+    //   const mate = Number(p.get('mate'));
+    //   state.matDe = p.has('mde') && Number.isFinite(mde) ? Math.max(MAT_MIN, mde) : MAT_MIN;
+    //   state.matAte = p.has('mate') && Number.isFinite(mate) ? Math.min(MAT_MAX, mate) : MAT_MAX;
+    state.matDe = MAT_MIN;
+    state.matAte = MAT_MAX;
     state.busca = p.get('q') || '';
     state.aba = p.get('aba') || 'geral';
     cacheRecorte = null;

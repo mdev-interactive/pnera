@@ -361,6 +361,12 @@
    * esconde o resto — assim o desenho sai com o tema, o aparato cartografico e a
    * legenda que ja estao na tela, sem copia paralela para manter.
    */
+  /** Endereco publico do painel e logo (copia aparada de logo_pronera.png) do rodape impresso. */
+  const URL_PAINEL = 'https://mdev-interactive.github.io/pnera/';
+  const LOGO_IMPRESSAO = 'assets/img/logo_pronera-impressao.png';
+  // Pre-carrega a logo: assim a primeira impressao ja tem a imagem em cache.
+  new Image().src = LOGO_IMPRESSAO;
+
   function imprimirMapa(box) {
     const card = box.closest('.card');
     if (!card) return;
@@ -381,6 +387,24 @@
       + `${int(F.recorte().length)} de ${int(P.data.length)} cursos. `
       + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
 
+    // Rodape da folha: fonte e endereco do painel a esquerda, logo a direita.
+    // Vai depois da legenda do recorte, fechando a pagina.
+    let rodape = card.querySelector('.js-print-footer');
+    if (!rodape) {
+      rodape = document.createElement('div');
+      rodape.className = 'print-footer js-print-footer';
+      rodape.innerHTML = `
+        <div class="print-footer__fonte"></div>
+        <div class="print-footer__logo"><img src="${LOGO_IMPRESSAO}" alt="Pronera"></div>`;
+    }
+    const geradoEm = P.meta.geradoEm ? new Date(P.meta.geradoEm).toLocaleDateString('pt-BR') : '—';
+    rodape.querySelector('.print-footer__fonte').innerHTML = `
+      <p><strong>Fonte:</strong> Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
+        INCRA e Universidade de Brasília. Planilha ${P.meta.fonte ?? '—'}, aba ${P.meta.aba ?? '—'},
+        convertida em ${geradoEm}.</p>
+      <p><strong>Disponível em:</strong> ${URL_PAINEL}</p>`;
+    card.appendChild(rodape);
+
     card.classList.add('is-print-target');
     document.body.classList.add('imprimindo-mapa');
     const limpar = () => {
@@ -389,17 +413,23 @@
       card.classList.remove('is-print-target');
     };
     window.addEventListener('afterprint', limpar);
-    window.print();
-    // Rede de seguranca: em navegador que nao dispara afterprint, o painel
-    // voltaria ao normal so no proximo redesenho.
-    setTimeout(limpar, 1000);
+    // Na primeira impressao a logo pode nao ter chegado ainda: espera ela
+    // decodificar (ou falhar) antes de abrir o dialogo, senao a folha sai sem.
+    const logo = rodape.querySelector('img');
+    const pronto = logo.complete ? Promise.resolve() : logo.decode().catch(() => {});
+    pronto.then(() => {
+      window.print();
+      // Rede de seguranca: em navegador que nao dispara afterprint, o painel
+      // voltaria ao normal so no proximo redesenho.
+      setTimeout(limpar, 1000);
+    });
   }
 
   registrar({
     id: 'mapa',
     aba: 'territorios',
     span: 7,
-    title: 'Distribuição pelo território nacional',
+    title: 'Brasil - Número de Cursos do Pronera por Município',
     hint: 'Cada círculo é um município, com área proporcional à medida. Clique no círculo ou no estado para filtrar todo o painel.',
     build(rows) {
       if (semDados(rows)) return { vazio: true };
