@@ -10,7 +10,6 @@ window.Quadros = (function () {
   'use strict';
 
   const P = window.PNERA;
-  const F = window.Filters;
   const V = window.Viz;
   const { int } = P;
 
@@ -491,10 +490,7 @@ window.Quadros = (function () {
 
   /* ------------------------------------------------------------ montagem ---- */
 
-  const ICONE_IMPRIMIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-    + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-    + '<path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/>'
-    + '<path d="M6 14h12v7H6z"/></svg>';
+  const ICONE_IMPRIMIR = V.ICONE_IMPRIMIR;
   const ICONE_CSV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
     + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     + '<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>';
@@ -659,37 +655,21 @@ window.Quadros = (function () {
   }
 
   /**
-   * Imprime so o cartao do quadro, no mesmo esquema do mapa: o documento entra
-   * em modo de impressao e o CSS esconde o resto. A legenda leva o recorte,
-   * porque na folha o painel de filtros nao aparece.
+   * Imprime so o cartao do quadro, pelo motor compartilhado (ver charts.js): a
+   * legenda do recorte vai no topo, porque o quadro pode ocupar varias folhas,
+   * e o rodape com a fonte e a logo fecha a ultima.
    */
   function imprimir() {
-    const card = container.querySelector('.quadros');
-    let legenda = card.querySelector('.js-print-caption');
-    if (!legenda) {
-      legenda = document.createElement('p');
-      legenda.className = 'print-caption js-print-caption';
-      card.querySelector('.card__head').after(legenda);
-    }
-    const ativos = F.ativos();
-    const recorte = ativos.length
-      ? ativos.map((a) => `${a.rotulo}: ${a.valor}`).join(' · ')
-      : 'todos os cursos (sem filtros)';
-    legenda.textContent = `PNERA — Educação na Reforma Agrária · Pronera. Recorte: ${recorte}. `
-      + (estado.busca ? `Busca no quadro: "${estado.busca}". ` : '')
-      + `${int(linhasAtuais.length)} de ${int(P.data.length)} cursos. `
-      + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
-
-    card.classList.add('is-print-target');
-    document.body.classList.add('imprimindo-quadro');
-    const limpar = () => {
-      window.removeEventListener('afterprint', limpar);
-      document.body.classList.remove('imprimindo-quadro');
-      card.classList.remove('is-print-target');
-    };
-    window.addEventListener('afterprint', limpar);
-    window.print();
-    setTimeout(limpar, 1000);
+    const card = container?.querySelector('.quadros');
+    if (!card) return;
+    V.imprimirCartao(card, {
+      legendaNoTopo: true,
+      // Os quadros cabem em retrato; so o das instituicoes, com uma coluna por
+      // medida alem do nome, pede a folha deitada.
+      paisagem: !!card.querySelector('.quadro-table--ies'),
+      cursos: linhasAtuais.length,
+      extra: estado.busca ? `Busca no quadro: "${estado.busca}"` : null,
+    });
   }
 
   return { montar, pintar };

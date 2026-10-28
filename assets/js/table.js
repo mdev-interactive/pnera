@@ -10,6 +10,7 @@ window.Tabela = (function () {
 
   const P = window.PNERA;
   const F = window.Filters;
+  const V = window.Viz;
   const { int } = P;
 
   const COLUNAS = [
@@ -58,7 +59,7 @@ window.Tabela = (function () {
   function montar(el, rows) {
     container = el;
     el.innerHTML = `
-      <section class="card span-12">
+      <section class="card span-12 base-dados">
         <div class="card__head">
           <div>
             <h3 class="card__title">Base de dados</h3>
@@ -66,6 +67,8 @@ window.Tabela = (function () {
           </div>
           <div class="card__tools">
             <button type="button" class="icon-btn js-csv">Exportar CSV</button>
+            <button type="button" class="icon-btn js-imprimir"
+                    title="Imprimir esta tabela, com o recorte atual">${V.ICONE_IMPRIMIR}Imprimir</button>
           </div>
         </div>
         <div class="data-toolbar">
@@ -82,6 +85,7 @@ window.Tabela = (function () {
       </section>`;
 
     el.querySelector('.js-csv').addEventListener('click', exportarCsv);
+    el.querySelector('.js-imprimir').addEventListener('click', imprimir);
     el.querySelector('#tam-pagina').addEventListener('change', (ev) => {
       estado.tamanho = Number(ev.target.value);
       estado.pagina = 1;
@@ -166,6 +170,25 @@ window.Tabela = (function () {
       <span class="muted ms-auto">Página ${estado.pagina} de ${paginas}</span>`;
     el.querySelector('.js-prev').addEventListener('click', () => { estado.pagina--; pintar(linhasAtuais); });
     el.querySelector('.js-next').addEventListener('click', () => { estado.pagina++; pintar(linhasAtuais); });
+  }
+
+  /**
+   * Imprime so o cartao da base, pelo motor compartilhado (ver charts.js). Vai
+   * a folha a pagina que esta na tela, nao o recorte inteiro: a tabela e
+   * paginada e imprimir 587 linhas sem pedir seria uma surpresa de dezenas de
+   * folhas. A legenda diz qual pagina e, para a folha nao se passar pelo todo.
+   */
+  function imprimir() {
+    const card = container?.querySelector('.base-dados');
+    if (!card) return;
+    const paginas = Math.max(1, Math.ceil(linhasAtuais.length / estado.tamanho));
+    V.imprimirCartao(card, {
+      legendaNoTopo: true,
+      // Em retrato as 12 colunas da base viram tiras ilegiveis.
+      paisagem: true,
+      cursos: linhasAtuais.length,
+      extra: `Página ${estado.pagina} de ${paginas} da tabela, ${estado.tamanho} linhas por página`,
+    });
   }
 
   /* -------------------------------------------------------------- detalhe --- */

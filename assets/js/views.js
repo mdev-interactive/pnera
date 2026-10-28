@@ -353,85 +353,13 @@
     return { pontos, maxPonto, plotados };
   }
 
-  const ICONE_IMPRIMIR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-    + 'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-    + '<path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/>'
-    + '<path d="M6 14h12v7H6z"/></svg>';
-
-  /**
-   * Imprime so o cartao do mapa. Nao abre outra janela nem serializa o SVG: o
-   * mesmo documento entra em modo de impressao (`body.imprimindo-mapa`) e o CSS
-   * esconde o resto — assim o desenho sai com o tema, o aparato cartografico e a
-   * legenda que ja estao na tela, sem copia paralela para manter.
-   */
-  /** Endereco publico do painel e logo (copia aparada de logo_pronera.png) do rodape impresso. */
-  const URL_PAINEL = 'https://mdev-interactive.github.io/pnera/';
-  const LOGO_IMPRESSAO = 'assets/img/logo_pronera-impressao.png';
-  // Pre-carrega a logo: assim a primeira impressao ja tem a imagem em cache.
-  new Image().src = LOGO_IMPRESSAO;
-
-  function imprimirMapa(box) {
-    const card = box.closest('.card');
-    if (!card) return;
-
-    // Na folha o mapa perde o painel de filtros ao lado: o recorte vai junto,
-    // senao a imagem impressa nao diz de que recorte ela e.
-    let legenda = card.querySelector('.js-print-caption');
-    if (!legenda) {
-      legenda = document.createElement('p');
-      legenda.className = 'print-caption js-print-caption';
-      card.appendChild(legenda);
-    }
-    const ativos = F.ativos();
-    const recorte = ativos.length
-      ? ativos.map((a) => `${a.rotulo}: ${a.valor}`).join(' · ')
-      : 'todos os cursos (sem filtros)';
-    legenda.textContent = `PNERA — Educação na Reforma Agrária · Pronera. Recorte: ${recorte}. `
-      + `${int(F.recorte().length)} de ${int(P.data.length)} cursos. `
-      + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
-
-    // Rodape da folha: fonte e endereco do painel a esquerda, logo a direita.
-    // Vai depois da legenda do recorte, fechando a pagina.
-    let rodape = card.querySelector('.js-print-footer');
-    if (!rodape) {
-      rodape = document.createElement('div');
-      rodape.className = 'print-footer js-print-footer';
-      rodape.innerHTML = `
-        <div class="print-footer__fonte"></div>
-        <div class="print-footer__logo"><img src="${LOGO_IMPRESSAO}" alt="Pronera"></div>`;
-    }
-    const geradoEm = P.meta.geradoEm ? new Date(P.meta.geradoEm).toLocaleDateString('pt-BR') : '—';
-    rodape.querySelector('.print-footer__fonte').innerHTML = `
-      <p><strong>Fonte:</strong> Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
-        INCRA e Universidade de Brasília. Planilha ${P.meta.fonte ?? '—'}, aba ${P.meta.aba ?? '—'},
-        convertida em ${geradoEm}.</p>
-      <p><strong>Disponível em:</strong> ${URL_PAINEL}</p>`;
-    card.appendChild(rodape);
-
-    card.classList.add('is-print-target');
-    document.body.classList.add('imprimindo-mapa');
-    const limpar = () => {
-      window.removeEventListener('afterprint', limpar);
-      document.body.classList.remove('imprimindo-mapa');
-      card.classList.remove('is-print-target');
-    };
-    window.addEventListener('afterprint', limpar);
-    // Na primeira impressao a logo pode nao ter chegado ainda: espera ela
-    // decodificar (ou falhar) antes de abrir o dialogo, senao a folha sai sem.
-    const logo = rodape.querySelector('img');
-    const pronto = logo.complete ? Promise.resolve() : logo.decode().catch(() => {});
-    pronto.then(() => {
-      window.print();
-      // Rede de seguranca: em navegador que nao dispara afterprint, o painel
-      // voltaria ao normal so no proximo redesenho.
-      setTimeout(limpar, 1000);
-    });
-  }
-
   registrar({
     id: 'mapa',
     aba: 'territorios',
     span: 7,
+    // O cartao imprime pelo botao do cabecalho, como todos os outros; so o
+    // rotulo muda, porque aqui a folha leva um mapa, nao um grafico.
+    rotuloImpressao: 'Imprimir mapa',
     get title() { return tituloMapa(); },
     hint: 'Cada círculo é um município, com área proporcional à medida. Clique no círculo ou no estado para filtrar todo o painel.',
     build(rows) {
@@ -478,14 +406,6 @@
         medidaMapa = ev.target.value;
         V.atualizar(F.recorte());
       });
-
-      const botaoImprimir = document.createElement('button');
-      botaoImprimir.type = 'button';
-      botaoImprimir.className = 'icon-btn js-imprimir-mapa';
-      botaoImprimir.title = 'Imprimir apenas o mapa, com o recorte atual';
-      botaoImprimir.innerHTML = `${ICONE_IMPRIMIR}Imprimir mapa`;
-      botaoImprimir.addEventListener('click', () => imprimirMapa(box));
-      barra.appendChild(botaoImprimir);
 
       box.appendChild(barra);
       window.MapaUF.desenhar(box, {

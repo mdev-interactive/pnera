@@ -1019,46 +1019,67 @@ text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
   }
 }
 
-/* Assinatura e rodape do mapa impresso: so existem na folha (ver bloco @media print). */
+/* Apensos que so existem na folha: a linha do recorte, o rodape com a fonte e a
+   logo do Pronera, e a imagem do grafico congelado (ver bloco @media print). */
 .print-caption,
-.print-footer { display: none; }
+.print-footer,
+.print-img { display: none; }
 
 @media print {
   .topbar, .filters-panel, .viewnav, .card__tools, .pager { display: none !important; }
   .shell { grid-template-columns: 1fr; }
   .card { break-inside: avoid; box-shadow: none; }
 
-  /* ----------------------------------------- imprimir so o cartao do mapa --
-     O botao "Imprimir mapa" marca o cartao e liga este modo no body; tudo que
-     nao esta no caminho ate ele sai da folha, sem abrir uma segunda janela. */
-  body.imprimindo-mapa > *:not(.shell),
-  body.imprimindo-mapa .shell > *:not(main),
-  body.imprimindo-mapa main > *:not(#painel),
-  body.imprimindo-mapa #painel > *:not(.grid),
-  body.imprimindo-mapa #painel .grid > *:not(.is-print-target) { display: none !important; }
+  /* ------------------------------------------- imprimir so um cartao --
+     O botao "Imprimir" do cabecalho marca o cartao e liga este modo no body;
+     tudo que nao esta no caminho ate ele sai da folha, sem abrir uma segunda
+     janela. Um mecanismo so para grafico, mapa, quadro e base de dados — tres
+     copias quase iguais era o que havia antes, e divergiriam na primeira
+     correcao. A dica de uso e as barras de controle saem junto: na folha nao
+     ha o que clicar, filtrar nem ordenar. */
+  body.imprimindo-cartao > *:not(.shell),
+  body.imprimindo-cartao .shell > *:not(main),
+  body.imprimindo-cartao main > *:not(#painel),
+  body.imprimindo-cartao #painel > *:not(.grid),
+  body.imprimindo-cartao #painel .grid > *:not(.is-print-target),
+  body.imprimindo-cartao .is-print-target .subnav,
+  body.imprimindo-cartao .is-print-target .data-toolbar,
+  body.imprimindo-cartao .is-print-target .card__hint { display: none !important; }
 
   /* A grade vira bloco: em grid o cartao ainda ocuparia so as colunas do span. */
-  body.imprimindo-mapa #painel .grid { display: block; }
-  body.imprimindo-mapa .card.is-print-target {
+  body.imprimindo-cartao #painel .grid { display: block; }
+  body.imprimindo-cartao .card.is-print-target {
     border: 0;
     padding: 0;
     margin: 0;
   }
-  /* Seletor de medida, gemeo em tabela e a dica de uso ("clique no circulo...")
-     ficam fora: a folha leva o desenho, e na folha nao ha o que clicar. */
-  body.imprimindo-mapa .card.is-print-target .data-toolbar,
-  body.imprimindo-mapa .card.is-print-target .card__hint,
-  body.imprimindo-mapa .card.is-print-target .table-view { display: none !important; }
 
-  body.imprimindo-mapa .print-caption {
+  /* O grafico entra na folha como imagem (congelarGrafico, em charts.js): o
+     <canvas> e um bitmap do tamanho que tinha na tela e seria esticado ate a
+     largura da pagina, deformando texto e barras. Sem a imagem — exportacao
+     bloqueada, modo tabela — o canvas segue valendo, para a folha nunca sair
+     em branco. */
+  body.imprimindo-cartao .is-print-target .chart-box { height: auto !important; }
+  body.imprimindo-cartao .is-print-target .chart-box.has-print-img canvas { display: none !important; }
+  body.imprimindo-cartao .is-print-target .print-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* Legenda do recorte: fecha a figura, ou abre a tabela longa quando o cartao
+     pede a legenda no topo (ver `legendaNoTopo` em charts.js). */
+  body.imprimindo-cartao .print-caption {
     display: block;
     margin: 0.6rem 0 0;
     font-size: 9pt;
     color: var(--ink-muted);
   }
+  body.imprimindo-cartao .card__head + .print-caption { margin: 0 0 0.6rem; }
 
   /* Rodape em dois blocos lado a lado: fonte + endereco | logo do Pronera. */
-  body.imprimindo-mapa .print-footer {
+  body.imprimindo-cartao .print-footer {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
@@ -1068,52 +1089,79 @@ text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
     border-top: 1px solid var(--border);
     break-inside: avoid;
   }
-  body.imprimindo-mapa .print-footer__fonte {
+  body.imprimindo-cartao .print-footer__fonte {
     font-size: 9pt;
     color: var(--ink-2);
   }
-  body.imprimindo-mapa .print-footer__fonte p { margin: 0 0 0.25rem; }
-  body.imprimindo-mapa .print-footer__fonte p:last-child { margin-bottom: 0; }
-  body.imprimindo-mapa .print-footer__logo img {
+  body.imprimindo-cartao .print-footer__fonte p { margin: 0 0 0.25rem; }
+  body.imprimindo-cartao .print-footer__fonte p:last-child { margin-bottom: 0; }
+  body.imprimindo-cartao .print-footer__logo img {
     display: block;
     height: 14mm;
     width: auto;
   }
 
-  /* ---------------------------------------- imprimir so o quadro da vez --
-     Mesmo esquema do mapa. A tabela sai inteira: sem rolagem propria, sem
-     cabecalho/rodape grudados, e o cabecalho se repete em cada folha. */
-  body.imprimindo-quadro > *:not(.shell),
-  body.imprimindo-quadro .shell > *:not(main),
-  body.imprimindo-quadro main > *:not(#painel),
-  body.imprimindo-quadro #painel > *:not(.grid),
-  body.imprimindo-quadro #painel .grid > *:not(.is-print-target),
-  body.imprimindo-quadro .is-print-target .subnav,
-  body.imprimindo-quadro .is-print-target .data-toolbar { display: none !important; }
-
-  body.imprimindo-quadro #painel .grid { display: block; }
-  body.imprimindo-quadro .card.is-print-target {
+  /* ------------------------------------------------ tabelas na folha --
+     Gemeo em tabela, quadros e base de dados saem inteiros: sem rolagem
+     propria, sem cabecalho grudado, e o cabecalho se repete em cada folha. */
+  body.imprimindo-cartao .table-view,
+  body.imprimindo-cartao .quadro-scroll,
+  body.imprimindo-cartao .data-scroll {
+    max-height: none;
+    overflow: visible;
     border: 0;
-    padding: 0;
-    margin: 0;
-    break-inside: auto;
   }
-  body.imprimindo-quadro .quadro-scroll { max-height: none; overflow: visible; border: 0; }
-  body.imprimindo-quadro .quadro-table { min-width: 0; font-size: 8.5pt; }
-  body.imprimindo-quadro .quadro-table thead { display: table-header-group; }
-  body.imprimindo-quadro .quadro-table thead th,
-  body.imprimindo-quadro .quadro-table tfoot th,
-  body.imprimindo-quadro .quadro-table tfoot td { position: static; }
-  body.imprimindo-quadro .quadro-table tr { break-inside: avoid; }
-  body.imprimindo-quadro .quadro-table th,
-  body.imprimindo-quadro .quadro-table td { padding: 0.25rem 0.4rem; }
-  body.imprimindo-quadro .quadro-table td[style] { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  body.imprimindo-quadro .quadro-grupo__btn .chev { display: none; }
+  body.imprimindo-cartao .quadro-table,
+  body.imprimindo-cartao .data-table { min-width: 0; font-size: 8.5pt; }
+  /* Nenhuma tabela sai cortada na margem. Na tela as larguras minimas e o
+     nowrap existem porque ha rolagem horizontal; na folha nao ha para onde
+     rolar, entao o cabecalho quebra linha, as larguras minimas caem e palavra
+     comprida quebra em vez de empurrar a coluna para fora da pagina. */
+  body.imprimindo-cartao .table-view table,
+  body.imprimindo-cartao .quadro-table,
+  body.imprimindo-cartao .data-table { width: 100%; }
+  body.imprimindo-cartao .data-table .cell-name,
+  body.imprimindo-cartao .quadro-col-nome,
+  body.imprimindo-cartao .quadro-ufs,
+  body.imprimindo-cartao .quadro-table--cruzado th.num,
+  body.imprimindo-cartao .quadro-table--cruzado td.num { min-width: 0; }
+  body.imprimindo-cartao .table-view th,
+  body.imprimindo-cartao .table-view td,
+  body.imprimindo-cartao .quadro-table th,
+  body.imprimindo-cartao .data-table th { white-space: normal; }
+  body.imprimindo-cartao .table-view th,
+  body.imprimindo-cartao .table-view td,
+  body.imprimindo-cartao .quadro-table th,
+  body.imprimindo-cartao .quadro-table td,
+  body.imprimindo-cartao .data-table th,
+  body.imprimindo-cartao .data-table td { overflow-wrap: break-word; }
+  /* break-word, nunca anywhere: anywhere entra no calculo da largura minima da
+     coluna e o navegador passa a quebrar no meio de qualquer palavra — "2026"
+     vira "2.0 26" e "UF" vira "U F". E numero nao quebra nunca. */
+  body.imprimindo-cartao .table-view .num,
+  body.imprimindo-cartao .quadro-table .num,
+  body.imprimindo-cartao .data-table .num { white-space: nowrap; }
+  body.imprimindo-cartao .table-view thead,
+  body.imprimindo-cartao .quadro-table thead,
+  body.imprimindo-cartao .data-table thead { display: table-header-group; }
+  body.imprimindo-cartao .table-view thead th,
+  body.imprimindo-cartao .quadro-table thead th,
+  body.imprimindo-cartao .quadro-table tfoot th,
+  body.imprimindo-cartao .quadro-table tfoot td,
+  body.imprimindo-cartao .data-table thead th { position: static; }
+  body.imprimindo-cartao .table-view tr,
+  body.imprimindo-cartao .quadro-table tr,
+  body.imprimindo-cartao .data-table tr { break-inside: avoid; }
+  body.imprimindo-cartao .quadro-table th,
+  body.imprimindo-cartao .quadro-table td,
+  body.imprimindo-cartao .data-table th,
+  body.imprimindo-cartao .data-table td { padding: 0.25rem 0.4rem; }
+  /* As celulas do quadro cruzado sao a rampa sequencial: sem print-color-adjust
+     o navegador descarta o fundo e a leitura por intensidade se perde. */
+  body.imprimindo-cartao .quadro-table td[style] { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  body.imprimindo-cartao .quadro-grupo__btn .chev { display: none; }
 
-  body.imprimindo-quadro .print-caption {
-    display: block;
-    margin: 0 0 0.6rem;
-    font-size: 9pt;
-    color: var(--ink-muted);
-  }
+  /* Quadro e base de dados podem passar de uma folha; o cartao de grafico, nao. */
+  body.imprimindo-cartao .card.is-print-target.quadros,
+  body.imprimindo-cartao .card.is-print-target.base-dados { break-inside: auto; }
 }

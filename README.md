@@ -149,7 +149,7 @@ assets/
   js/municipio-coords.js        lat/lon e nome acentuado dos 246 municípios
   js/data.js                    formatação e agregação
   js/filters.js                 estado dos filtros, cruzamento e URL
-  js/charts.js                  padrões de marca e ciclo de vida dos cartões
+  js/charts.js                  padrões de marca, ciclo de vida dos cartões e a impressão de um cartão
   js/map.js                     mapa do painel: círculos por município e aparato cartográfico
   js/views.js                   definição de cada visual
   js/table.js                   base de dados, detalhe e exportação CSV
@@ -174,9 +174,8 @@ por cartão):
 - **Territórios** — mapa “Brasil - Número de Cursos do Pronera por Município”
   (o título acompanha o seletor de medida: com “matriculados”, vira “Número de
   Matriculados”): círculos proporcionais por município, com cruzetas de coordenada, norte,
-  legenda e escala gráfica (clique no círculo ou no estado filtra) e botão de
-  impressão só do mapa; ranking das 27 UFs, municípios e superintendências do
-  INCRA.
+  legenda e escala gráfica (clique no círculo ou no estado filtra); ranking
+  das 27 UFs, municípios e superintendências do INCRA.
 - **Cursos e áreas** — matriz área temática × nível, roscas de composição por
   modalidade, nível e área temática (clique na fatia filtra), composição das
   modalidades por macrorregião, duração e meta de vagas × matrículas efetivas.
@@ -188,6 +187,12 @@ por cartão):
   macrorregião (tabela cruzada), por superintendência, por estado e por
   município (agrupadas, recolhíveis), e o quadro das instituições que
   realizaram os cursos. Cada quadro tem busca, exportação CSV e impressão.
+
+**Todo cartão imprime sozinho.** No canto de cada cartão — os 19 gráficos, o
+mapa, os quadros e a base de dados — há um botão de impressora que manda só
+aquele cartão para a folha, com o recorte que está na tela. A folha leva o que o
+cartão mostra no momento: se o gêmeo em tabela estiver ligado, saem os números,
+não o desenho.
 
 Filtros disponíveis: situação (concluído / em andamento), fase, área temática,
 nível, modalidade, área do conhecimento, macrorregião, UF, superintendência,
@@ -287,6 +292,19 @@ modalidades, naturezas); nomes próprios de municípios e pessoas permanecem sem
 acento, como estão na fonte. A macrorregião é derivada da UF, que é mais
 confiável que a coluna de região.
 
+**Ferramentas em Node, sem dependências.** Os três scripts de `tools/` importam
+apenas a biblioteca padrão (`node:fs`, `node:path`, `node:zlib`, `node:url`): o
+`.xlsx` é descompactado e lido direto, sem pacote de terceiros. Não há
+`npm install`, `package.json` nem cadeia de suprimentos para auditar, e a
+conversão inteira leva ~0,8 s. Python foi considerado e descartado: exigiria
+`openpyxl` (pip e ambiente virtual, num projeto cuja regra é não depender de
+instalação nem de rede) ou reescrever do zero as 997 linhas já validadas do
+conversor — sem ganho de velocidade, já que `openpyxl` monta um modelo de
+objetos célula a célula. Node ainda mantém uma só linguagem nas duas pontas: o
+conversor escreve `assets/js/dataset.js`, que é JavaScript, e as regras de
+normalização falam o mesmo vocabulário de `data.js` e `filters.js`. Python
+continua útil fora do pipeline, para análise avulsa e conferência da planilha.
+
 **Cores.** A paleta é agro, mas foi **validada, não escolhida a olho**: 7 slots
 categóricos em ordem fixa, pior par adjacente com ΔE 16,6 sob protanopia e
 deuteranopia e 20,6 em visão normal (OKLab ×100; alvo 8 e piso 15). Sete e não
@@ -336,14 +354,45 @@ número da escala ficaria mais largo que o segmento. Então cada peça cresce po
 inteiro em torno da própria âncora (`ajustarAparato` em `assets/js/map.js`),
 mantendo a razão entre texto, barra e cruzeta.
 
-**Mapa impresso.** O botão “Imprimir mapa” manda para a folha só o cartão do
-mapa: sem seletor de medida, sem tabela e sem a dica de uso (“Cada círculo é um
-município…”), já que no papel não há o que clicar. Abaixo do desenho entram a
-linha do recorte (filtros ativos, nº de cursos e data) e um rodapé em dois
-blocos — à esquerda a fonte (PNERA II e III, INCRA/UnB, planilha e data da
-conversão) e o endereço https://mdev-interactive.github.io/pnera/, à direita a
-logo do Pronera (`assets/img/logo_pronera-impressao.png`, cópia aparada da
-original). A impressão espera a logo carregar antes de abrir o diálogo.
+**Impressão: um mecanismo só, para todo cartão.** O botão de impressora marca o
+cartão (`is-print-target`) e liga um modo no `body` (`imprimindo-cartao`); o CSS
+esconde tudo que não está no caminho até ele. Não há segunda janela nem cópia
+paralela da página para manter em dia — a folha sai com o tema, a legenda de
+cores e a nota de cobertura que já estão na tela. O motor vive em
+`Viz.imprimirCartao` (`assets/js/charts.js`) e serve gráfico, mapa, quadro e base
+de dados; antes eram três implementações quase iguais, que divergiriam na
+primeira correção.
+
+Saem da folha a dica de uso (“clique na fatia…”), os seletores e as barras de
+busca e ordenação: no papel não há o que clicar. Entram dois apensos que só
+existem ali — a linha do recorte (filtros ativos, nº de cursos e data), porque o
+painel de filtros não vai junto e sem ela a folha não diz de que recorte é, e um
+rodapé em dois blocos: à esquerda a fonte (PNERA II e III, INCRA/UnB, planilha e
+data da conversão) e o endereço https://mdev-interactive.github.io/pnera/, à
+direita a logo do Pronera (`assets/img/logo_pronera-impressao.png`, cópia aparada
+da original). A impressão espera a logo carregar antes de abrir o diálogo. Em
+cartão de tabela longa, que pode virar várias folhas, a linha do recorte vai no
+topo, sob o título; na figura ela fecha o desenho, como legenda.
+
+**O gráfico vai à folha como imagem, não como `<canvas>`.** O canvas é um bitmap
+do tamanho que tinha na tela: esticado até a largura da página, deformaria
+texto, barras e fatias. Antes de imprimir, o cartão congela o gráfico em PNG com
+`devicePixelRatio` 3 — o papel tem muito mais pontos por polegada que a tela, e
+no ratio da tela o desenho sairia serrilhado. A imagem some quando a impressão
+termina. Se a exportação falhar, o canvas volta a valer: a folha nunca sai em
+branco. O mapa não precisa disso — é SVG, e escala sozinho.
+
+**Nenhuma tabela sai cortada na margem.** Na tela as larguras mínimas e o
+`nowrap` existem porque há rolagem horizontal; no papel não há para onde rolar,
+então na folha o cabeçalho quebra linha e as larguras mínimas caem. A quebra de
+palavra é `break-word`, nunca `anywhere`: `anywhere` entra no cálculo da largura
+mínima da coluna e o navegador passa a quebrar no meio de qualquer palavra —
+“2026” vira “2.0 26” e “UF” vira “U F”. Número não quebra nunca. Onde as colunas
+ainda não cabem em retrato — a base de dados, com 12 colunas, e o quadro das
+instituições, com 11 — a impressão injeta `@page { size: A4 landscape }` só para
+aquela folha. A base de dados imprime a página que está na tela, não o recorte
+inteiro, e a legenda diz qual é: imprimir 587 linhas sem pedir seriam dezenas de
+folhas de surpresa.
 
 **Dimensão nominal em barras usa um único tom.** O comprimento da barra já mostra
 o valor; colorir cada barra de um jeito gastaria o canal de identidade

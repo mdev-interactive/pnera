@@ -425,9 +425,159 @@ window.Viz = (function () {
 
   const svgIcon = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   const ICONE_TABELA = svgIcon('<path d="M3 5h18v14H3z"/><path d="M3 10h18M9 5v14"/>');
+  const ICONE_IMPRIMIR = svgIcon('<path d="M6 9V3h12v6"/>'
+    + '<path d="M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/>'
+    + '<path d="M6 14h12v7H6z"/>');
+
+  /* ----------------------------------------------------------- impressao ---- */
+
+  /** Endereco publico do painel e logo (copia aparada de logo_pronera.png) do rodape impresso. */
+  const URL_PAINEL = 'https://mdev-interactive.github.io/pnera/';
+  const LOGO_IMPRESSAO = 'assets/img/logo_pronera-impressao.png';
+  // Pre-carrega a logo: assim a primeira impressao ja tem a imagem em cache.
+  new Image().src = LOGO_IMPRESSAO;
+
+  /**
+   * Imprime um cartao sozinho — grafico, mapa, quadro ou base de dados. Nao abre
+   * outra janela nem serializa a pagina: o mesmo documento entra em modo de
+   * impressao (`body.imprimindo-cartao`) e o CSS esconde tudo que nao esta no
+   * caminho ate o cartao marcado. Assim a folha sai com o tema, a legenda de
+   * cores e a nota de cobertura que ja estao na tela, sem copia paralela para
+   * manter em dia.
+   *
+   * Dois apensos nascem so para a folha, porque na tela seriam ruido: a linha do
+   * recorte (o painel de filtros nao vai junto; sem ela a folha nao diz de que
+   * recorte e) e o rodape em dois blocos — fonte e endereco a esquerda, logo do
+   * Pronera a direita.
+   *
+   * Opcoes: `legendaNoTopo` poe a linha do recorte sob o titulo (tabela longa, que
+   * pode virar varias folhas) em vez de fechar a figura; `cursos` troca a contagem
+   * do recorte quando o cartao mostra outro conjunto; `extra` acrescenta uma frase
+   * a legenda; `antes()` prepara o cartao e devolve como desfazer.
+   */
+  function imprimirCartao(card, opts = {}) {
+    if (!card) return;
+    const F = window.Filters;
+    const P = window.PNERA;
+
+    let legenda = card.querySelector('.js-print-caption');
+    if (!legenda) {
+      legenda = document.createElement('p');
+      legenda.className = 'print-caption js-print-caption';
+    }
+    if (opts.legendaNoTopo) card.querySelector('.card__head').after(legenda);
+    else card.appendChild(legenda);
+
+    const ativos = F.ativos();
+    const recorte = ativos.length
+      ? ativos.map((a) => `${a.rotulo}: ${a.valor}`).join(' · ')
+      : 'todos os cursos (sem filtros)';
+    const cursos = opts.cursos ?? F.recorte().length;
+    legenda.textContent = `PNERA — Educação na Reforma Agrária · Pronera. Recorte: ${recorte}. `
+      + (opts.extra ? `${opts.extra}. ` : '')
+      + `${int(cursos)} de ${int(P.data.length)} cursos. `
+      + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
+
+    // Rodape da folha: fonte e endereco do painel a esquerda, logo a direita.
+    let rodape = card.querySelector('.js-print-footer');
+    if (!rodape) {
+      rodape = document.createElement('div');
+      rodape.className = 'print-footer js-print-footer';
+      rodape.innerHTML = `
+        <div class="print-footer__fonte"></div>
+        <div class="print-footer__logo"><img src="${LOGO_IMPRESSAO}" alt="Pronera"></div>`;
+    }
+    const geradoEm = P.meta.geradoEm ? new Date(P.meta.geradoEm).toLocaleDateString('pt-BR') : '—';
+    rodape.querySelector('.print-footer__fonte').innerHTML = `
+      <p><strong>Fonte:</strong> Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
+        INCRA e Universidade de Brasília. Planilha ${P.meta.fonte ?? '—'}, aba ${P.meta.aba ?? '—'},
+        convertida em ${geradoEm}.</p>
+      <p><strong>Disponível em:</strong> ${URL_PAINEL}</p>`;
+    card.appendChild(rodape);
+
+    // Folha deitada quando a tabela e larga demais para caber em retrato sem
+    // virar sopa de letrinhas. A regra sai na limpeza, com o resto.
+    let regraPagina = null;
+    if (opts.paisagem) {
+      regraPagina = document.createElement('style');
+      regraPagina.textContent = '@page { size: A4 landscape; }';
+      document.head.appendChild(regraPagina);
+    }
+
+    const desfazer = opts.antes ? opts.antes() : null;
+
+    card.classList.add('is-print-target');
+    document.body.classList.add('imprimindo-cartao');
+    let limpo = false;
+    const limpar = () => {
+      // Idempotente: o navegador pode disparar afterprint antes do prazo de
+      // seguranca, e desfazer() nao pode rodar duas vezes.
+      if (limpo) return;
+      limpo = true;
+      window.removeEventListener('afterprint', limpar);
+      document.body.classList.remove('imprimindo-cartao');
+      card.classList.remove('is-print-target');
+      if (regraPagina) regraPagina.remove();
+      if (desfazer) desfazer();
+    };
+    window.addEventListener('afterprint', limpar);
+    // Na primeira impressao a logo pode nao ter chegado ainda: espera ela
+    // decodificar (ou falhar) antes de abrir o dialogo, senao a folha sai sem.
+    const logo = rodape.querySelector('img');
+    const pronto = logo.complete ? Promise.resolve() : logo.decode().catch(() => {});
+    pronto.then(() => {
+      window.print();
+      // Rede de seguranca: em navegador que nao dispara afterprint, o painel
+      // voltaria ao normal so no proximo redesenho.
+      setTimeout(limpar, 1000);
+    });
+  }
+
+  /**
+   * O grafico vai para a folha como imagem, nao como <canvas>. O canvas e um
+   * bitmap do tamanho que tinha na tela; na folha ele seria esticado ate a
+   * largura da pagina, deformando texto, barras e fatias. A imagem acompanha a
+   * largura disponivel sem distorcer, e nasce com devicePixelRatio alto porque o
+   * papel tem muito mais pontos por polegada que a tela — no ratio da tela o
+   * desenho sairia serrilhado.
+   *
+   * Devolve como desfazer, ou null quando nao ha grafico a congelar (o mapa
+   * desenha em SVG, que ja escala sozinho; em modo tabela nao ha canvas).
+   */
+  function congelarGrafico(el, id) {
+    const chart = instancias.get(id);
+    const plot = el.querySelector('.js-plot');
+    if (!chart || !plot || plot.hidden) return null;
+
+    const ratioTela = chart.options.devicePixelRatio;
+    let url = null;
+    try {
+      chart.options.devicePixelRatio = 3;
+      chart.resize();
+      chart.update('none');
+      url = chart.toBase64Image('image/png', 1);
+    } catch {
+      url = null;
+    }
+    chart.options.devicePixelRatio = ratioTela;
+    chart.resize();
+    chart.update('none');
+    if (!url) return null;
+
+    const img = document.createElement('img');
+    img.className = 'print-img js-print-img';
+    img.src = url;
+    img.alt = '';
+    plot.appendChild(img);
+    // A marca no box diz ao CSS para esconder o canvas: sem ela — imagem nao
+    // gerada — o canvas segue indo para a folha, que nunca sai em branco.
+    plot.classList.add('has-print-img');
+    return () => { img.remove(); plot.classList.remove('has-print-img'); };
+  }
 
   /** Casca do cartao: cabecalho, legenda, area do grafico, gemeo em tabela, pe. */
   function casca(spec) {
+    const rotuloImpressao = spec.rotuloImpressao || 'Imprimir gráfico';
     const el = document.createElement('section');
     el.className = `card span-${spec.span || 6}`;
     el.dataset.viz = spec.id;
@@ -441,6 +591,10 @@ window.Viz = (function () {
           <button type="button" class="icon-btn js-tabela" aria-pressed="false"
                   title="Ver os números em tabela" aria-label="Ver os números em tabela">
             ${ICONE_TABELA}<span class="visually-hidden">Tabela</span>
+          </button>
+          <button type="button" class="icon-btn js-imprimir"
+                  title="${rotuloImpressao}, com o recorte atual" aria-label="${rotuloImpressao}">
+            ${ICONE_IMPRIMIR}<span class="visually-hidden">Imprimir</span>
           </button>
         </div>
       </div>
@@ -612,6 +766,12 @@ window.Viz = (function () {
       el.querySelector('.js-plot').hidden = !ligado;
       el.querySelector('.js-legend').hidden = !ligado ? true : !el.querySelector('.js-legend').innerHTML;
     });
+
+    // A folha leva o que esta na tela: em modo tabela sai a tabela, senao sai o
+    // grafico congelado em imagem.
+    el.querySelector('.js-imprimir').addEventListener('click', () => {
+      imprimirCartao(el, { antes: () => congelarGrafico(el, spec.id) });
+    });
   }
 
   /** Redesenha os cartoes ja montados (chamado a cada mudanca de filtro). */
@@ -637,6 +797,8 @@ window.Viz = (function () {
     rgba,
     misturar,
     registrar,
+    imprimirCartao,
+    ICONE_IMPRIMIR,
     montarAba,
     atualizar,
     limparMontados,
