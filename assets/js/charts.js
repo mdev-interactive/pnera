@@ -478,7 +478,7 @@ window.Viz = (function () {
       + `${int(cursos)} de ${int(P.data.length)} cursos. `
       + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
 
-    // Rodape da folha: fonte e endereco do painel a esquerda, logo a direita.
+    // Rodape da folha: credito e endereco do painel a esquerda, logo a direita.
     let rodape = card.querySelector('.js-print-footer');
     if (!rodape) {
       rodape = document.createElement('div');
@@ -487,12 +487,12 @@ window.Viz = (function () {
         <div class="print-footer__fonte"></div>
         <div class="print-footer__logo"><img src="${LOGO_IMPRESSAO}" alt="Pronera"></div>`;
     }
-    const geradoEm = P.meta.geradoEm ? new Date(P.meta.geradoEm).toLocaleDateString('pt-BR') : '—';
+    // O ano da citacao vem da conversao, nao fixo no codigo: planilha nova, ano
+    // novo, sem ninguem ter de lembrar de trocar aqui.
+    const anoFonte = P.meta.geradoEm ? new Date(P.meta.geradoEm).getFullYear() : new Date().getFullYear();
     rodape.querySelector('.print-footer__fonte').innerHTML = `
-      <p><strong>Fonte:</strong> Pesquisa Nacional de Educação na Reforma Agrária (PNERA II e III) —
-        INCRA e Universidade de Brasília. Planilha ${P.meta.fonte ?? '—'}, aba ${P.meta.aba ?? '—'},
-        convertida em ${geradoEm}.</p>
-      <p><strong>Disponível em:</strong> ${URL_PAINEL}</p>`;
+      <p><strong>PRONERA</strong>, Fonte: Data Pronera, ${anoFonte}</p>
+      <p><a href="${URL_PAINEL}">${URL_PAINEL}</a></p>`;
     card.appendChild(rodape);
 
     // Folha deitada quando a tabela e larga demais para caber em retrato sem

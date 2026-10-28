@@ -367,10 +367,12 @@ Saem da folha a dica de uso (“clique na fatia…”), os seletores e as barras
 busca e ordenação: no papel não há o que clicar. Entram dois apensos que só
 existem ali — a linha do recorte (filtros ativos, nº de cursos e data), porque o
 painel de filtros não vai junto e sem ela a folha não diz de que recorte é, e um
-rodapé em dois blocos: à esquerda a fonte (PNERA II e III, INCRA/UnB, planilha e
-data da conversão) e o endereço https://mdev-interactive.github.io/pnera/, à
+rodapé em dois blocos: à esquerda o crédito em duas linhas — **PRONERA**, Fonte:
+Data Pronera, 2026, e o endereço https://mdev-interactive.github.io/pnera/ —, à
 direita a logo do Pronera (`assets/img/logo_pronera-impressao.png`, cópia aparada
-da original). A impressão espera a logo carregar antes de abrir o diálogo. Em
+da original, a 9,8 mm de altura). O ano do crédito não é fixo no código: sai da
+data de conversão da planilha, então planilha nova atualiza o ano sozinha. A
+impressão espera a logo carregar antes de abrir o diálogo. Em
 cartão de tabela longa, que pode virar várias folhas, a linha do recorte vai no
 topo, sob o título; na figura ela fecha o desenho, como legenda.
 
