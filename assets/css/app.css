@@ -1044,7 +1044,8 @@ text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
   body.imprimindo-cartao #painel .grid > *:not(.is-print-target),
   body.imprimindo-cartao .is-print-target .subnav,
   body.imprimindo-cartao .is-print-target .data-toolbar,
-  body.imprimindo-cartao .is-print-target .card__hint { display: none !important; }
+  body.imprimindo-cartao .is-print-target .card__hint,
+  body.imprimindo-cartao .is-print-limpo .card__foot { display: none !important; }
 
   /* A grade vira bloco: em grid o cartao ainda ocuparia so as colunas do span. */
   body.imprimindo-cartao #painel .grid { display: block; }

@@ -376,6 +376,14 @@ impressão espera a logo carregar antes de abrir o diálogo. Em
 cartão de tabela longa, que pode virar várias folhas, a linha do recorte vai no
 topo, sob o título; na figura ela fecha o desenho, como legenda.
 
+**O mapa imprime em folha limpa.** Só o título, o desenho e o crédito: a linha do
+recorte e a nota de cobertura (“base: 558 de 587 cursos com município
+localizado”) ficam de fora. O desenho já ocupa a página inteira, e as duas linhas
+encavaladas entre o mapa e o crédito poluíam a folha. Na tela nada muda — o
+recorte e a base continuam declarados ali, como em todo cartão. É o único cartão
+assim, e diz isso de forma declarativa: `impressaoLimpa: true` na sua spec
+(`assets/js/views.js`).
+
 **O gráfico vai à folha como imagem, não como `<canvas>`.** O canvas é um bitmap
 do tamanho que tinha na tela: esticado até a largura da página, deformaria
 texto, barras e fatias. Antes de imprimir, o cartão congela o gráfico em PNG com

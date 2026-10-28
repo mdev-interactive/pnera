@@ -455,19 +455,10 @@ window.Viz = (function () {
    * do recorte quando o cartao mostra outro conjunto; `extra` acrescenta uma frase
    * a legenda; `antes()` prepara o cartao e devolve como desfazer.
    */
-  function imprimirCartao(card, opts = {}) {
-    if (!card) return;
+  /** A linha do recorte: o painel de filtros nao vai para a folha. */
+  function montarLegenda(legenda, opts) {
     const F = window.Filters;
     const P = window.PNERA;
-
-    let legenda = card.querySelector('.js-print-caption');
-    if (!legenda) {
-      legenda = document.createElement('p');
-      legenda.className = 'print-caption js-print-caption';
-    }
-    if (opts.legendaNoTopo) card.querySelector('.card__head').after(legenda);
-    else card.appendChild(legenda);
-
     const ativos = F.ativos();
     const recorte = ativos.length
       ? ativos.map((a) => `${a.rotulo}: ${a.valor}`).join(' · ')
@@ -477,6 +468,28 @@ window.Viz = (function () {
       + (opts.extra ? `${opts.extra}. ` : '')
       + `${int(cursos)} de ${int(P.data.length)} cursos. `
       + `Impresso em ${new Date().toLocaleDateString('pt-BR')}.`;
+  }
+
+  function imprimirCartao(card, opts = {}) {
+    if (!card) return;
+    const P = window.PNERA;
+
+    // Cartao que pede folha limpa (o mapa) dispensa a linha do recorte e a nota
+    // de cobertura: num desenho que ja ocupa a pagina inteira, as duas viram
+    // ruido entre o mapa e o credito. O recorte continua declarado na tela.
+    if (opts.limpa) {
+      card.querySelector('.js-print-caption')?.remove();
+      card.classList.add('is-print-limpo');
+    } else {
+      let legenda = card.querySelector('.js-print-caption');
+      if (!legenda) {
+        legenda = document.createElement('p');
+        legenda.className = 'print-caption js-print-caption';
+      }
+      if (opts.legendaNoTopo) card.querySelector('.card__head').after(legenda);
+      else card.appendChild(legenda);
+      montarLegenda(legenda, opts);
+    }
 
     // Rodape da folha: credito e endereco do painel a esquerda, logo a direita.
     let rodape = card.querySelector('.js-print-footer');
@@ -517,6 +530,7 @@ window.Viz = (function () {
       window.removeEventListener('afterprint', limpar);
       document.body.classList.remove('imprimindo-cartao');
       card.classList.remove('is-print-target');
+      card.classList.remove('is-print-limpo');
       if (regraPagina) regraPagina.remove();
       if (desfazer) desfazer();
     };
@@ -770,7 +784,10 @@ window.Viz = (function () {
     // A folha leva o que esta na tela: em modo tabela sai a tabela, senao sai o
     // grafico congelado em imagem.
     el.querySelector('.js-imprimir').addEventListener('click', () => {
-      imprimirCartao(el, { antes: () => congelarGrafico(el, spec.id) });
+      imprimirCartao(el, {
+        limpa: spec.impressaoLimpa,
+        antes: () => congelarGrafico(el, spec.id),
+      });
     });
   }
 

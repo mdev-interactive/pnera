@@ -358,8 +358,11 @@
     aba: 'territorios',
     span: 7,
     // O cartao imprime pelo botao do cabecalho, como todos os outros; so o
-    // rotulo muda, porque aqui a folha leva um mapa, nao um grafico.
+    // rotulo muda, porque aqui a folha leva um mapa, nao um grafico. E a folha
+    // vai limpa: o desenho ja ocupa a pagina, e a linha do recorte mais a nota
+    // de cobertura, encavaladas entre o mapa e o credito, so poluiam.
     rotuloImpressao: 'Imprimir mapa',
+    impressaoLimpa: true,
     get title() { return tituloMapa(); },
     hint: 'Cada círculo é um município, com área proporcional à medida. Clique no círculo ou no estado para filtrar todo o painel.',
     build(rows) {
