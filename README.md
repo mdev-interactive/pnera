@@ -421,6 +421,12 @@ silêncio.
 parênteses (`FETAGRI PA`, não `Federacao dos Trabalhadores n…`), porque é a sigla
 que as distingue. O nome completo aparece no tooltip e na tabela.
 
+**Ano não é quantidade.** Na base de dados, as colunas Início e Fim alinham à
+direita como número, mas sem separador de milhar: com ele, 2026 era escrito
+“2.026”. O formato é declarado na própria coluna (`fmt` em
+`assets/js/table.js`); turmas e matriculados seguem com o separador, que ali
+ajuda a ler.
+
 **Todo gráfico tem gêmeo em tabela.** O botão no canto de cada cartão troca o
 desenho pelos números. Nenhum valor depende de passar o mouse.
 
@@ -442,3 +448,9 @@ inteira da categoria como alvo de clique (o vão entre barras não é zona morta
 - Alguns anos de fim são previsões (cursos de graduação iniciados em 2025 com
   término em 2030), como registrado na fonte.
 - O painel é deliberadamente **light**, sem tema escuro.
+- O `maps-interativo.html` **não tem botão de impressão**, por enquanto. Todo
+  cartão do painel imprime, mas ali o desenho é um mapa Leaflet: os tiles do
+  OpenStreetMap só existem para o tamanho que está na tela, e numa folha de
+  outra largura o fundo sairia com faixas vazias. Imprimir essa página pede
+  outra técnica — congelar o tamanho do mapa ou rasterizar antes de imprimir —
+  e isso ficou para depois.

@@ -22,8 +22,10 @@ window.Tabela = (function () {
     { key: 'uf', label: 'UF', get: (c) => c.ufSigla },
     { key: 'municipio', label: 'Município', get: (c) => c.municipio },
     { key: 'ies', label: 'Instituição', get: (c) => c.ies?.nome },
-    { key: 'anoInicio', label: 'Início', num: true, get: (c) => c.anoInicio },
-    { key: 'anoFim', label: 'Fim', num: true, get: (c) => c.anoFim },
+    // `fmt` existe por causa do ano: ele alinha a direita como numero, mas nao
+    // e quantidade, e o separador de milhar o escreveria como "2.026".
+    { key: 'anoInicio', label: 'Início', num: true, fmt: String, get: (c) => c.anoInicio },
+    { key: 'anoFim', label: 'Fim', num: true, fmt: String, get: (c) => c.anoFim },
     { key: 'turmas', label: 'Turmas', num: true, get: (c) => c.turmas },
     { key: 'matriculados', label: 'Matriculados', num: true, get: (c) => c.matriculados },
   ];
@@ -127,6 +129,7 @@ window.Tabela = (function () {
         const conteudo = col.render ? col.render(c) : (() => {
           const v = col.get(c);
           if (v == null || v === '') return '<span class="muted">—</span>';
+          if (col.fmt) return escapar(col.fmt(v));
           return col.num ? int(v) : escapar(v);
         })();
         return `<td class="${col.cls || ''} ${col.num ? 'num' : ''}">${conteudo}</td>`;
