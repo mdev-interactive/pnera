@@ -1096,12 +1096,20 @@ text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
   }
   body.imprimindo-cartao .print-footer__fonte p { margin: 0 0 0.25rem; }
   body.imprimindo-cartao .print-footer__fonte p:last-child { margin-bottom: 0; }
-  /* 9,8mm = 14mm menos 30%, a pedido: a logo continua na folha, so menor. */
+  /* Duas imagens a direita: o desenho do Pronera e, ao lado, a logo.
+     9,8mm = 14mm menos 30%, a pedido: a logo continua na folha, so menor; o
+     desenho sai com cerca de 60px (16mm), a altura pedida para o rodape. */
+  body.imprimindo-cartao .print-footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
   body.imprimindo-cartao .print-footer__logo img {
     display: block;
     height: 9.8mm;
     width: auto;
   }
+  body.imprimindo-cartao .print-footer__logo img:first-child { height: 16mm; }
 
   /* ------------------------------------------------ tabelas na folha --
      Gemeo em tabela, quadros e base de dados saem inteiros: sem rolagem

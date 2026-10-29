@@ -434,8 +434,9 @@ window.Viz = (function () {
   /** Endereco publico do painel e logo (copia aparada de logo_pronera.png) do rodape impresso. */
   const URL_PAINEL = 'https://mdev-interactive.github.io/pnera/';
   const LOGO_IMPRESSAO = 'assets/img/logo_pronera-impressao.png';
-  // Pre-carrega a logo: assim a primeira impressao ja tem a imagem em cache.
-  new Image().src = LOGO_IMPRESSAO;
+  const DESENHO_IMPRESSAO = 'assets/img/logo-pronera-desenho.jpeg';
+  // Pre-carrega as duas imagens do rodape: a primeira impressao ja as tem em cache.
+  [LOGO_IMPRESSAO, DESENHO_IMPRESSAO].forEach((src) => { new Image().src = src; });
 
   /**
    * Imprime um cartao sozinho — grafico, mapa, quadro ou base de dados. Nao abre
@@ -498,7 +499,10 @@ window.Viz = (function () {
       rodape.className = 'print-footer js-print-footer';
       rodape.innerHTML = `
         <div class="print-footer__fonte"></div>
-        <div class="print-footer__logo"><img src="${LOGO_IMPRESSAO}" alt="Pronera"></div>`;
+        <div class="print-footer__logo">
+          <img src="${DESENHO_IMPRESSAO}" alt="">
+          <img src="${LOGO_IMPRESSAO}" alt="Pronera">
+        </div>`;
     }
     // O ano da citacao vem da conversao, nao fixo no codigo: planilha nova, ano
     // novo, sem ninguem ter de lembrar de trocar aqui.
@@ -535,10 +539,11 @@ window.Viz = (function () {
       if (desfazer) desfazer();
     };
     window.addEventListener('afterprint', limpar);
-    // Na primeira impressao a logo pode nao ter chegado ainda: espera ela
-    // decodificar (ou falhar) antes de abrir o dialogo, senao a folha sai sem.
-    const logo = rodape.querySelector('img');
-    const pronto = logo.complete ? Promise.resolve() : logo.decode().catch(() => {});
+    // Na primeira impressao as imagens do rodape podem nao ter chegado ainda:
+    // espera cada uma decodificar (ou falhar) antes de abrir o dialogo, senao a
+    // folha sai sem elas.
+    const pronto = Promise.all([...rodape.querySelectorAll('img')]
+      .map((img) => (img.complete ? Promise.resolve() : img.decode().catch(() => {}))));
     pronto.then(() => {
       window.print();
       // Rede de seguranca: em navegador que nao dispara afterprint, o painel

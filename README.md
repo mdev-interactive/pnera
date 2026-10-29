@@ -140,7 +140,8 @@ data/
 assets/
   vendor/                       Bootstrap 5.3.3, Chart.js 4.4.4 e Leaflet 1.9.4 locais
   img/logo_pronera.png          logo do Pronera (original)
-  img/logo_pronera-impressao.png  a mesma, aparada, no rodapé do mapa impresso
+  img/logo_pronera-impressao.png  a mesma, aparada, no rodapé impresso
+  img/logo-pronera-desenho.jpeg   desenho do Pronera, ao lado dela no rodapé
   css/theme.css                 tokens (paleta, tipografia, superfícies)
   css/app.css                   layout e componentes
   css/maps-interativo.css       estilos do mapa interativo (só dessa página)
@@ -369,10 +370,12 @@ existem ali — a linha do recorte (filtros ativos, nº de cursos e data), porqu
 painel de filtros não vai junto e sem ela a folha não diz de que recorte é, e um
 rodapé em dois blocos: à esquerda o crédito em duas linhas — **PRONERA**, Fonte:
 Data Pronera, 2026, e o endereço https://mdev-interactive.github.io/pnera/ —, à
-direita a logo do Pronera (`assets/img/logo_pronera-impressao.png`, cópia aparada
-da original, a 9,8 mm de altura). O ano do crédito não é fixo no código: sai da
-data de conversão da planilha, então planilha nova atualiza o ano sozinha. A
-impressão espera a logo carregar antes de abrir o diálogo. Em
+direita duas imagens lado a lado: o desenho do Pronera
+(`assets/img/logo-pronera-desenho.jpeg`, a 16 mm — os ~60 px pedidos) e, ao lado,
+a logo (`assets/img/logo_pronera-impressao.png`, cópia aparada da original, a
+9,8 mm de altura). O ano do crédito não é fixo no código: sai da data de
+conversão da planilha, então planilha nova atualiza o ano sozinha. A impressão
+espera as duas imagens carregarem antes de abrir o diálogo. Em
 cartão de tabela longa, que pode virar várias folhas, a linha do recorte vai no
 topo, sob o título; na figura ela fecha o desenho, como legenda.
 
