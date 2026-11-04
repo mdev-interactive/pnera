@@ -142,6 +142,7 @@ assets/
   img/logo_pronera.png          logo do Pronera (original)
   img/logo_pronera-impressao.png  a mesma, aparada, no rodapé impresso
   img/logo-pronera-desenho.jpeg   desenho do Pronera, ao lado dela no rodapé
+  img/logo_pronera-dashboard.png  logo oficial, no cabeçalho das duas páginas
   css/theme.css                 tokens (paleta, tipografia, superfícies)
   css/app.css                   layout e componentes
   css/maps-interativo.css       estilos do mapa interativo (só dessa página)
@@ -378,6 +379,12 @@ conversão da planilha, então planilha nova atualiza o ano sozinha. A impressã
 espera as duas imagens carregarem antes de abrir o diálogo. Em
 cartão de tabela longa, que pode virar várias folhas, a linha do recorte vai no
 topo, sob o título; na figura ela fecha o desenho, como legenda.
+
+**A logo do cabeçalho é a oficial do projeto.** No lugar do ícone desenhado e do
+título "PNERA", a topbar do `index.html` e do `maps-interativo.html` mostra
+`assets/img/logo_pronera-dashboard.png` (250×71, fundo transparente) a 40 px de
+altura — 32 px em tela de celular —, com o subtítulo da página ao lado, separado
+por um filete. A altura cabe na topbar de 64 px sem esticá-la.
 
 **O mapa imprime em folha limpa.** Só o título, o desenho e o crédito: a linha do
 recorte e a nota de cobertura (“base: 558 de 587 cursos com município
