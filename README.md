@@ -395,6 +395,17 @@ no ratio da tela o desenho sairia serrilhado. A imagem some quando a impressão
 termina. Se a exportação falhar, o canvas volta a valer: a folha nunca sai em
 branco. O mapa não precisa disso — é SVG, e escala sozinho.
 
+**A imagem do gráfico tem teto de altura: 200mm.** A largura acompanha a
+página, mas um gráfico alto e estreito esticado até essa largura passa da
+folha. Era o caso de "Estados com mais cursos": 27 barras dão 974px de altura
+numa coluna span-5, e na largura da página a imagem chegava a ~390mm, mais que
+uma A4 inteira. Como imagem não se divide e o cartão pede `break-inside:
+avoid`, o navegador soltava duas folhas em branco antes do gráfico e o rodapé
+caía por cima das barras. Com o teto (A4 retrato menos margens, título, nota,
+legenda e rodapé), a imagem encolhe mantendo a proporção e o cartão sai numa
+folha só. Os gráficos baixos e largos nunca chegam ao teto e saem como antes —
+conferido imprimindo os 17 cartões de gráfico: todos em uma página.
+
 **Nenhuma tabela sai cortada na margem.** Na tela as larguras mínimas e o
 `nowrap` existem porque há rolagem horizontal; no papel não há para onde rolar,
 então na folha o cabeçalho quebra linha e as larguras mínimas caem. A quebra de

@@ -1062,10 +1062,21 @@ text.map-heading { font-size: 21px; font-weight: 700; fill: var(--ink-2); }
      em branco. */
   body.imprimindo-cartao .is-print-target .chart-box { height: auto !important; }
   body.imprimindo-cartao .is-print-target .chart-box.has-print-img canvas { display: none !important; }
+  /* A imagem cabe numa folha so: a largura acompanha a pagina, mas a altura
+     tem teto. Sem ele, grafico alto e estreito — "Estados com mais cursos",
+     27 barras = 974px numa coluna span-5 — esticado ate a largura da pagina
+     ficava com ~390mm, mais alto que uma A4 inteira; a imagem nao se divide,
+     o cartao pede break-inside: avoid, e o navegador soltava folhas em
+     branco antes e deixava o rodape por cima das barras. 200mm = A4 retrato
+     menos margens, titulo, nota de cobertura, legenda e rodape. Com
+     width/height auto o navegador reduz a imagem mantendo a proporcao; os
+     graficos baixos e largos nunca chegam ao teto e saem como antes. */
   body.imprimindo-cartao .is-print-target .print-img {
     display: block;
+    width: auto;
     max-width: 100%;
     height: auto;
+    max-height: 200mm;
     margin: 0 auto;
   }
 
