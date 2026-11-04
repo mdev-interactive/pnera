@@ -384,7 +384,8 @@ topo, sob o título; na figura ela fecha o desenho, como legenda.
 título "PNERA", a topbar do `index.html` e do `maps-interativo.html` mostra
 `assets/img/logo_pronera-dashboard.png` (250×71, fundo transparente) a 40 px de
 altura — 32 px em tela de celular —, com o subtítulo da página ao lado, separado
-por um filete. A altura cabe na topbar de 64 px sem esticá-la.
+por um filete: "DATAPRONERA - Banco de dados do PRONERA" no painel e "Mapa
+interativo · círculos proporcionais" no mapa. A altura cabe na topbar de 64 px sem esticá-la.
 
 **O mapa imprime em folha limpa.** Só o título, o desenho e o crédito: a linha do
 recorte e a nota de cobertura (“base: 558 de 587 cursos com município
