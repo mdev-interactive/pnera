@@ -120,6 +120,21 @@ O selo só resolve se o próprio `index.html` não vier do cache. Ele carrega um
 correto é o servidor mandar esse cabeçalho para o HTML — e, aí sim, cache longo
 para `assets/` (as URLs versionadas tornam isso seguro).
 
+### Manual do Usuário
+
+`Manual do Usuário - DATAPRONERA.pdf` (25 páginas, versão 1.0 de 24/11/2026)
+segue o modelo “Manual do Usuário - SIGLA DO SISTEMA.docx” do INCRA/DOT: capa,
+histórico de revisões, sumário e capítulos de visão geral, acesso, filtros e
+busca, as seis abas, recursos dos cartões, mapa interativo e observações sobre
+os dados, com 17 capturas de tela do painel. As capturas mostram a base de
+23/09/2026 (587 cursos); se a interface ou os totais mudarem, o manual precisa
+ser refeito.
+
+A fonte editável é `Manual do Usuário - DATAPRONERA.docx`. Ao alterá-la,
+atualize o sumário no Word (clique no sumário › Atualizar campo › Atualizar o
+índice inteiro) e exporte de novo o PDF (Arquivo › Salvar como › PDF), para os
+dois arquivos não divergirem.
+
 ---
 
 ## Estrutura
@@ -127,6 +142,8 @@ para `assets/` (as URLs versionadas tornam isso seguro).
 ```
 index.html                      o painel
 maps-interativo.html            o mapa de círculos proporcionais (exige internet)
+Manual do Usuário - DATAPRONERA.pdf   manual do usuário (modelo INCRA/DOT)
+Manual do Usuário - DATAPRONERA.docx  o mesmo manual, editável no Word
 tools/
   xlsx-to-json.mjs              conversor, sem dependências
   build-uf-map.mjs              gera o SVG das 27 UFs a partir da malha do IBGE
